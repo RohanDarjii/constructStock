@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "background": "#fbf8fc", "tertiary": "#5c2b33", "surface-container-highest": "#e4e1e6", "outline": "#717971", "secondary": "#58605c", "on-tertiary-fixed": "#360d15", "inverse-on-surface": "#f3f0f4", "surface-container-high": "#eae7eb", "primary-fixed-dim": "#a1d2ad", "secondary-fixed-dim": "#c0c8c4", "tertiary-fixed-dim": "#fcb3bc", "on-primary-container": "#9ed0ab", "primary": "#144227", "on-surface": "#1b1b1e", "surface-bright": "#fbf8fc", "inverse-primary": "#a1d2ad", "surface-container": "#f0edf1", "on-secondary-fixed": "#161d1a", "surface": "#fbf8fc", "on-surface-variant": "#414942", "on-secondary-container": "#5b635f", "surface-dim": "#dcd9dd", "surface-variant": "#e4e1e6", "tertiary-container": "#774149", "on-primary-fixed": "#00210f", "surface-container-low": "#f6f2f7", "on-error-container": "#93000a", "on-primary": "#ffffff", "on-error": "#ffffff", "on-tertiary-fixed-variant": "#6b373f", "on-tertiary": "#ffffff", "secondary-fixed": "#dce4df", "primary-container": "#2d5a3d", "inverse-surface": "#303033", "surface-tint": "#3b684a", "on-primary-fixed-variant": "#224f33", "outline-variant": "#c1c9c0", "primary-fixed": "#bceec8", "error-container": "#ffdad6", "secondary-container": "#d7dfda", "on-background": "#1b1b1e", "surface-container-lowest": "#ffffff", "on-secondary": "#ffffff", "error": "#ba1a1a", "tertiary-fixed": "#ffd9dd", "on-tertiary-container": "#f9b1b9", "on-secondary-fixed-variant": "#414845" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter": "1.5rem", "margin": "2rem", "space-md": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "space-xs": "0.25rem", "space-xl": "2.5rem" }, "fontFamily": { "body-lg": [ "Inter" ], "headline-md-mobile": [ "Manrope" ], "label-lg": [ "Inter" ], "headline-lg-mobile": [ "Manrope" ], "label-sm": [ "Inter" ], "headline-sm": [ "Manrope" ], "label-md": [ "Inter" ], "title-md": [ "Inter" ], "headline-md": [ "Manrope" ], "body-sm": [ "Inter" ], "headline-lg": [ "Manrope" ], "body-md": [ "Inter" ], "title-lg": [ "Inter" ] }, "fontSize": { "body-lg": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "headline-md-mobile": [ "22px", { "lineHeight": "30px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "label-lg": [ "14px", { "lineHeight": "20px", "fontWeight": "500" } ], "headline-lg-mobile": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "label-sm": [ "11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" } ], "headline-sm": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "label-md": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" } ], "title-md": [ "16px", { "lineHeight": "24px", "fontWeight": "600" } ], "headline-md": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "body-sm": [ "13px", { "lineHeight": "18px", "fontWeight": "400" } ], "headline-lg": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "body-md": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "title-lg": [ "18px", { "lineHeight": "26px", "fontWeight": "600" } ] } } } };</script></head><body class="bg-surface font-body-md text-body-md text-on-surface min-h-screen flex flex-col justify-between selection:bg-secondary-container selection:text-on-secondary-fixed"><header class="w-full bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50"><div class="h-16 w-full px-gutter flex items-center justify-between"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm group focus:outline-none" data-path="landing" href="#"><div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary"><span class="material-symbols-outlined text-[20px]">inventory_2</span></div><span class="font-headline-sm text-headline-sm text-primary tracking-tight">ConstructStock</span></a><div class="h-4 w-px bg-outline-variant hidden sm:block"></div><a class="hidden sm:flex items-center gap-space-xs font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors focus:outline-none" data-path="landing" href="#"><span class="material-symbols-outlined text-[16px]">arrow_back</span><span>Back to main site</span></a></div><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center gap-space-xs px-space-sm py-0.5 rounded-full bg-surface-container"><span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface-variant">Systems Operational</span></div><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors focus:outline-none" data-path="support" href="#">Help &amp; Support</a></div></div></header><main class="flex-1 w-full flex items-center justify-center px-gutter py-space-xl bg-surface"><div class="flex flex-col w-full max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg lg:gap-space-xl items-start">
+<!-- Left Column: Workspace Registration Form -->
+<div class="lg:col-span-7 flex flex-col bg-surface-container-lowest p-space-lg sm:p-space-xl rounded-xl shadow-sm">
+<!-- Workspace Role Indicator Badge -->
+<div class="flex items-center justify-between mb-space-md">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[15px] text-primary">domain_add</span>
+<span>Company Workspace Setup</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant hidden sm:inline-block">Step 1 of 3</span>
+</div>
+<!-- Main Form Headings -->
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mb-space-xs">
+        Create your ConstructStock workspace
+      </h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-lg">
+        Set up your company and start managing materials across every construction site.
+      </p>
+<!-- Reassuring Role & Permission UX Callout Banner -->
+<div class="bg-surface-container-low rounded-lg p-space-md mb-space-lg flex items-start gap-space-md">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
+</div>
+<div class="flex-1">
+<div class="font-title-md text-title-md text-on-surface flex items-center gap-space-xs mb-0.5">
+<span>Owner / Admin Account</span>
+<span class="px-1.5 py-0.2 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">Tier 1</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            You are establishing your organization's primary workspace. Team members and site storekeepers will join via secure invitation links sent from your admin dashboard.
+          </p>
+</div>
+</div>
+<!-- Registration Form -->
+<form class="flex flex-col gap-space-md" id="registration-form" onsubmit="event.preventDefault();">
+<!-- Name & Company in 2 columns on desktop -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center justify-between" for="full-name">
+              Full Name
+              <span class="font-label-sm text-label-sm text-outline">Required</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest px-space-md py-2.5 rounded-lg text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-low transition-all" id="full-name" placeholder="Alex Chen" required="" type="text" value="Alex Chen"/>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-outline text-[18px]">person</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center justify-between" for="company-name">
+              Company Name
+              <span class="font-label-sm text-label-sm text-outline">Legal Entity</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest px-space-md py-2.5 rounded-lg text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-low transition-all" id="company-name" placeholder="Apex Infrastructure Partners" required="" type="text" value="Apex Infrastructure Partners"/>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-outline text-[18px]">apartment</span>
+</div>
+</div>
+</div>
+<!-- Work Email with inline checkmark validation -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center justify-between" for="work-email">
+            Corporate Work Email
+            <span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">domain_verification</span> Verified Domain
+            </span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest px-space-md py-2.5 pr-10 rounded-lg text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-low transition-all" id="work-email" placeholder="alex.chen@apexinfra.com" required="" type="email" value="alex.chen@apexinfra.com"/>
+<div class="absolute right-3 top-2.5 w-5 h-5 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[15px] font-bold">check</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Used for single sign-on mapping and enterprise audit logs.</span>
+</div>
+<!-- Password Field with dynamic strength assessment -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="password">Create Password</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest px-space-md py-2.5 pr-10 rounded-lg text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-low transition-all" id="password" required="" type="password" value="Vanguard#2025!"/>
+<button class="absolute right-3 top-2.5 text-outline hover:text-on-surface focus:outline-none" id="toggle-password" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center justify-between" for="confirm-password">
+              Confirm Password
+              <span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5" id="match-indicator">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> Matches
+              </span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest px-space-md py-2.5 pr-10 rounded-lg text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-low transition-all" id="confirm-password" required="" type="password" value="Vanguard#2025!"/>
+<div class="absolute right-3 top-2.5 w-5 h-5 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[15px] font-bold">done_all</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Live Password Strength Checklist UI -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-wrap gap-y-1.5 gap-x-space-md">
+<div class="flex items-center gap-1.5 text-primary font-label-sm text-label-sm" id="rule-length">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>At least 8 characters</span>
+</div>
+<div class="flex items-center gap-1.5 text-primary font-label-sm text-label-sm" id="rule-upper">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>1 uppercase letter</span>
+</div>
+<div class="flex items-center gap-1.5 text-primary font-label-sm text-label-sm" id="rule-symbol">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>1 number or symbol</span>
+</div>
+</div>
+<!-- Terms of Service & Privacy Policy Checkbox -->
+<label class="flex items-start gap-space-sm cursor-pointer mt-space-xs select-none">
+<div class="relative flex items-center justify-center mt-0.5">
+<input checked="" class="appearance-none w-4 h-4 rounded bg-surface-container-lowest checked:bg-primary-container cursor-pointer transition-colors" id="tos-check" type="checkbox"/>
+<span class="material-symbols-outlined text-on-primary text-[14px] pointer-events-none absolute font-bold">check</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+            I accept the <a class="text-primary hover:underline font-label-md text-label-md" data-path="terms" href="#">Terms of Service</a>,
+            <a class="text-primary hover:underline font-label-md text-label-md" data-path="privacy" href="#">Privacy Policy</a>, and Master Service Agreement for Site Inventory Systems.
+          </span>
+</label>
+<!-- Primary Call to Action Button in deep muted forest green -->
+<button class="w-full mt-space-sm py-3 px-space-lg rounded-lg bg-primary-container text-on-primary font-title-md text-title-md hover:bg-primary transition-all duration-200 shadow-sm flex items-center justify-center gap-space-sm group focus:outline-none" type="submit">
+<span>Create workspace</span>
+<span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<!-- Supporting text below action -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs pt-space-xs">
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+            Already have an account?
+            <a class="text-primary font-label-md text-label-md hover:underline ml-1" data-path="login" href="#">Sign in</a>
+</div>
+<span class="hidden sm:inline text-outline">•</span>
+<div class="font-body-sm text-body-sm text-outline">
+            Single Tenant Isolation Active
+          </div>
+</div>
+<!-- Joining existing team banner notice -->
+<div class="mt-space-xs p-space-sm rounded-lg bg-surface-container flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-outline text-[18px]">forward_to_inbox</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Joining an existing team? Check your corporate email for an invitation token from your lead project director.
+          </p>
+</div>
+</form>
+</div>
+<!-- Right Column: Operational Benefits & Workspace Setup Preview -->
+<div class="lg:col-span-5 flex flex-col gap-space-lg">
+<!-- Architectural Grid Container with subtle blueprint aesthetics -->
+<div class="relative bg-surface-container-low rounded-xl p-space-lg sm:p-space-xl overflow-hidden shadow-sm">
+<!-- Subtle architectural grid watermark overlay (inline SVG, low opacity) -->
+<div class="absolute inset-0 pointer-events-none opacity-[0.04] text-on-surface">
+<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="32" id="arch-grid" patternunits="userSpaceOnUse" width="32">
+<path d="M 32 0 L 0 0 0 32" fill="none" stroke="currentColor" stroke-width="1"></path>
+</pattern>
+</defs>
+<rect fill="url(#arch-grid)" height="100%" width="100%"></rect>
+</svg>
+</div>
+<!-- Section Title & Meta -->
+<div class="relative z-10 flex items-center justify-between mb-space-lg">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant font-semibold">Workspace Roadmap</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Setup Progress: 33%</span>
+</div>
+<!-- Interactive Setup Sequence Steps -->
+<div class="relative z-10 flex flex-col gap-space-md mb-space-xl">
+<!-- Step 1: Active Complete -->
+<div class="flex items-start gap-space-md bg-surface-container-lowest p-space-md rounded-lg shadow-sm">
+<div class="w-7 h-7 rounded-full bg-primary-fixed text-primary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px] font-bold">check</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-title-md text-title-md text-on-surface">Step 1: Company &amp; Fiscal Scope</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">In Progress</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Establishing entity identifier, base currency ($USD/CAD), and automated audit reporting cycles.
+              </p>
+</div>
+</div>
+<!-- Step 2: Next Step -->
+<div class="flex items-start gap-space-md bg-surface-container p-space-md rounded-lg opacity-90">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center shrink-0 font-label-md text-label-md mt-0.5 font-semibold">
+              2
+            </div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-title-md text-title-md text-on-surface">Step 2: Site Yards &amp; SKU Catalog</span>
+<span class="font-label-sm text-label-sm text-outline">Upcoming</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Geofence central yards, connect prefab depots, and import standard CSI MasterFormat materials.
+              </p>
+</div>
+</div>
+<!-- Step 3: Pending Step -->
+<div class="flex items-start gap-space-md bg-surface-container p-space-md rounded-lg opacity-75">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center shrink-0 font-label-md text-label-md mt-0.5 font-semibold">
+              3
+            </div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-title-md text-title-md text-on-surface">Step 3: Role &amp; Gate Delegations</span>
+<span class="font-label-sm text-label-sm text-outline">Upcoming</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Issue cryptographic permissions to Site Managers, Gate Storekeepers, and Environmental Officers.
+              </p>
+</div>
+</div>
+</div>
+<!-- Micro UI Live Workspace Card Preview -->
+<div class="relative z-10 bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-6 h-6 rounded bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[14px]">architecture</span>
+</div>
+<span class="font-label-md text-label-md font-semibold text-on-surface">Apex Infrastructure • Live Ledger Preview</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span> Live sync
+            </span>
+</div>
+<!-- Micro Inventory Mock Data Lines -->
+<div class="space-y-2">
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[16px]">view_in_ar</span>
+<span class="text-on-surface">Rebar Grade 60 (16mm)</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="text-on-surface font-semibold">42.5 Tons</span>
+<span class="font-label-sm text-label-sm text-primary px-1.5 py-0.5 rounded bg-surface-container-lowest">0% shrinkage</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[16px]">water</span>
+<span class="text-on-surface">Portland Cement Type I/II</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="text-on-surface font-semibold">850 Bags</span>
+<span class="font-label-sm text-label-sm text-primary px-1.5 py-0.5 rounded bg-surface-container-lowest">Site Yard A</span>
+</div>
+</div>
+</div>
+<!-- Metric Guarantee Footer with Diversion & Leak Metrics -->
+<div class="grid grid-cols-2 gap-space-sm mt-space-md pt-space-sm">
+<div class="bg-surface-container p-2.5 rounded flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Leak &amp; Loss Protection</span>
+<span class="font-title-lg text-title-lg text-primary font-bold mt-0.5">0.00%</span>
+<span class="font-label-sm text-label-sm text-outline">Real-time discrepancy lock</span>
+</div>
+<div class="bg-surface-container p-2.5 rounded flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Diversion Compliance</span>
+<span class="font-title-lg text-title-lg text-on-surface font-bold mt-0.5">LEED v4.1</span>
+<span class="font-label-sm text-label-sm text-primary">Automated audit manifest</span>
+</div>
+</div>
+</div>
+<!-- Trust Assurance Badges Footer inside Right Column -->
+<div class="relative z-10 mt-space-lg flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">lock</span>
+<span>Enterprise KMS Keys</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">cloud_done</span>
+<span>Automated Daily Backups</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">policy</span>
+<span>Immutable Manifests</span>
+</div>
+</div>
+</div>
+<!-- Quick Contact / Enterprise Assistance Mini Box -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[20px]">support_agent</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface font-semibold">Deploying across 20+ job sites?</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Get custom ERP &amp; BIM integration assistance.</div>
+</div>
+</div>
+<a class="font-label-md text-label-md text-primary hover:underline flex items-center gap-0.5 shrink-0" data-path="enterprise-consult" href="#">
+<span>Talk to Sales</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirm-password');
+    const toggleBtn = document.getElementById('toggle-password');
+    const matchIndicator = document.getElementById('match-indicator');
+    const ruleLength = document.getElementById('rule-length');
+    const ruleUpper = document.getElementById('rule-upper');
+    const ruleSymbol = document.getElementById('rule-symbol');
+
+    if (toggleBtn && passwordInput) {
+      toggleBtn.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        const icon = toggleBtn.querySelector('.material-symbols-outlined');
+        if (icon) {
+          icon.textContent = type === 'password' ? 'visibility' : 'visibility_off';
+        }
+      });
+    }
+
+    function evaluatePassword() {
+      if (!passwordInput) return;
+      const val = passwordInput.value;
+
+      const hasLength = val.length >= 8;
+      const hasUpper = /[A-Z]/.test(val);
+      const hasSymbol = /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val);
+
+      updateRule(ruleLength, hasLength);
+      updateRule(ruleUpper, hasUpper);
+      updateRule(ruleSymbol, hasSymbol);
+      checkMatch();
+    }
+
+    function updateRule(element, isValid) {
+      if (!element) return;
+      const icon = element.querySelector('.material-symbols-outlined');
+      if (isValid) {
+        element.classList.remove('text-outline');
+        element.classList.add('text-primary');
+        if (icon) icon.textContent = 'check_circle';
+      } else {
+        element.classList.remove('text-primary');
+        element.classList.add('text-outline');
+        if (icon) icon.textContent = 'radio_button_unchecked';
+      }
+    }
+
+    function checkMatch() {
+      if (!matchIndicator || !confirmInput || !passwordInput) return;
+      const pass = passwordInput.value;
+      const conf = confirmInput.value;
+      const icon = matchIndicator.querySelector('.material-symbols-outlined');
+
+      if (conf.length > 0 && pass === conf) {
+        matchIndicator.classList.remove('text-outline', 'text-error');
+        matchIndicator.classList.add('text-primary');
+        matchIndicator.innerHTML = '<span class="material-symbols-outlined text-[13px]">check_circle</span> Matches';
+      } else if (conf.length > 0) {
+        matchIndicator.classList.remove('text-primary');
+        matchIndicator.classList.add('text-error');
+        matchIndicator.innerHTML = '<span class="material-symbols-outlined text-[13px]">cancel</span> No match';
+      } else {
+        matchIndicator.classList.remove('text-primary', 'text-error');
+        matchIndicator.classList.add('text-outline');
+        matchIndicator.innerHTML = 'Required';
+      }
+    }
+
+    if (passwordInput && confirmInput) {
+      passwordInput.addEventListener('input', evaluatePassword);
+      confirmInput.addEventListener('input', checkMatch);
+      evaluatePassword();
+    }
+  })();
+</script></main><footer class="w-full bg-surface-container-low py-space-md shadow-[0_-1px_8px_rgba(0,0,0,0.02)]"><div class="w-full px-gutter flex flex-col sm:flex-row items-center justify-between gap-space-md font-label-md text-label-md text-on-surface-variant"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[18px]">verified_user</span><span>SOC2 Type II &amp; ISO 27001 Certified • 256-bit SSL</span></div><div class="flex flex-wrap items-center justify-center gap-space-lg"><a class="hover:text-on-surface transition-colors" data-path="privacy-policy" href="#">Privacy Policy</a><a class="hover:text-on-surface transition-colors" data-path="terms-of-service" href="#">Terms of Service</a><a class="hover:text-on-surface transition-colors" data-path="system-security" href="#">Security</a><span class="text-outline">© 2025 ConstructStock Inc.</span></div></div></footer></body></html>

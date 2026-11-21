@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConstructStock — Multi-Site Construction Material & Waste SaaS</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Manrope -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Manrope', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            stone: {
+              50: '#FBFBFA',
+              100: '#F6F5F2',
+              200: '#EEECE6',
+              300: '#E1DDD5',
+              400: '#C7C2B6',
+              500: '#A39D90',
+              800: '#2A2926',
+              900: '#1C1B19',
+              950: '#121110',
+            },
+            forest: {
+              50: '#EBF4F0',
+              100: '#D5E8DF',
+              500: '#2D6A4F',
+              600: '#1E533C',
+              700: '#164330',
+              800: '#103425',
+              900: '#0B241A',
+            },
+            sage: {
+              500: '#52B788',
+              600: '#40916C',
+            },
+            charcoal: {
+              800: '#232526',
+              900: '#171819',
+              950: '#0E0F10',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Blueprint & subtle architectural pattern */
+    .bg-grid-blueprint {
+      background-size: 24px 24px;
+      background-image:
+        linear-gradient(to right, rgba(45, 106, 79, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(45, 106, 79, 0.05) 1px, transparent 1px);
+    }
+    .bg-grid-dark {
+      background-size: 24px 24px;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    }
+    /* Hide scrollbar for tab strips */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .smooth-shadow {
+      box-shadow: 0 12px 36px -4px rgba(22, 28, 25, 0.08), 0 4px 12px -2px rgba(22, 28, 25, 0.04);
+    }
+    .deep-shadow {
+      box-shadow: 0 20px 48px -8px rgba(14, 20, 16, 0.16), 0 6px 16px -4px rgba(14, 20, 16, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-stone-100 text-charcoal-900 font-sans antialiased selection:bg-forest-100 selection:text-forest-800">
+
+  <!-- ================= TOP NAVIGATION ================= -->
+  <header class="sticky top-0 z-50 bg-stone-100/90 backdrop-blur-md border-b border-stone-200">
+    <div class="px-4 py-3 flex items-center justify-between max-w-md mx-auto">
+      <!-- Logo: Minimal abstract geometric block mark -->
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-8 h-8 rounded-lg bg-forest-700 flex items-center justify-center text-white font-mono font-bold text-xs tracking-wider shadow-sm">
+          <svg class="w-4 h-4 text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+            <path d="M14 17.5h7m-3.5-3.5v7"></path>
+          </svg>
+        </div>
+        <span class="font-display font-extrabold text-lg tracking-tight text-charcoal-900">Construct<span class="text-forest-600">Stock</span></span>
+      </a>
+
+      <!-- Mobile actions -->
+      <div class="flex items-center gap-2">
+        <a href="#login" class="text-xs font-semibold px-2.5 py-1.5 text-stone-800 hover:text-forest-700 transition">Log in</a>
+        <a href="#demo" class="text-xs font-semibold px-3 py-1.5 rounded-md bg-forest-600 hover:bg-forest-700 text-white shadow-sm transition flex items-center gap-1">
+          <span>Start free</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="relative pt-8 pb-10 px-4 bg-grid-blueprint overflow-hidden border-b border-stone-200">
+    <div class="max-w-md mx-auto text-left">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-forest-50 border border-forest-100/80 text-forest-800 text-xs font-medium mb-4">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="font-mono text-[11px] tracking-wide uppercase">Multi-Project SaaS v2.4</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="font-display font-extrabold text-[34px] leading-[1.12] text-charcoal-900 tracking-tight mb-4">
+        Take control of materials across every construction site.
+      </h1>
+
+      <!-- Supporting text -->
+      <p class="text-stone-800 text-[15px] leading-relaxed mb-6 font-normal">
+        Track purchasing, receiving, consumption, wastage, stock levels, and site transfers from one connected workspace.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-col gap-2.5 mb-5">
+        <a href="#start" class="w-full py-3 px-4 rounded-lg bg-forest-600 hover:bg-forest-700 active:scale-[0.99] text-white font-semibold text-center text-sm shadow-md transition flex items-center justify-center gap-2">
+          <span>Start for free</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </a>
+        <a href="#product-ui" class="w-full py-2.5 px-4 rounded-lg bg-white hover:bg-stone-50 text-stone-800 font-medium text-center text-sm border border-stone-300 shadow-sm transition flex items-center justify-center gap-1.5">
+          <svg class="w-4 h-4 text-forest-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle><polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon></svg>
+          <span>Explore the product</span>
+        </a>
+      </div>
+
+      <div class="flex items-center gap-2 text-xs text-stone-500">
+        <svg class="w-4 h-4 text-forest-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <span>Built for construction teams that need accurate stock visibility across every project.</span>
+      </div>
+    </div>
+
+    <!-- ================= HERO PRODUCT DASHBOARD PREVIEW ================= -->
+    <div id="product-ui" class="mt-7 max-w-md mx-auto">
+      <div class="bg-white rounded-xl border border-stone-300 smooth-shadow overflow-hidden">
+        <!-- Mockup top bar -->
+        <div class="bg-stone-900 text-stone-300 px-3.5 py-2.5 flex items-center justify-between text-xs border-b border-stone-800">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="font-mono text-[11px] text-stone-200 font-medium">ConstructStock Console</span>
+          </div>
+          <!-- Site switcher selector -->
+          <div class="bg-stone-800/90 text-stone-200 px-2 py-1 rounded text-[11px] font-mono flex items-center gap-1.5 border border-stone-700">
+            <span>Skyline Residency</span>
+            <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7 7"></path></svg>
+          </div>
+        </div>
+
+        <!-- Dashboard KPIs in 2x2 grid -->
+        <div class="p-3.5 bg-stone-50 border-b border-stone-200 grid grid-cols-2 gap-2.5">
+          <div class="bg-white p-2.5 rounded-lg border border-stone-200">
+            <div class="text-[10px] uppercase font-mono tracking-wider text-stone-500 mb-0.5">Total Stock Value</div>
+            <div class="font-display font-bold text-base text-charcoal-900">$1,482,900</div>
+            <div class="text-[10px] text-emerald-700 font-medium mt-0.5 flex items-center gap-1">
+              <span>● Across 4 sites</span>
+            </div>
+          </div>
+
+          <div class="bg-white p-2.5 rounded-lg border border-stone-200">
+            <div class="text-[10px] uppercase font-mono tracking-wider text-stone-500 mb-0.5">Today's Wastage</div>
+            <div class="font-display font-bold text-base text-charcoal-900">1.8% <span class="text-xs font-normal text-emerald-700 font-sans">(-0.6%)</span></div>
+            <div class="text-[10px] text-stone-500 mt-0.5 font-mono">Target: &lt; 3.0%</div>
+          </div>
+
+          <div class="bg-white p-2.5 rounded-lg border border-stone-200">
+            <div class="text-[10px] uppercase font-mono tracking-wider text-stone-500 mb-0.5">Low-Stock Alerts</div>
+            <div class="font-display font-bold text-base text-amber-700 flex items-center justify-between">
+              <span>3 Items</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            </div>
+            <div class="text-[10px] text-stone-500 mt-0.5">Cement (Site B), Tiles</div>
+          </div>
+
+          <div class="bg-white p-2.5 rounded-lg border border-stone-200">
+            <div class="text-[10px] uppercase font-mono tracking-wider text-stone-500 mb-0.5">Pending Delivery</div>
+            <div class="font-display font-bold text-base text-forest-700">6 Shipments</div>
+            <div class="text-[10px] text-stone-500 mt-0.5">2 arriving today</div>
+          </div>
+        </div>
+
+        <!-- Material Consumption Visual Flow bar mini-chart -->
+        <div class="p-3 bg-white border-b border-stone-200">
+          <div class="flex items-center justify-between text-xs mb-2">
+            <span class="font-semibold text-charcoal-900 text-xs">Today's Material Utilization</span>
+            <span class="text-[11px] font-mono text-stone-500">84% consumed / 16% buffer</span>
+          </div>
+          <!-- Segmented bar -->
+          <div class="h-2.5 w-full bg-stone-100 rounded-full flex overflow-hidden">
+            <div class="bg-forest-600 h-full w-[45%]" title="Foundation Slab"></div>
+            <div class="bg-sage-500 h-full w-[25%]" title="Brickwork"></div>
+            <div class="bg-emerald-300 h-full w-[14%]" title="Columns"></div>
+            <div class="bg-amber-400 h-full w-[4%]" title="Wasted (Tracked)"></div>
+            <div class="bg-stone-200 h-full w-[12%]" title="Available Stock"></div>
+          </div>
+          <div class="flex items-center justify-between text-[10px] text-stone-500 mt-2 font-mono">
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded bg-forest-600"></span>Cement 520 bags</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded bg-sage-500"></span>Steel 3.8T</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded bg-amber-400"></span>Waste: 8 bags</span>
+          </div>
+        </div>
+
+        <!-- Material Live Inventory Table -->
+        <div class="p-3 bg-stone-50/70">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-charcoal-900 uppercase font-mono tracking-wider">Live Site Materials</span>
+            <span class="text-[11px] text-forest-700 font-medium">Real-time sync</span>
+          </div>
+
+          <div class="space-y-1.5">
+            <!-- Row 1: Cement -->
+            <div class="bg-white p-2.5 rounded-lg border border-stone-200 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded bg-stone-100 border border-stone-200 flex items-center justify-center font-mono font-bold text-[11px] text-stone-700">CM</div>
+                <div>
+                  <div class="font-semibold text-charcoal-900 leading-tight">Portland Cement 53G</div>
+                  <div class="text-[11px] text-stone-500 font-mono">Skyline Residency • Bay 02</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-mono font-bold text-charcoal-900">420 bags</div>
+                <span class="inline-block text-[10px] px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium">Healthy</span>
+              </div>
+            </div>
+
+            <!-- Row 2: Structural Steel -->
+            <div class="bg-white p-2.5 rounded-lg border border-stone-200 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded bg-stone-100 border border-stone-200 flex items-center justify-center font-mono font-bold text-[11px] text-stone-700">ST</div>
+                <div>
+                  <div class="font-semibold text-charcoal-900 leading-tight">TMT Rebar 16mm</div>
+                  <div class="text-[11px] text-stone-500 font-mono">Commercial Plaza • Yard</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-mono font-bold text-charcoal-900">4.1 tonnes</div>
+                <span class="inline-block text-[10px] px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium">Healthy</span>
+              </div>
+            </div>
+
+            <!-- Row 3: Coarse Sand (Low Stock Alert) -->
+            <div class="bg-white p-2.5 rounded-lg border border-amber-200 bg-amber-50/20 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded bg-amber-100 border border-amber-200 flex items-center justify-center font-mono font-bold text-[11px] text-amber-800">SD</div>
+                <div>
+                  <div class="font-semibold text-charcoal-900 leading-tight">Manufactured Sand (M-Sand)</div>
+                  <div class="text-[11px] text-stone-500 font-mono">Villa Project • Depot 1</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-mono font-bold text-amber-800">18 tonnes</div>
+                <span class="inline-block text-[10px] px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 border border-amber-300 font-medium">Low Stock</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= VALUE STRIP ================= -->
+  <section class="bg-stone-200/80 border-b border-stone-300 py-3 px-4">
+    <div class="max-w-md mx-auto grid grid-cols-2 gap-y-2 gap-x-4 text-[11px] font-mono tracking-wider text-stone-700 font-semibold uppercase">
+      <div class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-forest-600"></span>
+        <span>Multi-Site Inventory</span>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-forest-600"></span>
+        <span>Real-Time Visibility</span>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-forest-600"></span>
+        <span>Material Traceability</span>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-forest-600"></span>
+        <span>Waste Control</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROBLEM SECTION ================= -->
+  <section class="py-12 px-4 max-w-md mx-auto">
+    <div class="text-left mb-6">
+      <div class="text-xs font-mono font-semibold uppercase text-forest-700 tracking-wider mb-2">The Operational Bottleneck</div>
+      <h2 class="font-display font-extrabold text-2xl text-charcoal-900 tracking-tight leading-snug">
+        Materials shouldn’t disappear into spreadsheets.
+      </h2>
+      <p class="text-stone-700 text-sm mt-3 leading-relaxed">
+        Construction teams often rely on spreadsheets, paper records, calls, and messaging apps to manage inventory. This makes it difficult to know what is available, where materials were used, and how much was lost or wasted.
+      </p>
+    </div>
+
+    <!-- 3 Problem Cards -->
+    <div class="space-y-3">
+      <!-- Card 1 -->
+      <div class="p-4 rounded-xl bg-white border border-stone-300/80 shadow-sm flex items-start gap-3.5">
+        <div class="w-9 h-9 rounded-lg bg-stone-100 border border-stone-200 flex-shrink-0 flex items-center justify-center text-charcoal-900 font-mono text-xs font-bold">
+          01
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-sm text-charcoal-900 mb-1">Poor stock visibility</h3>
+          <p class="text-stone-600 text-xs leading-relaxed">
+            Teams struggle to know exactly what is available across different sites, leading to emergency reorders and idle project labor.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="p-4 rounded-xl bg-white border border-stone-300/80 shadow-sm flex items-start gap-3.5">
+        <div class="w-9 h-9 rounded-lg bg-stone-100 border border-stone-200 flex-shrink-0 flex items-center justify-center text-charcoal-900 font-mono text-xs font-bold">
+          02
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-sm text-charcoal-900 mb-1">Untracked consumption</h3>
+          <p class="text-stone-600 text-xs leading-relaxed">
+            Materials leave storage without clear records of which specific structural activity, contractor, or floor level used them.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="p-4 rounded-xl bg-white border border-stone-300/80 shadow-sm flex items-start gap-3.5">
+        <div class="w-9 h-9 rounded-lg bg-stone-100 border border-stone-200 flex-shrink-0 flex items-center justify-center text-charcoal-900 font-mono text-xs font-bold">
+          03
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-sm text-charcoal-900 mb-1">Avoidable waste & theft</h3>
+          <p class="text-stone-600 text-xs leading-relaxed">
+            Damage, improper handling, weather exposure, and unaccounted site losses are discovered weeks later during monthly reconciliation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MATERIAL LIFECYCLE SECTION (CONNECTED FLOW) ================= -->
+  <section class="py-12 px-4 bg-stone-50 border-y border-stone-300">
+    <div class="max-w-md mx-auto">
+      <div class="text-left mb-6">
+        <div class="text-xs font-mono font-semibold uppercase text-forest-700 tracking-wider mb-2">End-to-End Control</div>
+        <h2 class="font-display font-extrabold text-2xl text-charcoal-900 tracking-tight leading-snug">
+          One system for the complete material lifecycle.
+        </h2>
+        <p class="text-stone-600 text-xs mt-2 leading-relaxed">
+          From central PO to concrete pour, every kilogram and pallet is audited in continuous sequence.
+        </p>
+      </div>
+
+      <!-- Vertical connected sequence tailored for mobile screen ergonomics -->
+      <div class="relative pl-6 space-y-4 before:content-[''] before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-forest-600/30">
+
+        <!-- Step 1 -->
+        <div class="relative">
+          <div class="absolute -left-[23px] top-1 w-4 h-4 rounded-full bg-forest-700 border-2 border-stone-50"></div>
+          <div class="bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-[10px] font-bold text-forest-700 uppercase">Step 01 • Requisition</span>
+              <span class="text-[10px] text-stone-400 font-mono">PO-8419</span>
+            </div>
+            <div class="font-display font-bold text-sm text-charcoal-900 mt-0.5">Purchase Order Approved</div>
+            <p class="text-stone-600 text-xs mt-1">Direct PO issuance with unit price locks and assigned site delivery windows.</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="relative">
+          <div class="absolute -left-[23px] top-1 w-4 h-4 rounded-full bg-forest-700 border-2 border-stone-50"></div>
+          <div class="bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-[10px] font-bold text-forest-700 uppercase">Step 02 • Gate Inward</span>
+              <span class="text-[10px] text-stone-400 font-mono">GRN Digital</span>
+            </div>
+            <div class="font-display font-bold text-sm text-charcoal-900 mt-0.5">Receive & Verify on Mobile</div>
+            <p class="text-stone-600 text-xs mt-1">Storekeeper confirms delivery vehicle, counts bags/rebar, and logs invoice slip.</p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="relative">
+          <div class="absolute -left-[23px] top-1 w-4 h-4 rounded-full bg-forest-700 border-2 border-stone-50"></div>
+          <div class="bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-[10px] font-bold text-forest-700 uppercase">Step 03 • Site Depot</span>
+              <span class="text-[10px] text-stone-400 font-mono">Bay Mapping</span>
+            </div>
+            <div class="font-display font-bold text-sm text-charcoal-900 mt-0.5">Store & Safe Allocation</div>
+            <p class="text-stone-600 text-xs mt-1">Automatic FIFO storage assignment and safety buffer triggers.</p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="relative">
+          <div class="absolute -left-[23px] top-1 w-4 h-4 rounded-full bg-forest-700 border-2 border-stone-50"></div>
+          <div class="bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-[10px] font-bold text-forest-700 uppercase">Step 04 • Field Work</span>
+              <span class="text-[10px] text-stone-400 font-mono">Activity Tag</span>
+            </div>
+            <div class="font-display font-bold text-sm text-charcoal-900 mt-0.5">Consume with Activity Tagging</div>
+            <p class="text-stone-600 text-xs mt-1">Deduct stock against project components: Foundation, Ground Floor, or Columns.</p>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="relative">
+          <div class="absolute -left-[23px] top-1 w-4 h-4 rounded-full bg-forest-700 border-2 border-stone-50"></div>
+          <div class="bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-[10px] font-bold text-forest-700 uppercase">Step 05 • Optimization</span>
+              <span class="text-[10px] text-stone-400 font-mono">Inter-Site</span>
+            </div>
+            <div class="font-display font-bold text-sm text-charcoal-900 mt-0.5">Transfer Between Sites</div>
+            <p class="text-stone-600 text-xs mt-1">Move surplus materials between nearby sites instead of purchasing new stock.</p>
+          </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="relative">
+          <div class="absolute -left-[23px] top-1 w-4 h-4 rounded-full bg-amber-600 border-2 border-stone-50"></div>
+          <div class="bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-[10px] font-bold text-amber-800 uppercase">Step 06 • Loss Audit</span>
+              <span class="text-[10px] text-stone-400 font-mono">Incident Log</span>
+            </div>
+            <div class="font-display font-bold text-sm text-charcoal-900 mt-0.5">Track Wastage Cause</div>
+            <p class="text-stone-600 text-xs mt-1">Identify root cause: handling breakage, moisture, cut-off offcuts, or batch defects.</p>
+          </div>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="relative">
+          <div class="absolute -left-[23px] top-1 w-4 h-4 rounded-full bg-forest-900 border-2 border-stone-50"></div>
+          <div class="bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-[10px] font-bold text-forest-800 uppercase">Step 07 • Executive Review</span>
+              <span class="text-[10px] text-stone-400 font-mono">Automated</span>
+            </div>
+            <div class="font-display font-bold text-sm text-charcoal-900 mt-0.5">Report & Executive Audit</div>
+            <p class="text-stone-600 text-xs mt-1">Variance reports exported in one click to Excel or PDF for bill audits.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURE 1: INVENTORY MANAGEMENT ================= -->
+  <section class="py-12 px-4 max-w-md mx-auto">
+    <div class="mb-4">
+      <span class="text-xs font-mono font-semibold uppercase text-forest-700 tracking-wider">Inventory Intelligence</span>
+      <h2 class="font-display font-extrabold text-2xl text-charcoal-900 tracking-tight leading-snug mt-1">
+        Know exactly what you have — and where it is.
+      </h2>
+      <p class="text-stone-600 text-xs mt-2 leading-relaxed">
+        Monitor material quantities across every active construction site with real-time stock balances, reservation queues, and health statuses.
+      </p>
+    </div>
+
+    <!-- Product Mockup Card -->
+    <div class="bg-white rounded-xl border border-stone-300 shadow-sm overflow-hidden">
+      <!-- Header -->
+      <div class="p-3 bg-stone-900 text-white flex items-center justify-between text-xs">
+        <span class="font-mono text-[11px] font-medium text-stone-300">Materials Registry • All Active Sites</span>
+        <span class="px-2 py-0.5 rounded bg-forest-700 text-emerald-200 text-[10px] font-mono">Live Sync</span>
+      </div>
+
+      <!-- Filters simulated -->
+      <div class="p-2.5 bg-stone-100 border-b border-stone-200 flex items-center gap-1.5 overflow-x-auto no-scrollbar text-xs">
+        <span class="px-2.5 py-1 rounded bg-white border border-stone-300 text-charcoal-900 font-semibold whitespace-nowrap text-[11px]">All Categories</span>
+        <span class="px-2.5 py-1 rounded bg-stone-200/70 text-stone-700 whitespace-nowrap text-[11px]">Aggregates</span>
+        <span class="px-2.5 py-1 rounded bg-stone-200/70 text-stone-700 whitespace-nowrap text-[11px]">Steel & Rods</span>
+        <span class="px-2.5 py-1 rounded bg-stone-200/70 text-stone-700 whitespace-nowrap text-[11px]">Masonry</span>
+      </div>
+
+      <!-- Material Details Breakdown Card 1 -->
+      <div class="p-3 border-b border-stone-200">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="font-semibold text-charcoal-900 text-xs">OPC 53 Cement Bags</div>
+            <div class="text-[11px] text-stone-500 font-mono mt-0.5">Location: Skyline Residency (Depot A)</div>
+          </div>
+          <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-mono font-bold">Optimal Stock</span>
+        </div>
+        <!-- Numerical Grid -->
+        <div class="grid grid-cols-4 gap-1.5 mt-2.5 text-center">
+          <div class="bg-stone-50 p-1.5 rounded border border-stone-200">
+            <div class="text-[9px] text-stone-500 font-mono">RCVD</div>
+            <div class="font-mono font-bold text-xs text-charcoal-900">1,200</div>
+          </div>
+          <div class="bg-stone-50 p-1.5 rounded border border-stone-200">
+            <div class="text-[9px] text-stone-500 font-mono">CONSUMED</div>
+            <div class="font-mono font-bold text-xs text-charcoal-900">760</div>
+          </div>
+          <div class="bg-stone-50 p-1.5 rounded border border-stone-200">
+            <div class="text-[9px] text-stone-500 font-mono">RESERVED</div>
+            <div class="font-mono font-bold text-xs text-charcoal-900">120</div>
+          </div>
+          <div class="bg-emerald-50 p-1.5 rounded border border-emerald-200">
+            <div class="text-[9px] text-emerald-800 font-mono font-semibold">AVAILABLE</div>
+            <div class="font-mono font-bold text-xs text-emerald-900">320</div>
+          </div>
+        </div>
+        <div class="mt-2 flex items-center justify-between text-[11px] text-stone-500">
+          <span>Unit Value: $7.40/bag</span>
+          <span class="font-mono font-semibold text-charcoal-900">Total: $2,368.00</span>
+        </div>
+      </div>
+
+      <!-- Material Details Breakdown Card 2 (Critical Amber Warning) -->
+      <div class="p-3 bg-amber-50/30">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="font-semibold text-charcoal-900 text-xs">Vitrified Floor Tiles 600x600</div>
+            <div class="text-[11px] text-stone-500 font-mono mt-0.5">Location: Commercial Plaza (Floor 3)</div>
+          </div>
+          <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 text-[10px] font-mono font-bold">Reorder Soon</span>
+        </div>
+        <div class="grid grid-cols-4 gap-1.5 mt-2.5 text-center">
+          <div class="bg-white p-1.5 rounded border border-stone-200">
+            <div class="text-[9px] text-stone-500 font-mono">RCVD</div>
+            <div class="font-mono font-bold text-xs text-charcoal-900">800 m²</div>
+          </div>
+          <div class="bg-white p-1.5 rounded border border-stone-200">
+            <div class="text-[9px] text-stone-500 font-mono">USED</div>
+            <div class="font-mono font-bold text-xs text-charcoal-900">680 m²</div>
+          </div>
+          <div class="bg-white p-1.5 rounded border border-stone-200">
+            <div class="text-[9px] text-stone-500 font-mono">WASTED</div>
+            <div class="font-mono font-bold text-xs text-amber-800">22 m²</div>
+          </div>
+          <div class="bg-amber-100 p-1.5 rounded border border-amber-300">
+            <div class="text-[9px] text-amber-900 font-mono font-semibold">BALANCE</div>
+            <div class="font-mono font-bold text-xs text-amber-900">98 m²</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURE 2: PURCHASING & RECEIVING ================= -->
+  <section class="py-12 px-4 bg-stone-50 border-y border-stone-300">
+    <div class="max-w-md mx-auto">
+      <div class="mb-5">
+        <span class="text-xs font-mono font-semibold uppercase text-forest-700 tracking-wider">Procurement to Gate</span>
+        <h2 class="font-display font-extrabold text-2xl text-charcoal-900 tracking-tight leading-snug mt-1">
+          From purchase order to delivery, everything stays connected.
+        </h2>
+        <p class="text-stone-600 text-xs mt-2 leading-relaxed">
+          Eliminate paper delivery notes. Verify purchase order quantities against vehicle weigh-in slips and issue digital goods received receipts instantly.
+        </p>
+      </div>
+
+      <!-- Mockup: Receiving Interface with Invoice Reference -->
+      <div class="bg-white rounded-xl border border-stone-300 shadow-sm p-4">
+        <div class="flex items-center justify-between pb-3 border-b border-stone-200">
+          <div>
+            <div class="font-mono text-xs font-bold text-charcoal-900">PO-2024-8841</div>
+            <div class="text-[11px] text-stone-500">Supplier: Apex Structural Steel Ltd</div>
+          </div>
+          <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-mono font-semibold">Partially Received</span>
+        </div>
+
+        <div class="mt-3 space-y-2 text-xs">
+          <div class="flex justify-between py-1 border-b border-stone-100">
+            <span class="text-stone-500">Destination Site:</span>
+            <span class="font-semibold text-charcoal-900">Commercial Plaza • Site 02</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-stone-100">
+            <span class="text-stone-500">Ordered Item:</span>
+            <span class="font-semibold text-charcoal-900">Fe-500D TMT Bars (12mm)</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-stone-100">
+            <span class="text-stone-500">Total Ordered:</span>
+            <span class="font-mono font-semibold">12.00 Metric Tonnes</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-stone-100">
+            <span class="text-stone-500">Received at Gate:</span>
+            <span class="font-mono font-semibold text-forest-700">8.50 Tonnes (Truck #KA-04-E-219)</span>
+          </div>
+          <div class="flex justify-between py-1">
+            <span class="text-stone-500">Pending Remaining:</span>
+            <span class="font-mono font-semibold text-amber-700">3.50 Tonnes (ETA: Tomorrow)</span>
+          </div>
+        </div>
+
+        <!-- Verification Form Strip -->
+        <div class="mt-4 pt-3 bg-stone-50 p-2.5 rounded-lg border border-stone-200">
+          <div class="text-[11px] font-mono text-stone-700 font-semibold mb-1.5 flex items-center justify-between">
+            <span>Gate Verification Audit</span>
+            <span class="text-emerald-700 text-[10px]">● Matched to PO</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[10px] font-mono">
+            <div class="bg-white p-1.5 rounded border border-stone-200">
+              <span class="text-stone-500 block">Delivery Challan:</span>
+              <span class="font-bold text-charcoal-900">DC-APEX-99214</span>
+            </div>
+            <div class="bg-white p-1.5 rounded border border-stone-200">
+              <span class="text-stone-500 block">Weighbridge Ticket:</span>
+              <span class="font-bold text-charcoal-900">WB-8491 (Attached)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURE 3: CONSUMPTION & WASTAGE ================= -->
+  <section class="py-12 px-4 max-w-md mx-auto">
+    <div class="mb-5">
+      <span class="text-xs font-mono font-semibold uppercase text-forest-700 tracking-wider">Field Accountability</span>
+      <h2 class="font-display font-extrabold text-2xl text-charcoal-900 tracking-tight leading-snug mt-1">
+        Understand where every material goes.
+      </h2>
+      <p class="text-stone-600 text-xs mt-2 leading-relaxed">
+        Assign stock consumption directly to construction activities (Ground Slab, Masonry, Lintels). Prevent unexplained shrinkage.
+      </p>
+    </div>
+
+    <!-- Product Visualization Box -->
+    <div class="bg-white rounded-xl border border-stone-300 shadow-sm p-4">
+      <div class="flex items-center justify-between border-b border-stone-200 pb-2.5">
+        <span class="text-xs font-bold text-charcoal-900">Material Balance: UltraTech Cement</span>
+        <span class="text-[10px] font-mono text-stone-500">Batch #C53-882</span>
+      </div>
+
+      <!-- 4 Metric Horizontal Summary -->
+      <div class="grid grid-cols-4 gap-1.5 my-3 text-center">
+        <div class="p-2 rounded bg-stone-100 border border-stone-200">
+          <div class="text-[9px] text-stone-500 font-mono">RCVD</div>
+          <div class="font-bold font-mono text-xs text-charcoal-900">500</div>
+          <div class="text-[8px] text-stone-500">bags</div>
+        </div>
+        <div class="p-2 rounded bg-stone-100 border border-stone-200">
+          <div class="text-[9px] text-stone-500 font-mono">CONSUMED</div>
+          <div class="font-bold font-mono text-xs text-charcoal-900">320</div>
+          <div class="text-[8px] text-stone-500">bags</div>
+        </div>
+        <div class="p-2 rounded bg-amber-50 border border-amber-200">
+          <div class="text-[9px] text-amber-800 font-mono font-bold">WASTED</div>
+          <div class="font-bold font-mono text-xs text-amber-800">8</div>
+          <div class="text-[8px] text-amber-700">1.6%</div>
+        </div>
+        <div class="p-2 rounded bg-emerald-50 border border-emerald-200">
+          <div class="text-[9px] text-emerald-800 font-mono font-bold">AVAILABLE</div>
+          <div class="font-bold font-mono text-xs text-emerald-900">172</div>
+          <div class="text-[8px] text-emerald-700">ready</div>
+        </div>
+      </div>
+
+      <!-- Construction Activities Consumption List -->
+      <div class="mt-3 space-y-2">
+        <div class="text-[11px] font-mono text-stone-700 font-semibold uppercase">Logged Activities:</div>
+
+        <div class="p-2 rounded-lg bg-stone-50 border border-stone-200 text-xs flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-forest-600"></span>
+            <div>
+              <div class="font-semibold text-charcoal-900">Foundation Footings</div>
+              <div class="text-[10px] text-stone-500">Contractor: Vertex Infra • Bay 1-4</div>
+            </div>
+          </div>
+          <span class="font-mono font-bold text-xs text-charcoal-900">180 bags</span>
+        </div>
+
+        <div class="p-2 rounded-lg bg-stone-50 border border-stone-200 text-xs flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-sage-500"></span>
+            <div>
+              <div class="font-semibold text-charcoal-900">Ground Floor Slab Pour</div>
+              <div class="text-[10px] text-stone-500">Batch Mix Ready • Grade M25</div>
+            </div>
+          </div>
+          <span class="font-mono font-bold text-xs text-charcoal-900">110 bags</span>
+        </div>
+
+        <div class="p-2 rounded-lg bg-stone-50 border border-stone-200 text-xs flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            <div>
+              <div class="font-semibold text-charcoal-900">External Brickwork Mortar</div>
+              <div class="text-[10px] text-stone-500">Zone B • Mortar ratio 1:5</div>
+            </div>
+          </div>
+          <span class="font-mono font-bold text-xs text-charcoal-900">30 bags</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURE 4: MULTI-SITE MANAGEMENT ================= -->
+  <section class="py-12 px-4 bg-stone-200/60 border-y border-stone-300">
+    <div class="max-w-md mx-auto">
+      <div class="mb-5">
+        <span class="text-xs font-mono font-semibold uppercase text-forest-700 tracking-wider">Multi-Project Orchestration</span>
+        <h2 class="font-display font-extrabold text-2xl text-charcoal-900 tracking-tight leading-snug mt-1">
+          Every site connected. Every stock movement visible.
+        </h2>
+        <p class="text-stone-600 text-xs mt-2 leading-relaxed">
+          Manage parallel project sites from one master dashboard. Compare inventory velocity and share surplus materials seamlessly.
+        </p>
+      </div>
+
+      <!-- Company-Wide Summary Strip -->
+      <div class="bg-forest-900 text-white rounded-xl p-3.5 mb-3.5 shadow-md">
+        <div class="flex items-center justify-between text-xs mb-1">
+          <span class="font-mono text-stone-300 text-[11px] uppercase tracking-wider">Portfolio Total (3 Sites)</span>
+          <span class="text-emerald-400 font-mono text-[11px]">Synced 2m ago</span>
+        </div>
+        <div class="font-display font-bold text-xl text-white">$2,190,400 <span class="text-xs text-stone-300 font-normal">in active inventory</span></div>
+      </div>
+
+      <!-- 3 Project Site Cards -->
+      <div class="space-y-3">
+        <!-- Site 1 -->
+        <div class="bg-white p-3.5 rounded-xl border border-stone-300 shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <div class="font-display font-bold text-sm text-charcoal-900">Skyline Residency</div>
+            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-mono font-semibold">Healthy (2 Alerts)</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-stone-50 p-2 rounded-lg border border-stone-200">
+            <div>
+              <span class="text-stone-500 text-[10px] block">Cement Stock</span>
+              <span class="font-bold text-charcoal-900">420 bags</span>
+            </div>
+            <div>
+              <span class="text-stone-500 text-[10px] block">Steel Inventory</span>
+              <span class="font-bold text-charcoal-900">2.4 tonnes</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Site 2 -->
+        <div class="bg-white p-3.5 rounded-xl border border-stone-300 shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <div class="font-display font-bold text-sm text-charcoal-900">Commercial Plaza</div>
+            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 text-[10px] font-mono font-semibold">Attention (4 Alerts)</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-stone-50 p-2 rounded-lg border border-stone-200">
+            <div>
+              <span class="text-stone-500 text-[10px] block">Cement Stock</span>
+              <span class="font-bold text-amber-800">82 bags (Low)</span>
+            </div>
+            <div>
+              <span class="text-stone-500 text-[10px] block">Steel Inventory</span>
+              <span class="font-bold text-charcoal-900">4.1 tonnes</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Site 3 -->
+        <div class="bg-white p-3.5 rounded-xl border border-stone-300 shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <div class="font-display font-bold text-sm text-charcoal-900">Villa Project - Sector 9</div>
+            <span class="px-2 py-0.5 rounded bg-stone-100 text-stone-700 text-[10px] font-mono font-semibold">0 Alerts</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-stone-50 p-2 rounded-lg border border-stone-200">
+            <div>
+              <span class="text-stone-500 text-[10px] block">Cement Stock</span>
+              <span class="font-bold text-charcoal-900">210 bags</span>
+            </div>
+            <div>
+              <span class="text-stone-500 text-[10px] block">Steel Inventory</span>
+              <span class="font-bold text-charcoal-900">1.2 tonnes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURE 5: INTER-SITE TRANSFER ================= -->
+  <section class="py-12 px-4 max-w-md mx-auto">
+    <div class="mb-5">
+      <span class="text-xs font-mono font-semibold uppercase text-forest-700 tracking-wider">Internal Logistics</span>
+      <h2 class="font-display font-extrabold text-2xl text-charcoal-900 tracking-tight leading-snug mt-1">
+        Move materials where they're needed most.
+      </h2>
+      <p class="text-stone-600 text-xs mt-2 leading-relaxed">
+        Transfer surplus stock between sites with full chain-of-custody tracking. Avoid supplier expedite fees and duplicate purchasing.
+      </p>
+    </div>
+
+    <!-- Visual Transfer Process Mockup -->
+    <div class="bg-white rounded-xl border border-stone-300 shadow-sm p-4">
+      <div class="text-xs font-mono font-bold text-stone-500 mb-3 uppercase tracking-wider">Transfer Order: TR-8092</div>
+
+      <!-- Transfer diagram -->
+      <div class="flex items-center justify-between gap-2 bg-stone-50 p-3 rounded-lg border border-stone-200">
+        <div class="text-center flex-1">
+          <div class="text-[10px] font-mono text-stone-500">SOURCE</div>
+          <div class="font-bold text-xs text-charcoal-900 mt-0.5">Tower A</div>
+          <div class="text-[11px] font-mono text-forest-700 mt-1">620 bags</div>
+        </div>
+
+        <div class="flex flex-col items-center justify-center px-1">
+          <span class="text-[10px] font-mono font-bold text-forest-800 bg-forest-100 px-2 py-0.5 rounded-full border border-forest-200">100 Bags</span>
+          <svg class="w-5 h-5 text-forest-600 my-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </div>
+
+        <div class="text-center flex-1">
+          <div class="text-[10px] font-mono text-stone-500">DESTINATION</div>
+          <div class="font-bold text-xs text-charcoal-900 mt-0.5">Tower B</div>
+          <div class="text-[11px] font-mono text-amber-700 mt-1">82 bags</div>
+        </div>
+      </div>
+
+      <!-- Lifecycle status pipeline -->
+      <div class="mt-4">
+        <div class="text-[11px] font-mono text-stone-700 font-semibold mb-2">Transfer Status Pipeline:</div>
+        <div class="grid grid-cols-5 gap-1 text-center font-mono text-[9px]">
+          <div class="p-1 rounded bg-forest-50 text-forest-800 border border-forest-200 font-semibold">1. Req</div>
+          <div class="p-1 rounded bg-forest-50 text-forest-800 border border-forest-200 font-semibold">2. Appr</div>
+          <div class="p-1 rounded bg-forest-50 text-forest-800 border border-forest-200 font-semibold">3. Disp</div>
+          <div class="p-1 rounded bg-forest-600 text-white font-bold animate-pulse">4. Transit</div>
+          <div class="p-1 rounded bg-stone-100 text-stone-400">5. Rcvd</div>
+        </div>
+        <div class="text-[10px] text-stone-500 font-mono mt-2 flex items-center justify-between">
+          <span>Driver: Ramesh (Truck #8210)</span>
+          <span class="text-forest-700 font-semibold">ETA: 45 mins</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURE 6: WASTE MANAGEMENT ================= -->
+  <section class="py-12 px-4 bg-stone-50 border-y border-stone-300">
+    <div class="max-w-md mx-auto">
+      <div class="mb-5">
+        <span class="text-xs font-mono font-semibold uppercase text-forest-700 tracking-wider">Root-Cause Prevention</span>
+        <h2 class="font-display font-extrabold text-2xl text-charcoal-900 tracking-tight leading-snug mt-1">
+          See where materials are being lost.
+        </h2>
+        <p class="text-stone-600 text-xs mt-2 leading-relaxed">
+          Record exact reasons, attached photos, and task locations for every incident of material loss or breakage.
+        </p>
+      </div>
+
+      <!-- Wastage Analytics Card -->
+      <div class="bg-white rounded-xl border border-stone-300 shadow-sm p-4">
+        <div class="flex items-center justify-between pb-3 border-b border-stone-200">
+          <div>
+            <div class="text-[10px] font-mono uppercase text-stone-500">Average Portfolio Wastage</div>
+            <div class="font-display font-bold text-2xl text-charcoal-900">2.7% <span class="text-xs font-sans font-normal text-emerald-700">Industry avg: 7.2%</span></div>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-forest-50 border border-forest-200 flex items-center justify-center font-mono font-bold text-xs text-forest-700">
+            -62%
+          </div>
+        </div>
+
+        <!-- Material specific breakdown bars -->
+        <div class="mt-4 space-y-2.5">
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1">
+              <span class="font-semibold text-charcoal-900">Bricks & AAC Blocks</span>
+              <span class="text-amber-700 font-bold">3.8% (Handling damage)</span>
+            </div>
+            <div class="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
+              <div class="bg-amber-500 h-full w-[38%]"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1">
+              <span class="font-semibold text-charcoal-900">Reinforcement Steel</span>
+              <span class="text-forest-700 font-bold">2.1% (Cut-off offcuts)</span>
+            </div>
+            <div class="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
+              <div class="bg-forest-600 h-full w-[21%]"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1">
+              <span class="font-semibold text-charcoal-900">Portland Cement</span>
+              <span class="text-emerald-700 font-bold">1.4% (Torn bags / spillage)</span>
+            </div>
+            <div class="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
+              <div class="bg-emerald-600 h-full w-[14%]"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Waste Incident Entry Field Preview -->
+        <div class="mt-4 pt-3 border-t border-stone-200 bg-stone-50 p-2.5 rounded-lg border">
+          <div class="text-[11px] font-mono font-semibold text-stone-700 mb-1">Logged Loss Incident #903</div>
+          <p class="text-[11px] text-stone-600">"8 cement bags damaged due to unexpected rain seepage near temporary shed #3. Water tarp replaced."</p>
+          <div class="mt-1.5 flex items-center justify-between text-[10px] text-stone-500 font-mono">
+            <span>By: Storekeeper Amit S.</span>
+            <span class="text-forest-700 font-medium">📷 2 Photos Attached</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ROLE-BASED COLLABORATION ================= -->
+  <section class="py-12 px-4 max-w-md mx-auto">
+    <div class="mb-5">
+      <span class="text-xs font-mono font-semibold uppercase text-forest-700 tracking-wider">Connected Team</span>
+      <h2 class="font-display font-extrabold text-2xl text-charcoal-900 tracking-tight leading-snug mt-1">
+        Built for the entire site team.
+      </h2>
+      <p class="text-stone-600 text-xs mt-2 leading-relaxed">
+        Custom permission levels ensure everyone works with clarity—from executive owners to the site gatekeeper.
+      </p>
+    </div>
+
+    <div class="space-y-3">
+      <!-- Role 1: Owner / Admin -->
+      <div class="p-3.5 rounded-xl bg-white border border-stone-300 shadow-sm flex items-start gap-3">
+        <div class="w-8 h-8 rounded-lg bg-forest-900 text-white font-mono font-bold text-xs flex items-center justify-center flex-shrink-0">
+          AD
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 class="font-display font-bold text-sm text-charcoal-900">Owner / Admin</h3>
+            <span class="px-1.5 py-0.2 rounded bg-forest-100 text-forest-800 text-[10px] font-mono">Full Access</span>
+          </div>
+          <p class="text-stone-600 text-xs mt-1">Company-wide financial visibility, purchase approvals, portfolio analytics, and user access management.</p>
+        </div>
+      </div>
+
+      <!-- Role 2: Site Manager -->
+      <div class="p-3.5 rounded-xl bg-white border border-stone-300 shadow-sm flex items-start gap-3">
+        <div class="w-8 h-8 rounded-lg bg-forest-700 text-white font-mono font-bold text-xs flex items-center justify-center flex-shrink-0">
+          SM
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 class="font-display font-bold text-sm text-charcoal-900">Site Manager</h3>
+            <span class="px-1.5 py-0.2 rounded bg-stone-100 text-stone-700 text-[10px] font-mono">Site Control</span>
+          </div>
+          <p class="text-stone-600 text-xs mt-1">Material requisition, inventory monitoring, inter-site transfer initiation, and daily consumption sign-offs.</p>
+        </div>
+      </div>
+
+      <!-- Role 3: Storekeeper -->
+      <div class="p-3.5 rounded-xl bg-white border border-stone-300 shadow-sm flex items-start gap-3">
+        <div class="w-8 h-8 rounded-lg bg-stone-800 text-white font-mono font-bold text-xs flex items-center justify-center flex-shrink-0">
+          SK
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 class="font-display font-bold text-sm text-charcoal-900">Storekeeper</h3>
+            <span class="px-1.5 py-0.2 rounded bg-stone-100 text-stone-700 text-[10px] font-mono">Gate & Depot</span>
+          </div>
+          <p class="text-stone-600 text-xs mt-1">Gate receipt logging, physical count updates, wastage logging with photo evidence, and delivery dispatch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= REPORTS & ANALYTICS ================= -->
+  <section class="py-12 px-4 bg-stone-50 border-y border-stone-300">
+    <div class="max-w-md mx-auto">
+      <div class="mb-5">
+        <span class="text-xs font-mono font-semibold uppercase text-forest-700 tracking-wider">Business Intelligence</span>
+        <h2 class="font-display font-extrabold text-2xl text-charcoal-900 tracking-tight leading-snug mt-1">
+          Turn material activity into better decisions.
+        </h2>
+        <p class="text-stone-600 text-xs mt-2 leading-relaxed">
+          Instant reconciliation reports by project, vendor performance metrics, and cost leak analysis.
+        </p>
+      </div>
+
+      <!-- Analytics Dashboard Preview -->
+      <div class="bg-white rounded-xl border border-stone-300 shadow-sm p-4">
+        <!-- Controls & Filters -->
+        <div class="flex items-center justify-between pb-3 border-b border-stone-200">
+          <div class="font-mono text-[11px] font-bold text-charcoal-900">Audit Reports v2</div>
+          <div class="flex items-center gap-1.5">
+            <button class="px-2 py-1 rounded bg-stone-100 hover:bg-stone-200 text-stone-700 text-[10px] font-mono border border-stone-300">PDF</button>
+            <button class="px-2 py-1 rounded bg-forest-600 hover:bg-forest-700 text-white text-[10px] font-mono font-medium">Excel</button>
+          </div>
+        </div>
+
+        <!-- Filter bar mock -->
+        <div class="py-2 flex items-center justify-between text-[11px] font-mono text-stone-500 border-b border-stone-100">
+          <span>Site: All Projects</span>
+          <span>Date: Last 30 Days ▼</span>
+        </div>
+
+        <!-- Mini Report Table -->
+        <div class="mt-3 space-y-2 text-xs">
+          <div class="flex justify-between py-1.5 border-b border-stone-100">
+            <span class="text-stone-600 font-medium">Total Spend (Month)</span>
+            <span class="font-mono font-bold text-charcoal-900">$348,200</span>
+          </div>
+          <div class="flex justify-between py-1.5 border-b border-stone-100">
+            <span class="text-stone-600 font-medium">Recorded Wastage Value</span>
+            <span class="font-mono font-bold text-emerald-700">$9,401 (2.7%)</span>
+          </div>
+          <div class="flex justify-between py-1.5 border-b border-stone-100">
+            <span class="text-stone-600 font-medium">Inter-Site Transfer Savings</span>
+            <span class="font-mono font-bold text-forest-700">+$24,800 saved</span>
+          </div>
+          <div class="flex justify-between py-1.5">
+            <span class="text-stone-600 font-medium">Supplier OTIF (On-Time In-Full)</span>
+            <span class="font-mono font-bold text-charcoal-900">94.2%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HOW IT WORKS (4 STEPS) ================= -->
+  <section class="py-12 px-4 max-w-md mx-auto">
+    <div class="mb-6">
+      <span class="text-xs font-mono font-semibold uppercase text-forest-700 tracking-wider">Deployment</span>
+      <h2 class="font-display font-extrabold text-2xl text-charcoal-900 tracking-tight leading-snug mt-1">
+        Get started without changing how your team works.
+      </h2>
+      <p class="text-stone-600 text-xs mt-2 leading-relaxed">
+        Deploy across your first project in less than a morning.
+      </p>
+    </div>
+
+    <div class="space-y-3">
+      <!-- Step 01 -->
+      <div class="p-3.5 rounded-xl bg-white border border-stone-300 shadow-sm flex items-start gap-3">
+        <div class="w-8 h-8 rounded-lg bg-stone-100 border border-stone-200 font-mono font-bold text-xs text-charcoal-900 flex items-center justify-center flex-shrink-0">
+          01
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-sm text-charcoal-900">Create your company</h3>
+          <p class="text-stone-600 text-xs mt-0.5">Set up the organization profile, project site boundaries, and storage depot zones.</p>
+        </div>
+      </div>
+
+      <!-- Step 02 -->
+      <div class="p-3.5 rounded-xl bg-white border border-stone-300 shadow-sm flex items-start gap-3">
+        <div class="w-8 h-8 rounded-lg bg-stone-100 border border-stone-200 font-mono font-bold text-xs text-charcoal-900 flex items-center justify-center flex-shrink-0">
+          02
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-sm text-charcoal-900">Add materials & suppliers</h3>
+          <p class="text-stone-600 text-xs mt-0.5">Import your catalogue (cement, rebar, aggregates, tiles) and pre-approved vendors.</p>
+        </div>
+      </div>
+
+      <!-- Step 03 -->
+      <div class="p-3.5 rounded-xl bg-white border border-stone-300 shadow-sm flex items-start gap-3">
+        <div class="w-8 h-8 rounded-lg bg-stone-100 border border-stone-200 font-mono font-bold text-xs text-charcoal-900 flex items-center justify-center flex-shrink-0">
+          03
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-sm text-charcoal-900">Invite your team</h3>
+          <p class="text-stone-600 text-xs mt-0.5">Assign Project Owners, Site Engineers, and Gate Storekeepers with instant phone access.</p>
+        </div>
+      </div>
+
+      <!-- Step 04 -->
+      <div class="p-3.5 rounded-xl bg-white border border-stone-300 shadow-sm flex items-start gap-3">
+        <div class="w-8 h-8 rounded-lg bg-forest-600 text-white font-mono font-bold text-xs flex items-center justify-center flex-shrink-0">
+          04
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-sm text-charcoal-900">Start tracking materials</h3>
+          <p class="text-stone-600 text-xs mt-0.5">Record live receipts, issues to structural components, and waste logs with 100% auditability.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BEFORE VS AFTER SECTION ================= -->
+  <section class="py-12 px-4 bg-stone-200/70 border-y border-stone-300">
+    <div class="max-w-md mx-auto">
+      <div class="mb-6">
+        <span class="text-xs font-mono font-semibold uppercase text-forest-700 tracking-wider">The Transformation</span>
+        <h2 class="font-display font-extrabold text-2xl text-charcoal-900 tracking-tight leading-snug mt-1">
+          A fundamental upgrade to site operations.
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Before Card -->
+        <div class="bg-white p-4 rounded-xl border border-stone-300 shadow-sm">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-2.5 h-2.5 rounded-full bg-stone-400"></span>
+            <span class="font-display font-bold text-sm text-stone-700 uppercase tracking-wide">Before ConstructStock</span>
+          </div>
+          <ul class="space-y-2 text-xs text-stone-600">
+            <li class="flex items-center gap-2">
+              <span class="text-stone-400 font-mono">✕</span>
+              <span>Scattered Excel files and physical paper delivery notes</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-stone-400 font-mono">✕</span>
+              <span>Chaotic WhatsApp groups for daily stock checks</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-stone-400 font-mono">✕</span>
+              <span>Unknown site inventory balances until month-end audit</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-stone-400 font-mono">✕</span>
+              <span>Materials consumed without activity accountability</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-stone-400 font-mono">✕</span>
+              <span>Untracked theft, weather damage, and offcut waste</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-stone-400 font-mono">✕</span>
+              <span>Panic reorders and expensive supplier expedite fees</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- After Card -->
+        <div class="bg-forest-900 text-white p-4 rounded-xl shadow-md border border-forest-800">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+            <span class="font-display font-bold text-sm text-emerald-200 uppercase tracking-wide">With ConstructStock</span>
+          </div>
+          <ul class="space-y-2 text-xs text-stone-200">
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-mono">✓</span>
+              <span>Centralized live inventory database across all projects</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-mono">✓</span>
+              <span>100% digital goods receipt (GRN) verification at the gate</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-mono">✓</span>
+              <span>Real-time stock quantities and automated reorder alerts</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-mono">✓</span>
+              <span>Consumption logged against exact construction tasks</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-mono">✓</span>
+              <span>Visible wastage analytics with photo documentation</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-mono">✓</span>
+              <span>Frictionless inter-site inventory balancing</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FINAL CTA SECTION ================= -->
+  <section class="py-14 px-4 bg-charcoal-950 text-white relative overflow-hidden">
+    <!-- Subtle architectural background line grid -->
+    <div class="absolute inset-0 bg-grid-dark opacity-40 pointer-events-none"></div>
+
+    <div class="max-w-md mx-auto text-left relative z-10">
+      <div class="inline-flex items-center gap-2 px-2 py-0.5 rounded bg-forest-900/60 border border-forest-700/60 text-emerald-300 text-[11px] font-mono uppercase mb-4">
+        <span>● Enterprise Operational Readiness</span>
+      </div>
+
+      <h2 class="font-display font-extrabold text-3xl tracking-tight leading-tight text-white mb-3">
+        Bring clarity to every construction site.
+      </h2>
+      <p class="text-stone-400 text-sm leading-relaxed mb-6 font-normal">
+        Manage inventory, purchasing, material usage, and waste from one connected workspace.
+      </p>
+
+      <div class="space-y-3">
+        <a href="#signup" class="w-full py-3.5 px-4 rounded-lg bg-forest-600 hover:bg-forest-500 active:scale-[0.99] text-white font-semibold text-center text-sm shadow-lg transition flex items-center justify-center gap-2">
+          <span>Start using ConstructStock</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </a>
+        <a href="#features" class="w-full py-2.5 px-4 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 font-medium text-center text-xs border border-stone-800 transition block">
+          Schedule site pilot consultation
+        </a>
+      </div>
+
+      <div class="mt-6 flex items-center justify-between text-[11px] font-mono text-stone-500 border-t border-stone-900 pt-4">
+        <span>No credit card required</span>
+        <span>•</span>
+        <span>Cancel anytime</span>
+        <span>•</span>
+        <span>Instant team setup</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-charcoal-900 text-stone-400 py-10 px-4 border-t border-stone-800 text-xs">
+    <div class="max-w-md mx-auto space-y-8">
+      <!-- Brand & Mission -->
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-6 h-6 rounded bg-forest-700 flex items-center justify-center text-white font-mono font-bold text-[10px]">
+            CS
+          </div>
+          <span class="font-display font-extrabold text-base text-white tracking-tight">Construct<span class="text-forest-500">Stock</span></span>
+        </div>
+        <p class="text-stone-400 text-xs leading-relaxed">
+          Built for teams that build. Operational material control, inventory ledger, and site wastage prevention.
+        </p>
+      </div>
+
+      <!-- Links Grid -->
+      <div class="grid grid-cols-2 gap-6 pt-4 border-t border-stone-800/80">
+        <div>
+          <div class="font-mono uppercase font-bold text-stone-200 text-[11px] tracking-wider mb-2.5">Product</div>
+          <ul class="space-y-1.5 text-stone-400">
+            <li><a href="#" class="hover:text-white transition">Features</a></li>
+            <li><a href="#" class="hover:text-white transition">Inventory Ledger</a></li>
+            <li><a href="#" class="hover:text-white transition">Gate Purchasing</a></li>
+            <li><a href="#" class="hover:text-white transition">Wastage Reports</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-mono uppercase font-bold text-stone-200 text-[11px] tracking-wider mb-2.5">Company</div>
+          <ul class="space-y-1.5 text-stone-400">
+            <li><a href="#" class="hover:text-white transition">About ConstructStock</a></li>
+            <li><a href="#" class="hover:text-white transition">Security & Encryption</a></li>
+            <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom copyright -->
+      <div class="pt-6 border-t border-stone-800/80 flex items-center justify-between text-[11px] font-mono text-stone-400">
+        <div>© 2025 ConstructStock Inc.</div>
+        <div class="text-emerald-500 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          <span>Systems Operational</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

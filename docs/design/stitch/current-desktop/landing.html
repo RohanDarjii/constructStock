@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>ConstructStock</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-tertiary-container":"#f9b1b9","surface-container-lowest":"#ffffff","surface-container-high":"#eae7eb","background":"#fbf8fc","on-primary":"#ffffff","secondary-fixed":"#dce4df","on-primary-container":"#9ed0ab","surface-container":"#f0edf1","on-tertiary":"#ffffff","inverse-on-surface":"#f3f0f4","error":"#ba1a1a","primary-fixed-dim":"#a1d2ad","tertiary-fixed-dim":"#fcb3bc","surface-tint":"#3b684a","on-tertiary-fixed-variant":"#6b373f","error-container":"#ffdad6","outline-variant":"#c1c9c0","on-error":"#ffffff","on-secondary":"#ffffff","surface-container-highest":"#e4e1e6","on-surface-variant":"#414942","on-secondary-fixed":"#161d1a","secondary-container":"#d7dfda","on-error-container":"#93000a","tertiary":"#5c2b33","on-background":"#1b1b1e","secondary-fixed-dim":"#c0c8c4","surface":"#fbf8fc","inverse-primary":"#a1d2ad","on-surface":"#1b1b1e","surface-bright":"#fbf8fc","on-primary-fixed":"#00210f","secondary":"#58605c","on-secondary-container":"#5b635f","primary":"#144227","tertiary-fixed":"#ffd9dd","surface-variant":"#e4e1e6","primary-fixed":"#bceec8","primary-container":"#2d5a3d","on-secondary-fixed-variant":"#414845","outline":"#717971","surface-container-low":"#f6f2f7","tertiary-container":"#774149","inverse-surface":"#303033","on-tertiary-fixed":"#360d15","on-primary-fixed-variant":"#224f33","surface-dim":"#dcd9dd"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"margin":"2rem","space-lg":"1.5rem","space-md":"1rem","space-sm":"0.5rem","gutter":"1.5rem","space-xl":"2.5rem","space-xs":"0.25rem"},"fontFamily":{"label-lg":["Inter"],"body-md":["Inter"],"title-lg":["Inter"],"title-md":["Inter"],"headline-lg-mobile":["Manrope"],"headline-sm":["Manrope"],"headline-lg":["Manrope"],"body-sm":["Inter"],"label-sm":["Inter"],"label-md":["Inter"],"headline-md":["Manrope"],"body-lg":["Inter"],"headline-md-mobile":["Manrope"]},"fontSize":{"label-lg":["14px",{"lineHeight":"20px","fontWeight":"500"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"title-lg":["18px",{"lineHeight":"26px","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","fontWeight":"600"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"headline-md":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-md-mobile":["22px",{"lineHeight":"30px","letterSpacing":"-0.01em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant"><div class="h-16 max-w-7xl mx-auto px-margin flex items-center justify-between"><a class="flex items-center gap-space-sm" data-path="home" href="#"><img alt="ConstructStock Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrCD6RkJZFNFla35KKzPelT0SihwY-mOIFZ96tWQ-W9XI8mUv05PIBhEcrIjKgE7r9abY6ExdamPO05uPlf800yeob0SbTJpWSnjUk6nhHMFlgB6tlA7legk3x-LrYZd6epZTsPKdPiiAvBFscrh3rwKCYYD0HDL-4l4L43dcDV-J5sS7G_zd6VEo0p3E-Y1uQDMT_eIBV8PCqZDn9_GgR4zJFuMuy6e7Nt33fdtmPPW"/><span class="font-title-lg text-title-lg text-on-surface tracking-tight">ConstructStock</span></a><nav class="hidden md:flex items-center gap-space-lg" data-active-classes="text-primary font-semibold"><a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="product" href="#">Product</a><a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="lifecycle" href="#">Lifecycle</a><a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="multi-site" href="#">Multi-Site</a><a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="analytics" href="#">Analytics</a><a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="pricing" href="#">Pricing</a></nav><div class="flex items-center gap-space-md"><a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="sign-in" href="#">Sign in</a><a class="px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary hover:bg-primary hover:text-on-primary font-label-lg text-label-lg transition-colors" data-path="start-for-free" href="#">Start for free</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<!-- 1. Hero Section -->
+<section class="relative w-full bg-surface overflow-hidden py-space-xl lg:py-20">
+<!-- Subtle architectural blueprint grid accent -->
+<div class="absolute inset-0 pointer-events-none opacity-40" style="background-image: linear-gradient(to right, rgba(193, 201, 192, 0.25) 1px, transparent 1px), linear-gradient(to bottom, rgba(193, 201, 192, 0.25) 1px, transparent 1px); background-size: 48px 48px;"></div>
+<div class="relative max-w-7xl mx-auto px-margin">
+<div class="max-w-3xl mx-auto text-center mb-space-xl">
+<div class="inline-flex items-center gap-space-sm px-space-md py-space-xs rounded-full bg-primary-fixed/60 text-on-primary-fixed mb-space-lg">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Multi-Site Material Intelligence</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-space-md">
+          Take control of materials across every construction site.
+        </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-space-xl max-w-2xl mx-auto">
+          Track purchasing, receiving, consumption, wastage, stock levels, and site transfers from one connected workspace.
+        </p>
+<div class="flex flex-wrap items-center justify-center gap-space-md">
+<a class="px-space-lg py-3 rounded-lg bg-primary-container text-on-primary hover:bg-primary font-label-lg text-label-lg transition-colors shadow-sm" data-path="start-for-free" href="#">
+            Start for free
+          </a>
+<a class="px-space-lg py-3 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-lg text-label-lg transition-colors shadow-sm" data-path="product" href="#">
+            Explore the product
+          </a>
+</div>
+</div>
+<!-- Hero Visual: High-Fidelity ConstructStock Dashboard Mockup -->
+<div class="relative mx-auto max-w-6xl rounded-xl bg-surface-container-lowest shadow-xl overflow-hidden">
+<!-- Top App Bar -->
+<div class="flex items-center justify-between px-space-lg py-space-md bg-surface-container-low">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-outline-variant"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-outline-variant"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-outline-variant"></span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">app.constructstock.io / workspace</span>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-sm px-space-md py-space-xs rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-primary text-[16px]">domain</span>
+<span class="font-label-md text-label-md text-on-surface">All Sites (4 Active)</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">expand_more</span>
+</div>
+<div class="px-space-md py-space-xs rounded-lg bg-primary-container text-on-primary font-label-md text-label-md">
+              + Log Delivery
+            </div>
+</div>
+</div>
+<!-- Dashboard Body -->
+<div class="grid grid-cols-1 lg:grid-cols-12">
+<!-- Sidebar -->
+<div class="hidden lg:flex lg:col-span-2 flex-col justify-between bg-surface-container-low/60 p-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg bg-primary-fixed/50 text-on-primary-fixed font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+<span>Overview</span>
+</div>
+<div class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+<span>Inventory</span>
+</div>
+<div class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span>Purchase Orders</span>
+</div>
+<div class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">sync_alt</span>
+<span>Transfers</span>
+</div>
+<div class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">monitoring</span>
+<span>Wastage</span>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Sync Status</p>
+<div class="flex items-center gap-space-xs mt-1">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-body-sm text-body-sm text-on-surface">Live across 4 sites</span>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="lg:col-span-10 p-space-lg space-y-space-lg">
+<!-- KPI Summary Cards -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-md">
+<div class="p-space-md rounded-xl bg-surface-container-low">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Total Stock Value</p>
+<p class="font-headline-sm text-headline-sm text-on-surface mt-1">$1.42M</p>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary mt-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                  +4.2% vs last mo
+                </span>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Active POs</p>
+<p class="font-headline-sm text-headline-sm text-on-surface mt-1">18</p>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1 block">6 awaiting delivery</span>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Monthly Wastage</p>
+<p class="font-headline-sm text-headline-sm text-primary mt-1">2.4%</p>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1 block">Target: &lt; 3.5%</span>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Pending Transfers</p>
+<p class="font-headline-sm text-headline-sm text-on-surface mt-1">5</p>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1 block">2 in transit now</span>
+</div>
+</div>
+<!-- Table + Wastage Chart Split -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Inventory Table -->
+<div class="lg:col-span-8 rounded-xl bg-surface-container-low p-space-md overflow-x-auto">
+<div class="flex items-center justify-between mb-space-md">
+<h3 class="font-title-md text-title-md text-on-surface">Live Material Ledger</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Updated 2m ago</span>
+</div>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-on-surface-variant font-label-sm text-label-sm uppercase">
+<th class="pb-space-sm">Material</th>
+<th class="pb-space-sm">Received</th>
+<th class="pb-space-sm">Consumed</th>
+<th class="pb-space-sm">Wasted</th>
+<th class="pb-space-sm">Reserved</th>
+<th class="pb-space-sm text-right">Available</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<tr class="bg-surface-container-lowest">
+<td class="py-space-sm px-space-sm rounded-l-lg font-medium">Rebar 16mm (tons)</td>
+<td class="py-space-sm">120.0</td>
+<td class="py-space-sm">74.5</td>
+<td class="py-space-sm text-tertiary">2.1</td>
+<td class="py-space-sm">15.0</td>
+<td class="py-space-sm px-space-sm rounded-r-lg text-right font-semibold text-primary">28.4</td>
+</tr>
+<tr>
+<td class="py-space-sm px-space-sm font-medium">Portland Cement 50kg</td>
+<td class="py-space-sm">2,400</td>
+<td class="py-space-sm">1,680</td>
+<td class="py-space-sm text-tertiary">42</td>
+<td class="py-space-sm">200</td>
+<td class="py-space-sm px-space-sm text-right font-semibold text-primary">478</td>
+</tr>
+<tr class="bg-surface-container-lowest">
+<td class="py-space-sm px-space-sm rounded-l-lg font-medium">Structural Timber (m³)</td>
+<td class="py-space-sm">85.0</td>
+<td class="py-space-sm">51.2</td>
+<td class="py-space-sm text-tertiary">3.4</td>
+<td class="py-space-sm">10.0</td>
+<td class="py-space-sm px-space-sm rounded-r-lg text-right font-semibold text-primary">20.4</td>
+</tr>
+<tr>
+<td class="py-space-sm px-space-sm font-medium">Copper Conduit (m)</td>
+<td class="py-space-sm">1,500</td>
+<td class="py-space-sm">920</td>
+<td class="py-space-sm text-tertiary">18</td>
+<td class="py-space-sm">150</td>
+<td class="py-space-sm px-space-sm text-right font-semibold text-primary">412</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Wastage Trend Bar Chart -->
+<div class="lg:col-span-4 rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<h3 class="font-title-md text-title-md text-on-surface">Wastage Trend</h3>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">-1.1%</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">6-month site average (%)</p>
+</div>
+<div class="my-space-md">
+<svg aria-label="Wastage Trend Bar Chart" class="w-full h-28 text-primary" viewbox="0 0 220 110">
+<line stroke="currentColor" stroke-opacity="0.15" stroke-width="1" x1="0" x2="220" y1="90" y2="90"></line>
+<line stroke="currentColor" stroke-dasharray="3 3" stroke-opacity="0.15" stroke-width="1" x1="0" x2="220" y1="50" y2="50"></line>
+<rect fill="currentColor" fill-opacity="0.25" height="56" rx="3" width="22" x="12" y="34"></rect>
+<rect fill="currentColor" fill-opacity="0.35" height="48" rx="3" width="22" x="48" y="42"></rect>
+<rect fill="currentColor" fill-opacity="0.45" height="42" rx="3" width="22" x="84" y="48"></rect>
+<rect fill="currentColor" fill-opacity="0.6" height="36" rx="3" width="22" x="120" y="54"></rect>
+<rect fill="currentColor" fill-opacity="0.8" height="30" rx="3" width="22" x="156" y="60"></rect>
+<rect fill="currentColor" height="26" rx="3" width="22" x="192" y="64"></rect>
+</svg>
+<div class="flex justify-between px-2 font-label-sm text-label-sm text-on-surface-variant">
+<span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                  Consistent reduction driven by inter-site offcut reuse.
+                </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Value Strip -->
+<section class="w-full bg-surface-container-low py-space-xl">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="flex items-start gap-space-md p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-fixed text-[20px]">apartment</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Multi-site inventory</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Unified visibility across every active yard and project.</p>
+</div>
+</div>
+<div class="flex items-start gap-space-md p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-fixed text-[20px]">bolt</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Real-time stock</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Instant ledger updates as deliveries arrive or crews issue stock.</p>
+</div>
+</div>
+<div class="flex items-start gap-space-md p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-fixed text-[20px]">verified</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Traceability</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Full audit trail from purchase order to final installation.</p>
+</div>
+</div>
+<div class="flex items-start gap-space-md p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-fixed text-[20px]">eco</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Waste control</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Log offcuts, damage, and diversion metrics to protect margins.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Problem Section -->
+<section class="w-full bg-surface py-20">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="max-w-2xl mb-space-xl">
+<span class="font-label-sm text-label-sm uppercase text-primary tracking-wider">The Operational Gap</span>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-space-xs">
+          Why material budgets silently leak on site
+        </h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-on-surface text-[20px]">visibility_off</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-space-sm">Poor stock visibility</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Teams reorder materials already sitting in another yard.
+          </p>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-on-surface text-[20px]">edit_off</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-space-sm">Untracked consumption</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Daily usage goes unlogged until stockouts halt progress.
+          </p>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-on-surface text-[20px]">delete_sweep</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-space-sm">Avoidable waste</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Offcuts, damage, and over-ordering erode project margins.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Material Lifecycle -->
+<section class="w-full bg-surface-container-low py-20">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="text-center max-w-2xl mx-auto mb-space-xl">
+<span class="font-label-sm text-label-sm uppercase text-primary tracking-wider">End-to-End Architecture</span>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-space-xs">
+          One connected material lifecycle
+        </h2>
+</div>
+<div class="relative grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-space-md">
+<!-- Step 1 -->
+<div class="relative flex flex-col items-center text-center p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="w-7 h-7 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center mb-space-sm">01</span>
+<h3 class="font-title-md text-title-md text-on-surface">Purchase</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Approve POs &amp; lock supplier rates</p>
+</div>
+<!-- Step 2 -->
+<div class="relative flex flex-col items-center text-center p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="w-7 h-7 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center mb-space-sm">02</span>
+<h3 class="font-title-md text-title-md text-on-surface">Receive</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Log partial or full deliveries</p>
+</div>
+<!-- Step 3 -->
+<div class="relative flex flex-col items-center text-center p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="w-7 h-7 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center mb-space-sm">03</span>
+<h3 class="font-title-md text-title-md text-on-surface">Store</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Assign to yard zones &amp; reserve</p>
+</div>
+<!-- Step 4 -->
+<div class="relative flex flex-col items-center text-center p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="w-7 h-7 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center mb-space-sm">04</span>
+<h3 class="font-title-md text-title-md text-on-surface">Consume</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Issue daily quantities to crews</p>
+</div>
+<!-- Step 5 -->
+<div class="relative flex flex-col items-center text-center p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="w-7 h-7 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center mb-space-sm">05</span>
+<h3 class="font-title-md text-title-md text-on-surface">Transfer</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Move surplus between sites</p>
+</div>
+<!-- Step 6 -->
+<div class="relative flex flex-col items-center text-center p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="w-7 h-7 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center mb-space-sm">06</span>
+<h3 class="font-title-md text-title-md text-on-surface">Waste</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Record offcuts &amp; damage reasons</p>
+</div>
+<!-- Step 7 -->
+<div class="relative flex flex-col items-center text-center p-space-md rounded-xl bg-surface-container-lowest shadow-sm col-span-2 sm:col-span-1">
+<span class="w-7 h-7 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center mb-space-sm">07</span>
+<h3 class="font-title-md text-title-md text-on-surface">Report</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Export audit-ready ESG &amp; cost data</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. Inventory Management -->
+<section class="w-full bg-surface py-20">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<div class="lg:col-span-5">
+<span class="font-label-sm text-label-sm uppercase text-primary tracking-wider">Unified Stock Ledger</span>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-space-xs mb-space-md">
+            Know every unit's exact state at a glance
+          </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-space-lg">
+            Stop guessing what is actually available to build with. ConstructStock separates physical stock into clear operational buckets so site managers never double-allocate or over-order.
+          </p>
+<ul class="space-y-space-sm font-body-md text-body-md text-on-surface">
+<li class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+<span>Real-time deduction as storekeepers issue materials</span>
+</li>
+<li class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+<span>Hard reservations for upcoming structural phases</span>
+</li>
+<li class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+<span>Automated low-stock alerts before critical path delays</span>
+</li>
+</ul>
+</div>
+<div class="lg:col-span-7">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-md">
+<div class="flex items-center justify-between mb-space-lg">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">SKU: STL-RB16-A</span>
+<h3 class="font-title-lg text-title-lg text-on-surface">Deformed Steel Rebar 16mm</h3>
+</div>
+<span class="px-space-md py-space-xs rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
+                120.0 Tons Received
+              </span>
+</div>
+<div class="space-y-space-md">
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-1">
+<span class="text-on-surface">Consumed</span>
+<span class="text-on-surface font-semibold">74.5 t (62%)</span>
+</div>
+<div class="w-full h-2.5 rounded-full bg-surface-container">
+<div class="h-2.5 rounded-full bg-primary" style="width: 62%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-1">
+<span class="text-on-surface">Reserved for Phase 2</span>
+<span class="text-on-surface font-semibold">15.0 t (12.5%)</span>
+</div>
+<div class="w-full h-2.5 rounded-full bg-surface-container">
+<div class="h-2.5 rounded-full bg-secondary" style="width: 12.5%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-1">
+<span class="text-on-surface">Wasted (Offcuts &amp; Bend)</span>
+<span class="text-tertiary font-semibold">2.1 t (1.75%)</span>
+</div>
+<div class="w-full h-2.5 rounded-full bg-surface-container">
+<div class="h-2.5 rounded-full bg-tertiary" style="width: 3%;"></div>
+</div>
+</div>
+<div class="pt-space-sm">
+<div class="flex justify-between font-label-md text-label-md mb-1">
+<span class="text-primary font-semibold">Available to Issue</span>
+<span class="text-primary font-semibold">28.4 t (23.7%)</span>
+</div>
+<div class="w-full h-2.5 rounded-full bg-primary-fixed">
+<div class="h-2.5 rounded-full bg-primary-container" style="width: 23.7%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. Purchasing & Receiving -->
+<section class="w-full bg-surface-container-low py-20">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<!-- Reversed: UI Mockup on Left -->
+<div class="lg:col-span-7 order-2 lg:order-1">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-space-lg">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Purchase Order</span>
+<h3 class="font-title-lg text-title-lg text-on-surface">PO #4082 — Apex Steel Co.</h3>
+</div>
+<span class="px-space-md py-space-xs rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+                Partially Received (60/100 tons)
+              </span>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-low mb-space-lg">
+<div class="flex justify-between font-label-md text-label-md mb-space-xs">
+<span class="text-on-surface-variant">Delivery Progress</span>
+<span class="text-on-surface font-semibold">60% Fulfilled</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-high">
+<div class="h-2 rounded-full bg-primary" style="width: 60%;"></div>
+</div>
+<div class="grid grid-cols-3 gap-space-md mt-space-md font-body-sm text-body-sm">
+<div>
+<span class="text-on-surface-variant block">Ordered</span>
+<span class="font-semibold text-on-surface">100.0 tons</span>
+</div>
+<div>
+<span class="text-on-surface-variant block">Received</span>
+<span class="font-semibold text-primary">60.0 tons</span>
+</div>
+<div>
+<span class="text-on-surface-variant block">Remaining</span>
+<span class="font-semibold text-on-surface">40.0 tons</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Last delivery: Batch #B-912 (20t)</span>
+<button class="px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary hover:bg-primary font-label-md text-label-md transition-colors" type="button">
+                Log Delivery
+              </button>
+</div>
+</div>
+</div>
+<!-- Copy on Right -->
+<div class="lg:col-span-5 order-1 lg:order-2">
+<span class="font-label-sm text-label-sm uppercase text-primary tracking-wider">Procurement &amp; Gatehouse</span>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-space-xs mb-space-md">
+            Streamlined PO approvals and partial receiving
+          </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-space-lg">
+            Construction deliveries rarely arrive in a single drop. Track split shipments against master purchase orders, verify supplier quantities at the gate, and keep accounting aligned with what actually hit the yard.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Multi-Site Management -->
+<section class="w-full bg-surface py-20">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-xl gap-space-md">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-primary tracking-wider">Portfolio Oversight</span>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-space-xs">
+            Every site, one unified standard
+          </h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+          Monitor stock health, active POs, and wastage rates across all active projects from a single command view.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center justify-between mb-space-md">
+<h3 class="font-title-lg text-title-lg text-on-surface">Northgate Tower</h3>
+<span class="px-space-sm py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">Healthy</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">Commercial High-Rise • 14 Active SKUs</p>
+<div class="flex justify-between pt-space-md bg-surface-container-low p-space-sm rounded-lg">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Stock Value</span>
+<span class="font-title-md text-title-md text-on-surface">$640K</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Wastage</span>
+<span class="font-title-md text-title-md text-primary">1.9%</span>
+</div>
+</div>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center justify-between mb-space-md">
+<h3 class="font-title-lg text-title-lg text-on-surface">Riverside Logistics Hub</h3>
+<span class="px-space-sm py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">Healthy</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">Industrial Warehouse • 22 Active SKUs</p>
+<div class="flex justify-between pt-space-md bg-surface-container-low p-space-sm rounded-lg">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Stock Value</span>
+<span class="font-title-md text-title-md text-on-surface">$490K</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Wastage</span>
+<span class="font-title-md text-title-md text-primary">2.3%</span>
+</div>
+</div>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center justify-between mb-space-md">
+<h3 class="font-title-lg text-title-lg text-on-surface">Westside Medical Center</h3>
+<span class="px-space-sm py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">Low Rebar</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">Healthcare Facility • 19 Active SKUs</p>
+<div class="flex justify-between pt-space-md bg-surface-container-low p-space-sm rounded-lg">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Stock Value</span>
+<span class="font-title-md text-title-md text-on-surface">$290K</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Wastage</span>
+<span class="font-title-md text-title-md text-on-surface">3.1%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. Inter-Site Transfers -->
+<section class="w-full bg-surface-container-low py-20">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="text-center max-w-2xl mx-auto mb-space-xl">
+<span class="font-label-sm text-label-sm uppercase text-primary tracking-wider">Inter-Site Logistics</span>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-space-xs">
+          Move surplus stock instead of buying new
+        </h2>
+</div>
+<!-- 4-Stage Pipeline -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-md mb-space-xl max-w-4xl mx-auto">
+<div class="p-space-md rounded-xl bg-surface-container-lowest text-center shadow-sm">
+<span class="font-label-sm text-label-sm uppercase text-primary">Stage 1</span>
+<p class="font-title-md text-title-md text-on-surface mt-1">Requested</p>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-lowest text-center shadow-sm">
+<span class="font-label-sm text-label-sm uppercase text-primary">Stage 2</span>
+<p class="font-title-md text-title-md text-on-surface mt-1">Approved</p>
+</div>
+<div class="p-space-md rounded-xl bg-primary-container text-on-primary text-center shadow-sm">
+<span class="font-label-sm text-label-sm uppercase text-on-primary-container">Stage 3 (Active)</span>
+<p class="font-title-md text-title-md mt-1">Dispatched</p>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-lowest text-center shadow-sm opacity-70">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Stage 4</span>
+<p class="font-title-md text-title-md text-on-surface mt-1">Received</p>
+</div>
+</div>
+<!-- Transfer Ticket Card -->
+<div class="max-w-3xl mx-auto p-space-lg rounded-xl bg-surface-container-lowest shadow-md">
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Transfer Ticket #TRF-209</span>
+<h3 class="font-title-lg text-title-lg text-on-surface">12.0 Tons — Rebar 16mm</h3>
+</div>
+<div class="flex items-center gap-space-sm font-body-md text-body-md text-on-surface">
+<span class="px-space-sm py-space-xs rounded-lg bg-surface-container">Northgate Tower</span>
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+<span class="px-space-sm py-space-xs rounded-lg bg-primary-fixed text-on-primary-fixed font-medium">Westside Medical</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 9. Wastage Analytics -->
+<section class="w-full bg-surface py-20">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<div class="lg:col-span-5">
+<span class="font-label-sm text-label-sm uppercase text-primary tracking-wider">Sustainability &amp; Margin</span>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-space-xs mb-space-md">
+            Pinpoint why waste happens, and eliminate it
+          </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+            Every wasted unit is categorized by root cause—whether cutting offcuts, weather exposure, or handling damage—giving project leads actionable data to hit diversion targets.
+          </p>
+</div>
+<div class="lg:col-span-7">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-md">
+<div class="flex items-center justify-between mb-space-lg">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Monthly Wastage Breakdown</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">All Sites • Current Period</p>
+</div>
+<div class="text-right">
+<span class="font-headline-sm text-headline-sm text-primary">2.4%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">vs 3.5% Target</span>
+</div>
+</div>
+<div class="space-y-space-md">
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<span class="font-body-md text-body-md text-on-surface">Cutting Offcuts</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">1.3% (18.4 t)</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<span class="font-body-md text-body-md text-on-surface">Weather Damage</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">0.7% (9.8 t)</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<span class="font-body-md text-body-md text-on-surface">Handling Breakage</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">0.4% (5.6 t)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 10. Role-Based Collaboration -->
+<section class="w-full bg-surface-container-low py-20">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="text-center max-w-2xl mx-auto mb-space-xl">
+<span class="font-label-sm text-label-sm uppercase text-primary tracking-wider">Built for Every Role</span>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-space-xs">
+          Clear permissions from HQ to the site gate
+        </h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-primary text-[28px] mb-space-md">admin_panel_settings</span>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-space-sm">Owner / Admin</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Multi-company oversight, PO approvals, supplier rate management, and executive financial reports.
+          </p>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-primary text-[28px] mb-space-md">engineering</span>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-space-sm">Site Manager</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Daily consumption logging, inter-site transfer requests, and real-time site stock visibility.
+          </p>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-primary text-[28px] mb-space-md">forklift</span>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-space-sm">Storekeeper</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Receiving deliveries against POs, issuing materials to crews, and running physical yard counts.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- 11. Reports & Analytics -->
+<section class="w-full bg-surface py-20">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-xl gap-space-md">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-primary tracking-wider">Audit-Ready Exports</span>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-space-xs">
+            Reports that finance and sustainability teams trust
+          </h2>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="px-space-md py-space-xs rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">Export PDF</span>
+<span class="px-space-md py-space-xs rounded-lg bg-primary-fixed text-on-primary-fixed font-label-md text-label-md">Export Excel</span>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-primary text-[24px] mb-space-sm">account_balance_wallet</span>
+<h3 class="font-title-md text-title-md text-on-surface">Inventory Value</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Real-time valuation by site, category, and batch.</p>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-primary text-[24px] mb-space-sm">show_chart</span>
+<h3 class="font-title-md text-title-md text-on-surface">Consumption Trends</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Burn-rate forecasting against project schedules.</p>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-primary text-[24px] mb-space-sm">local_shipping</span>
+<h3 class="font-title-md text-title-md text-on-surface">Supplier Performance</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">On-time delivery and fulfillment accuracy scores.</p>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-primary text-[24px] mb-space-sm">recycling</span>
+<h3 class="font-title-md text-title-md text-on-surface">Wastage Summary</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Diversion rates and root-cause cost impact.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 12. How It Works -->
+<section class="w-full bg-surface-container-low py-20">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="text-center max-w-2xl mx-auto mb-space-xl">
+<span class="font-label-sm text-label-sm uppercase text-primary tracking-wider">Fast Onboarding</span>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-space-xs">
+          Up and running in days, not months
+        </h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="font-headline-sm text-headline-sm text-primary">01</span>
+<h3 class="font-title-md text-title-md text-on-surface mt-space-sm">Create company</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Set up your organization and fiscal preferences.</p>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="font-headline-sm text-headline-sm text-primary">02</span>
+<h3 class="font-title-md text-title-md text-on-surface mt-space-sm">Add sites &amp; materials</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Import your SKU catalog and active project yards.</p>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="font-headline-sm text-headline-sm text-primary">03</span>
+<h3 class="font-title-md text-title-md text-on-surface mt-space-sm">Invite team</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Assign site managers and storekeepers by role.</p>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="font-headline-sm text-headline-sm text-primary">04</span>
+<h3 class="font-title-md text-title-md text-on-surface mt-space-sm">Start tracking</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Log deliveries, issues, and transfers in real time.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 13. Final CTA -->
+<section class="w-full bg-primary py-20">
+<div class="max-w-4xl mx-auto px-margin text-center">
+<h2 class="font-headline-lg text-headline-lg text-on-primary mb-space-md">
+        Bring clarity to every construction site.
+      </h2>
+<p class="font-body-lg text-body-lg text-on-primary-container mb-space-xl max-w-xl mx-auto">
+        Join modern construction teams eliminating material waste and blind spots across their portfolio.
+      </p>
+<div class="flex flex-wrap items-center justify-center gap-space-md">
+<a class="px-space-lg py-3 rounded-lg bg-surface-container-lowest text-primary hover:bg-primary-fixed font-label-lg text-label-lg transition-colors shadow-sm" data-path="start-for-free" href="#">
+          Start for free
+        </a>
+<a class="px-space-lg py-3 rounded-lg bg-primary-container text-on-primary hover:bg-surface-tint font-label-lg text-label-lg transition-colors" data-path="sign-in" href="#">
+          Book a demo
+        </a>
+</div>
+</div>
+</section>
+</div></main><footer class="w-full bg-surface-container-low border-t border-outline-variant py-space-xl"><div class="max-w-7xl mx-auto px-margin"><div class="grid grid-cols-1 md:grid-cols-4 gap-gutter pb-space-xl border-b border-outline-variant"><div class="col-span-1 md:col-span-2"><div class="flex items-center gap-space-sm mb-space-md"><img alt="ConstructStock Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrCD6RkJZFNFla35KKzPelT0SihwY-mOIFZ96tWQ-W9XI8mUv05PIBhEcrIjKgE7r9abY6ExdamPO05uPlf800yeob0SbTJpWSnjUk6nhHMFlgB6tlA7legk3x-LrYZd6epZTsPKdPiiAvBFscrh3rwKCYYD0HDL-4l4L43dcDV-J5sS7G_zd6VEo0p3E-Y1uQDMT_eIBV8PCqZDn9_GgR4zJFuMuy6e7Nt33fdtmPPW"/><span class="font-title-lg text-title-lg text-on-surface">ConstructStock</span></div><p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm">Modern B2B SaaS platform for construction material inventory, lifecycle tracking, and waste diversion reporting.</p></div><div><h3 class="font-label-sm text-label-sm uppercase text-on-surface mb-space-md">Product</h3><ul class="space-y-space-sm"><li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="product" href="#">Inventory Control</a></li><li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="lifecycle" href="#">Material Lifecycle</a></li><li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="multi-site" href="#">Multi-Site Sync</a></li><li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="analytics" href="#">Waste Analytics</a></li><li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="pricing" href="#">Pricing</a></li></ul></div><div><h3 class="font-label-sm text-label-sm uppercase text-on-surface mb-space-md">Company</h3><ul class="space-y-space-sm"><li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="home" href="#">About Us</a></li><li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="sign-in" href="#">Sign In</a></li><li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="start-for-free" href="#">Start for Free</a></li></ul></div></div><div class="pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-md"><p class="font-body-sm text-body-sm text-on-surface-variant">© 2025 ConstructStock Inc. All rights reserved.</p><div class="flex items-center gap-space-lg"><span class="font-body-sm text-body-sm text-on-surface-variant">Privacy Policy</span><span class="font-body-sm text-body-sm text-on-surface-variant">Terms of Service</span></div></div></div></footer></body></html>

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"outline":"#717971","on-error":"#ffffff","primary":"#144227","surface-variant":"#e4e1e6","error-container":"#ffdad6","secondary-fixed-dim":"#c0c8c4","surface-container-high":"#eae7eb","on-error-container":"#93000a","on-tertiary":"#ffffff","tertiary-fixed":"#ffd9dd","on-surface-variant":"#414942","surface-bright":"#fbf8fc","surface-container":"#f0edf1","error":"#ba1a1a","tertiary-fixed-dim":"#fcb3bc","primary-fixed":"#bceec8","inverse-on-surface":"#f3f0f4","primary-container":"#2d5a3d","secondary-container":"#d7dfda","on-surface":"#1b1b1e","on-primary-fixed-variant":"#224f33","on-secondary-container":"#5b635f","primary-fixed-dim":"#a1d2ad","surface-container-lowest":"#ffffff","on-primary-fixed":"#00210f","on-tertiary-fixed-variant":"#6b373f","inverse-surface":"#303033","surface-container-highest":"#e4e1e6","on-secondary-fixed-variant":"#414845","tertiary-container":"#774149","inverse-primary":"#a1d2ad","secondary-fixed":"#dce4df","outline-variant":"#c1c9c0","on-background":"#1b1b1e","on-primary":"#ffffff","on-primary-container":"#9ed0ab","surface-tint":"#3b684a","on-secondary":"#ffffff","on-tertiary-fixed":"#360d15","on-tertiary-container":"#f9b1b9","secondary":"#58605c","surface":"#fbf8fc","tertiary":"#5c2b33","surface-container-low":"#f6f2f7","on-secondary-fixed":"#161d1a","background":"#fbf8fc","surface-dim":"#dcd9dd"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"margin":"2rem","space-md":"1rem","space-xs":"0.25rem","space-xl":"2.5rem","space-lg":"1.5rem","gutter":"1.5rem","space-sm":"0.5rem"},fontFamily:{"label-lg":["Inter"],"label-sm":["Inter"],"title-lg":["Inter"],"headline-md-mobile":["Manrope"],"body-sm":["Inter"],"headline-sm":["Manrope"],"title-md":["Inter"],"body-lg":["Inter"],"label-md":["Inter"],"headline-lg-mobile":["Manrope"],"headline-md":["Manrope"],"body-md":["Inter"],"headline-lg":["Manrope"]},fontSize:{"label-lg":["14px",{"lineHeight":"20px","fontWeight":"500"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}],"title-lg":["18px",{"lineHeight":"26px","fontWeight":"600"}],"headline-md-mobile":["22px",{"lineHeight":"30px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col h-full"><div class="h-20 flex items-center px-6 gap-3"><div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[20px]">inventory_2</span></div><div class="flex flex-col"><span class="font-title-md text-title-md text-on-surface tracking-tight leading-none">ConstructStock</span><span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase mt-1">Inventory &amp; Waste</span></div></div><div class="flex-1 overflow-y-auto px-4 py-2"><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary"><a aria-current="page" class="flex items-center gap-3 px-3 py-2 rounded-xl transition-colors font-label-lg bg-primary-container text-on-primary" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">space_dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="sites" href="#"><span class="material-symbols-outlined text-[20px]">domain</span><span>Sites</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="materials" href="#"><span class="material-symbols-outlined text-[20px]">category</span><span>Materials</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="purchase-orders" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span>Purchase Orders</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="receiving" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Receiving</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="inventory" href="#"><span class="material-symbols-outlined text-[20px]">warehouse</span><span>Inventory</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="consumption" href="#"><span class="material-symbols-outlined text-[20px]">trending_down</span><span>Consumption</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="wastage" href="#"><span class="material-symbols-outlined text-[20px]">delete_sweep</span><span>Wastage</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="transfers" href="#"><span class="material-symbols-outlined text-[20px]">sync_alt</span><span>Transfers</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="suppliers" href="#"><span class="material-symbols-outlined text-[20px]">handshake</span><span>Suppliers</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="reports" href="#"><span class="material-symbols-outlined text-[20px]">query_stats</span><span>Reports</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="users" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Users</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Settings</span></a></nav></div><div class="p-4 flex flex-col gap-2"><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="help-support" href="#"><span class="material-symbols-outlined text-[20px]">contact_support</span><span>Help / Support</span></a><div class="flex items-center gap-3 p-3 rounded-xl bg-surface-container-low"><div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center font-label-lg text-label-lg text-on-primary font-semibold">RD</div><div class="flex flex-col flex-1 min-w-0"><span class="font-label-lg text-label-lg text-on-surface font-semibold truncate">Rohan Darji</span><span class="font-label-sm text-label-sm text-on-secondary-container truncate">Owner / Admin</span></div></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 z-40 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-8 flex items-center justify-between"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Dashboard</span><span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Monitor inventory and material activity across your construction sites.</span></div><div class="flex items-center gap-3"><div class="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] text-on-surface font-label-md text-label-md cursor-pointer hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">corporate_fare</span><span>ABC Construction Pvt Ltd</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></div><div class="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] text-on-surface font-label-md text-label-md cursor-pointer hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">location_on</span><span>All Sites (4)</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></div><div class="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] text-on-surface font-label-md text-label-md cursor-pointer hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">calendar_today</span><span>Nov 1 - Nov 24, 2026</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></div><button class="relative p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error"></span></button><div class="flex items-center gap-2 pl-2 cursor-pointer"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></div></div></div></header><main class="w-full pt-20 px-8 pb-12 bg-surface"><div class="flex flex-col w-full">
+<!-- TOP STRIP: OPERATIONAL CONTEXT & QUICK ACTIONS -->
+<section class="w-full flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-primary-fixed text-on-primary-fixed uppercase tracking-wider">Site Operations Active</span>
+<span class="text-on-surface-variant text-label-sm font-label-sm">· Q4 Fiscal Sync</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight mt-1">Multi-Site Ledger &amp; Material Stream</h2>
+</div>
+<!-- QUICK ACTIONS -->
+<div class="flex flex-wrap items-center gap-2 bg-surface-container-lowest p-1.5 rounded-full shadow-sm">
+<button class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary text-on-primary text-label-md font-label-md hover:bg-primary-container transition-all shadow-sm">
+<span class="material-symbols-outlined text-[16px]">add_circle</span>
+<span>Create Purchase Order</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container text-label-md font-label-md transition-colors">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">move_to_inbox</span>
+<span>Receive Material</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container text-label-md font-label-md transition-colors">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">trending_down</span>
+<span>Record Consumption</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container text-label-md font-label-md transition-colors">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">delete_sweep</span>
+<span>Record Wastage</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container text-label-md font-label-md transition-colors">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">swap_horiz</span>
+<span>Transfer Material</span>
+</button>
+</div>
+</section>
+<!-- 6-COLUMN KPI SUMMARY METRICS -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 pb-8">
+<!-- Card 1 -->
+<div class="flex flex-col justify-between p-4 bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Total Inventory Value</span>
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined text-[16px]">account_balance_wallet</span>
+</span>
+</div>
+<div class="my-3">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">₹18.4L</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-label-sm font-label-sm bg-primary-fixed text-on-primary-fixed">
+<span class="material-symbols-outlined text-[12px] mr-0.5">arrow_upward</span>+4.2%
+        </span>
+<span class="text-on-surface-variant text-label-sm font-label-sm">this month</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="flex flex-col justify-between p-4 bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Active Sites</span>
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined text-[16px]">apartment</span>
+</span>
+</div>
+<div class="my-3">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">4 Sites</span>
+</div>
+<div class="text-on-surface-variant text-label-sm font-label-sm truncate">Across NCR &amp; Commercial zones</div>
+</div>
+<!-- Card 3 -->
+<div class="flex flex-col justify-between p-4 bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Low Stock Items</span>
+<span class="p-1 rounded bg-tertiary-fixed text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+</span>
+</div>
+<div class="my-3 flex items-baseline gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">6</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">SKUs critical</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed">
+          Requires reorder
+        </span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="flex flex-col justify-between p-4 bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Pending Deliveries</span>
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+</span>
+</div>
+<div class="my-3">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">3 Inbound</span>
+</div>
+<div class="text-on-surface-variant text-label-sm font-label-sm">
+<span class="text-primary font-semibold">1 expected</span> today
+      </div>
+</div>
+<!-- Card 5 -->
+<div class="flex flex-col justify-between p-4 bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Today's Consumption</span>
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined text-[16px]">insights</span>
+</span>
+</div>
+<div class="my-3">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">₹42,500</span>
+</div>
+<div class="text-on-surface-variant text-label-sm font-label-sm truncate">8 active work packages</div>
+</div>
+<!-- Card 6 -->
+<div class="flex flex-col justify-between p-4 bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Material Wastage</span>
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined text-[16px]">recycling</span>
+</span>
+</div>
+<div class="my-3">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">2.7%</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-label-sm font-label-sm bg-primary-fixed text-on-primary-fixed">
+          -0.4%
+        </span>
+<span class="text-on-surface-variant text-label-sm font-label-sm">vs last month</span>
+</div>
+</div>
+</section>
+<!-- MAIN 2-COLUMN WORKSPACE -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- LEFT MAIN COLUMN: 8 of 12 columns (~66%) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- SECTION A: MATERIAL CONSUMPTION ANALYTICS -->
+<div class="p-6 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-6">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-title-lg text-title-lg text-on-surface">Material Consumption</h3>
+<span class="text-label-sm font-label-sm text-on-surface-variant px-2 py-0.5 rounded-full bg-surface-container">Burn Trend</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Track burn rate across active projects and allocation milestones</p>
+</div>
+<!-- Time Range Tabs -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-lg gap-1">
+<button class="px-3 py-1 rounded bg-primary text-on-primary font-label-md text-label-md">7 Days</button>
+<button class="px-3 py-1 rounded text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors">30 Days</button>
+<button class="px-3 py-1 rounded text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors">6 Months</button>
+<button class="px-3 py-1 rounded text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors">1 Year</button>
+</div>
+</div>
+<!-- Custom Visual Legend -->
+<div class="flex flex-wrap items-center gap-6 pt-1">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#144227]"></span>
+<span class="font-label-md text-label-md text-on-surface">Cement</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">1,420 bags</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#58605c]"></span>
+<span class="font-label-md text-label-md text-on-surface">Steel</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">6,840 kg</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#774149]"></span>
+<span class="font-label-md text-label-md text-on-surface">Bricks</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">12,100 pcs</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#a1d2ad]"></span>
+<span class="font-label-md text-label-md text-on-surface">Sand (M-Sand)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">310 MT</span>
+</div>
+</div>
+<!-- Interactive Consumption Chart (SVG Data Visualization) -->
+<div class="w-full relative bg-surface-container-low/50 rounded-xl p-4 overflow-hidden">
+<div class="flex items-center justify-between pb-3 text-label-sm font-label-sm text-on-surface-variant font-mono">
+<span>METRIC: DAILY MT-EQUIV CONSUMPTION</span>
+<span>AVG: ₹48,200 / DAY</span>
+</div>
+<div class="w-full h-56 flex items-end">
+<!-- Inline SVG Area and Bar Mix -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 700 200">
+<!-- Horizontal Guideline grids -->
+<line class="text-surface-variant" stroke="currentColor" stroke-dasharray="3 3" x1="0" x2="700" y1="40" y2="40"></line>
+<line class="text-surface-variant" stroke="currentColor" stroke-dasharray="3 3" x1="0" x2="700" y1="90" y2="90"></line>
+<line class="text-surface-variant" stroke="currentColor" stroke-dasharray="3 3" x1="0" x2="700" y1="140" y2="140"></line>
+<line class="text-outline-variant" stroke="currentColor" x1="0" x2="700" y1="190" y2="190"></line>
+<!-- Smooth Area Gradient Underlay -->
+<defs>
+<lineargradient id="areaGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#144227" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#144227" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<path d="M 30,140 Q 130,70 230,110 T 430,60 T 630,95 L 630,190 L 30,190 Z" fill="url(#areaGrad)"></path>
+<!-- Stacked Daily Bars -->
+<!-- Day 1: Nov 18 -->
+<g class="transition-all hover:opacity-80">
+<rect fill="#144227" height="60" rx="3" width="22" x="50" y="130"></rect>
+<rect fill="#58605c" height="23" rx="3" width="22" x="50" y="105"></rect>
+<rect fill="#774149" height="18" rx="3" width="22" x="50" y="85"></rect>
+</g>
+<!-- Day 2: Nov 19 -->
+<g class="transition-all hover:opacity-80">
+<rect fill="#144227" height="80" rx="3" width="22" x="145" y="110"></rect>
+<rect fill="#58605c" height="28" rx="3" width="22" x="145" y="80"></rect>
+<rect fill="#774149" height="13" rx="3" width="22" x="145" y="65"></rect>
+<rect fill="#a1d2ad" height="8" rx="3" width="22" x="145" y="55"></rect>
+</g>
+<!-- Day 3: Nov 20 -->
+<g class="transition-all hover:opacity-80">
+<rect fill="#144227" height="65" rx="3" width="22" x="240" y="125"></rect>
+<rect fill="#58605c" height="28" rx="3" width="22" x="240" y="95"></rect>
+<rect fill="#774149" height="13" rx="3" width="22" x="240" y="80"></rect>
+</g>
+<!-- Day 4: Nov 21 -->
+<g class="transition-all hover:opacity-80">
+<rect fill="#144227" height="100" rx="3" width="22" x="335" y="90"></rect>
+<rect fill="#58605c" height="28" rx="3" width="22" x="335" y="60"></rect>
+<rect fill="#774149" height="16" rx="3" width="22" x="335" y="42"></rect>
+<rect fill="#a1d2ad" height="8" rx="3" width="22" x="335" y="32"></rect>
+</g>
+<!-- Day 5: Nov 22 -->
+<g class="transition-all hover:opacity-80">
+<rect fill="#144227" height="90" rx="3" width="22" x="430" y="100"></rect>
+<rect fill="#58605c" height="23" rx="3" width="22" x="430" y="75"></rect>
+<rect fill="#774149" height="11" rx="3" width="22" x="430" y="62"></rect>
+</g>
+<!-- Day 6: Nov 23 -->
+<g class="transition-all hover:opacity-80">
+<rect fill="#144227" height="70" rx="3" width="22" x="525" y="120"></rect>
+<rect fill="#58605c" height="26" rx="3" width="22" x="525" y="92"></rect>
+<rect fill="#774149" height="12" rx="3" width="22" x="525" y="78"></rect>
+<rect fill="#a1d2ad" height="6" rx="3" width="22" x="525" y="70"></rect>
+</g>
+<!-- Day 7: Today Nov 24 -->
+<g class="transition-all hover:opacity-80">
+<rect fill="#144227" height="85" rx="3" width="22" x="620" y="105"></rect>
+<rect fill="#58605c" height="33" rx="3" width="22" x="620" y="70"></rect>
+<rect fill="#774149" height="13" rx="3" width="22" x="620" y="55"></rect>
+</g>
+<!-- Line overlay trend -->
+<polyline fill="none" points="61,85 156,55 251,80 346,32 441,62 536,70 631,55" stroke="#2d5a3d" stroke-linecap="round" stroke-width="2.5"></polyline>
+<circle cx="631" cy="55" fill="#ffffff" r="4" stroke="#144227" stroke-width="2.5"></circle>
+</svg>
+</div>
+<!-- Days Horizontal Axis -->
+<div class="flex justify-between px-6 pt-2 font-label-sm text-label-sm text-on-surface-variant font-mono">
+<span>18 Nov</span>
+<span>19 Nov</span>
+<span>20 Nov</span>
+<span>21 Nov</span>
+<span>22 Nov</span>
+<span>23 Nov</span>
+<span class="text-primary font-bold">Today (24 Nov)</span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-3 bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">query_builder</span>
+</span>
+<span class="font-body-sm text-body-sm text-on-surface">Peak consumption logged on <strong>Nov 21</strong> due to Villa structural slab casting (340 Cement bags, 1,450kg Steel).</span>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline inline-flex items-center whitespace-nowrap">
+<span>Export Burn Ledger</span>
+<span class="material-symbols-outlined text-[16px] ml-1">download</span>
+</button>
+</div>
+</div>
+<!-- SECTION B: MATERIAL INVENTORY OVERVIEW (TABLE) -->
+<div class="p-6 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-5">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Material Inventory Overview</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Real-time status of physical stock, reservations, and valuations across sites</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-[18px] text-on-surface-variant">search</span>
+<input class="pl-9 pr-3 py-1.5 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-1 focus:ring-primary w-48 sm:w-56" placeholder="Filter material or site..." type="text"/>
+</div>
+<a class="text-primary hover:text-primary-container font-label-md text-label-md inline-flex items-center gap-1 whitespace-nowrap" href="#">
+<span>View full inventory</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Tabular Data -->
+<div class="overflow-x-auto -mx-6 px-6">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-3 rounded-l-lg">Material</th>
+<th class="py-3 px-3">Site</th>
+<th class="py-3 px-3 text-right">Received</th>
+<th class="py-3 px-3 text-right">Consumed</th>
+<th class="py-3 px-3 text-right">Wasted</th>
+<th class="py-3 px-3 text-right">Reserved</th>
+<th class="py-3 px-3 text-right">Available</th>
+<th class="py-3 px-3 text-right">Stock Value</th>
+<th class="py-3 px-3 text-center rounded-r-lg">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-sm text-body-sm">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-3 px-3 font-semibold text-on-surface">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>Cement</span>
+</div>
+</td>
+<td class="py-3 px-3 text-on-surface-variant">Skyline Residency</td>
+<td class="py-3 px-3 text-right font-mono">500</td>
+<td class="py-3 px-3 text-right font-mono">320</td>
+<td class="py-3 px-3 text-right font-mono text-tertiary">8</td>
+<td class="py-3 px-3 text-right font-mono text-on-surface-variant">20</td>
+<td class="py-3 px-3 text-right font-mono font-semibold text-on-surface">152 bags</td>
+<td class="py-3 px-3 text-right font-mono font-medium">₹59,280</td>
+<td class="py-3 px-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-primary-fixed text-on-primary-fixed">Healthy</span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-3 px-3 font-semibold text-on-surface">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Steel</span>
+</div>
+</td>
+<td class="py-3 px-3 text-on-surface-variant">Commercial Plaza</td>
+<td class="py-3 px-3 text-right font-mono">8,000kg</td>
+<td class="py-3 px-3 text-right font-mono">5,200kg</td>
+<td class="py-3 px-3 text-right font-mono text-tertiary">150kg</td>
+<td class="py-3 px-3 text-right font-mono text-on-surface-variant">500kg</td>
+<td class="py-3 px-3 text-right font-mono font-semibold text-on-surface">2,150kg</td>
+<td class="py-3 px-3 text-right font-mono font-medium">₹1,39,750</td>
+<td class="py-3 px-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-primary-fixed text-on-primary-fixed">Healthy</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-3 px-3 font-semibold text-on-surface">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span>Bricks</span>
+</div>
+</td>
+<td class="py-3 px-3 text-on-surface-variant">Villa Project</td>
+<td class="py-3 px-3 text-right font-mono">15,000</td>
+<td class="py-3 px-3 text-right font-mono">9,500</td>
+<td class="py-3 px-3 text-right font-mono text-tertiary">420</td>
+<td class="py-3 px-3 text-right font-mono text-on-surface-variant">500</td>
+<td class="py-3 px-3 text-right font-mono font-semibold text-error">4,580</td>
+<td class="py-3 px-3 text-right font-mono font-medium">₹45,800</td>
+<td class="py-3 px-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed">Low Stock</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-3 px-3 font-semibold text-on-surface">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>Sand (M-Sand)</span>
+</div>
+</td>
+<td class="py-3 px-3 text-on-surface-variant">Skyline Residency</td>
+<td class="py-3 px-3 text-right font-mono">1,200 MT</td>
+<td class="py-3 px-3 text-right font-mono">850 MT</td>
+<td class="py-3 px-3 text-right font-mono text-tertiary">24 MT</td>
+<td class="py-3 px-3 text-right font-mono text-on-surface-variant">80 MT</td>
+<td class="py-3 px-3 text-right font-mono font-semibold text-on-surface">246 MT</td>
+<td class="py-3 px-3 text-right font-mono font-medium">₹86,100</td>
+<td class="py-3 px-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-primary-fixed text-on-primary-fixed">Healthy</span>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-3 px-3 font-semibold text-on-surface">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>Aggregate 20mm</span>
+</div>
+</td>
+<td class="py-3 px-3 text-on-surface-variant">Office Renovation</td>
+<td class="py-3 px-3 text-right font-mono">450 MT</td>
+<td class="py-3 px-3 text-right font-mono">380 MT</td>
+<td class="py-3 px-3 text-right font-mono text-tertiary">12 MT</td>
+<td class="py-3 px-3 text-right font-mono text-on-surface-variant">30 MT</td>
+<td class="py-3 px-3 text-right font-mono font-bold text-error">28 MT</td>
+<td class="py-3 px-3 text-right font-mono font-medium">₹19,600</td>
+<td class="py-3 px-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-error-container text-on-error-container font-semibold">Critical</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- SECTION C: INVENTORY BY SITE (2x2 GRID) -->
+<div class="p-6 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-4">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Inventory by Site</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Click a site to view detailed project ledger, transit orders, and yard allocations</p>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant font-mono">4 SITES MONITORED</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+<!-- Site 1: Skyline Residency -->
+<div class="p-4 bg-surface-container-low hover:bg-surface-container rounded-xl transition-all cursor-pointer group">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface group-hover:text-primary transition-colors">Skyline Residency</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-primary-fixed text-on-primary-fixed">Healthy</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Sector 62, Noida · Res. Tower (G+24)</p>
+</div>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-primary group-hover:translate-x-0.5 transition-all">chevron_right</span>
+</div>
+<div class="grid grid-cols-3 gap-2 my-3 pt-2">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Valuation</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">₹7.4L</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Low Stock</span>
+<span class="font-label-lg text-label-lg font-bold text-error">2 items</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Materials</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">28 SKUs</span>
+</div>
+</div>
+<!-- Capacity Progress -->
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 78%"></div>
+</div>
+<div class="flex justify-between items-center mt-1.5 font-label-sm text-label-sm text-on-surface-variant">
+<span>Yard Capacity: 78%</span>
+<span>Updated 12m ago</span>
+</div>
+</div>
+<!-- Site 2: Commercial Plaza -->
+<div class="p-4 bg-surface-container-low hover:bg-surface-container rounded-xl transition-all cursor-pointer group">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface group-hover:text-primary transition-colors">Commercial Plaza</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed">Attention</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Cyber City, Gurugram · Retail Block B</p>
+</div>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-primary group-hover:translate-x-0.5 transition-all">chevron_right</span>
+</div>
+<div class="grid grid-cols-3 gap-2 my-3 pt-2">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Valuation</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">₹5.8L</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Low Stock</span>
+<span class="font-label-lg text-label-lg font-bold text-tertiary">3 items</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Materials</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">24 SKUs</span>
+</div>
+</div>
+<!-- Capacity Progress -->
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 89%"></div>
+</div>
+<div class="flex justify-between items-center mt-1.5 font-label-sm text-label-sm text-on-surface-variant">
+<span>Yard Capacity: 89% (High)</span>
+<span>Updated 35m ago</span>
+</div>
+</div>
+<!-- Site 3: Villa Project -->
+<div class="p-4 bg-surface-container-low hover:bg-surface-container rounded-xl transition-all cursor-pointer group">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface group-hover:text-primary transition-colors">Villa Project</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed">Low Stock</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Sohna Road · Luxury Duplex Enclave</p>
+</div>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-primary group-hover:translate-x-0.5 transition-all">chevron_right</span>
+</div>
+<div class="grid grid-cols-3 gap-2 my-3 pt-2">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Valuation</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">₹3.2L</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Low Stock</span>
+<span class="font-label-lg text-label-lg font-bold text-error">1 item</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Materials</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">18 SKUs</span>
+</div>
+</div>
+<!-- Capacity Progress -->
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 52%"></div>
+</div>
+<div class="flex justify-between items-center mt-1.5 font-label-sm text-label-sm text-on-surface-variant">
+<span>Yard Capacity: 52%</span>
+<span>Updated 1h ago</span>
+</div>
+</div>
+<!-- Site 4: Office Renovation -->
+<div class="p-4 bg-surface-container-low hover:bg-surface-container rounded-xl transition-all cursor-pointer group">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface group-hover:text-primary transition-colors">Office Renovation</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-primary-fixed text-on-primary-fixed">Healthy</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Connaught Place · Level 4 Interior Retrofit</p>
+</div>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-primary group-hover:translate-x-0.5 transition-all">chevron_right</span>
+</div>
+<div class="grid grid-cols-3 gap-2 my-3 pt-2">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Valuation</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">₹2.0L</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Low Stock</span>
+<span class="font-label-lg text-label-lg font-bold text-primary">0 items</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Materials</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">12 SKUs</span>
+</div>
+</div>
+<!-- Capacity Progress -->
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 44%"></div>
+</div>
+<div class="flex justify-between items-center mt-1.5 font-label-sm text-label-sm text-on-surface-variant">
+<span>Yard Capacity: 44%</span>
+<span>Updated 2h ago</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT OPERATIONAL SIDEBAR COLUMN: 4 of 12 columns (~34%) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- WIDGET 1: PENDING APPROVALS (TOP PRIORITY FOR OWNER/ADMIN) -->
+<div class="p-5 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between pb-2">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<h3 class="font-title-md text-title-md text-on-surface">Pending Approvals</h3>
+</div>
+<span class="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed font-semibold">2 Required</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Approval 1 -->
+<div class="p-3.5 rounded-xl bg-surface-container-low flex flex-col gap-2.5 hover:bg-surface-container transition-colors">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md font-semibold text-on-surface">PO-1049</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">· Procurement</span>
+</div>
+<span class="font-title-md text-title-md font-bold text-on-surface mt-0.5">₹1,45,000</span>
+</div>
+<button class="px-3 py-1 rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="toggleModal('modal-review-po')">
+                Review
+              </button>
+</div>
+<div class="flex flex-col text-body-sm font-body-sm text-on-surface-variant gap-0.5 pt-1">
+<div class="flex items-center justify-between">
+<span>Site:</span>
+<span class="font-medium text-on-surface">Skyline Residency</span>
+</div>
+<div class="flex items-center justify-between">
+<span>Supplier:</span>
+<span class="font-medium text-on-surface">Ultratech Supply Corp</span>
+</div>
+</div>
+</div>
+<!-- Approval 2 -->
+<div class="p-3.5 rounded-xl bg-surface-container-low flex flex-col gap-2.5 hover:bg-surface-container transition-colors">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md font-semibold text-on-surface">TR-2026-018</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">· Inter-Site</span>
+</div>
+<span class="font-title-md text-title-md font-bold text-on-surface mt-0.5">100 Cement Bags</span>
+</div>
+<button class="px-3 py-1 rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="toggleModal('modal-review-tr')">
+                Review
+              </button>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant pt-1">
+<span class="text-on-surface font-medium truncate">Skyline Residency</span>
+<span class="material-symbols-outlined text-[16px] mx-1">arrow_forward</span>
+<span class="text-on-surface font-medium truncate">Commercial Plaza</span>
+</div>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant/80 text-center italic mt-1">Review ledger audits verification before balance deductions.</p>
+</div>
+<!-- WIDGET 2: LOW STOCK ALERTS -->
+<div class="p-5 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-tertiary">notification_important</span>
+<h3 class="font-title-md text-title-md text-on-surface">Low Stock Alerts</h3>
+</div>
+<a class="text-primary hover:text-primary-container font-label-sm text-label-sm font-medium" href="#">View all alerts →</a>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Item 1 -->
+<div class="p-3 bg-surface-container-low rounded-lg flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Cement</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed">Reorder recommended</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Commercial Plaza · Buffer Min: 100 bags</span>
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden mt-1">
+<div class="bg-tertiary h-full rounded-full" style="width: 41%"></div>
+</div>
+<div class="flex justify-between text-label-sm font-label-sm">
+<span class="font-bold text-on-surface">82 bags remaining</span>
+<span class="text-on-surface-variant">41% safe buffer</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="p-3 bg-surface-container-low rounded-lg flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Steel (12mm TMT)</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-label-sm font-label-sm bg-secondary-container text-on-secondary-container">PO in draft</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Skyline Residency · Buffer Min: 750kg</span>
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden mt-1">
+<div class="bg-tertiary h-full rounded-full" style="width: 52%"></div>
+</div>
+<div class="flex justify-between text-label-sm font-label-sm">
+<span class="font-bold text-on-surface">540kg remaining</span>
+<span class="text-on-surface-variant">52% safe buffer</span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="p-3 bg-surface-container-low rounded-lg flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Red Clay Bricks</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-label-sm font-label-sm bg-error-container text-on-error-container font-semibold">Action needed</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Villa Project · Buffer Min: 2,000</span>
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden mt-1">
+<div class="bg-error h-full rounded-full" style="width: 30%"></div>
+</div>
+<div class="flex justify-between text-label-sm font-label-sm">
+<span class="font-bold text-error">1,200 remaining</span>
+<span class="text-on-surface-variant">30% buffer</span>
+</div>
+</div>
+</div>
+</div>
+<!-- WIDGET 3: PENDING DELIVERIES -->
+<div class="p-5 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">local_shipping</span>
+<h3 class="font-title-md text-title-md text-on-surface">Pending Deliveries</h3>
+</div>
+<span class="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-surface-container-high text-on-surface font-mono">3 Active</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Delivery 1 -->
+<div class="p-3 bg-surface-container-low rounded-lg flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-on-surface">PO-2026-1042</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-secondary-container text-on-secondary-container">Partially Received</span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface">
+<strong class="font-semibold">Cement:</strong> 500 bags
+            </div>
+<div class="flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant pt-0.5">
+<span>ABC Building Materials</span>
+<span class="text-primary font-semibold">Expected: Today</span>
+</div>
+</div>
+<!-- Delivery 2 -->
+<div class="p-3 bg-surface-container-low rounded-lg flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-on-surface">PO-2026-1048</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed">Ordered</span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface">
+<strong class="font-semibold">Steel:</strong> 2,000kg
+            </div>
+<div class="flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant pt-0.5">
+<span>XYZ Steel Traders</span>
+<span>Expected: Tomorrow</span>
+</div>
+</div>
+<!-- Delivery 3 -->
+<div class="p-3 bg-surface-container-low rounded-lg flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-on-surface">PO-2026-1051</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-primary-fixed text-on-primary-fixed">Approved</span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface">
+<strong class="font-semibold">Bricks:</strong> 8,000 pieces
+            </div>
+<div class="flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant pt-0.5">
+<span>Shree Materials Ltd</span>
+<span>Expected: 25 Nov</span>
+</div>
+</div>
+</div>
+</div>
+<!-- WIDGET 4: MATERIAL WASTAGE BREAKDOWN -->
+<div class="p-5 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Material Wastage</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Overall Benchmark &lt; 3.5%</span>
+</div>
+<a class="text-primary hover:text-primary-container font-label-sm text-label-sm font-medium" href="#">View wastage report →</a>
+</div>
+<!-- Metric Highlight -->
+<div class="flex items-baseline justify-between p-3 bg-surface-container-low rounded-lg">
+<span class="font-label-md text-label-md text-on-surface-variant">Current Aggregate Wastage</span>
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">2.7%</span>
+<span class="text-label-sm font-label-sm text-primary-container font-medium">Optimal</span>
+</div>
+</div>
+<!-- Horizontal Breakdown Bars -->
+<div class="flex flex-col gap-3">
+<!-- Bricks -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-label-sm font-label-sm">
+<span class="font-semibold text-on-surface">Bricks</span>
+<span class="text-error font-bold font-mono">3.8% (above threshold)</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-error h-full rounded-full" style="width: 76%"></div>
+</div>
+</div>
+<!-- Steel -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-label-sm font-label-sm">
+<span class="font-semibold text-on-surface">Steel</span>
+<span class="text-on-surface font-mono">2.1%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 42%"></div>
+</div>
+</div>
+<!-- Cement -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-label-sm font-label-sm">
+<span class="font-semibold text-on-surface">Cement</span>
+<span class="text-on-surface font-mono">1.4%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 28%"></div>
+</div>
+</div>
+<!-- Sand -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-label-sm font-label-sm">
+<span class="font-semibold text-on-surface">Sand</span>
+<span class="text-on-surface font-mono">1.1%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 22%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- WIDGET 5: RECENT ACTIVITY TIMELINE -->
+<div class="p-5 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h3 class="font-title-md text-title-md text-on-surface">Recent Activity</h3>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">history</span>
+</div>
+<div class="relative pl-6 flex flex-col gap-4 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[2px] before:bg-surface-container-high">
+<!-- Event 1 -->
+<div class="relative flex flex-col gap-0.5">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-surface-container-lowest"></span>
+<span class="text-body-sm font-body-sm text-on-surface font-medium">300 cement bags received</span>
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-on-surface-variant">
+<span>Skyline Residency</span>
+<span>·</span>
+<span>10m ago</span>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="relative flex flex-col gap-0.5">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-secondary ring-4 ring-surface-container-lowest"></span>
+<span class="text-body-sm font-body-sm text-on-surface font-medium">40 cement bags issued</span>
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-on-surface-variant">
+<span>Ground Floor Slab</span>
+<span>·</span>
+<span>35m ago</span>
+</div>
+</div>
+<!-- Event 3 -->
+<div class="relative flex flex-col gap-0.5">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-primary-container ring-4 ring-surface-container-lowest"></span>
+<span class="text-body-sm font-body-sm text-on-surface font-medium">100 cement bags transferred</span>
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-on-surface-variant">
+<span>Skyline → Commercial</span>
+<span>·</span>
+<span>1h ago</span>
+</div>
+</div>
+<!-- Event 4 -->
+<div class="relative flex flex-col gap-0.5">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-tertiary ring-4 ring-surface-container-lowest"></span>
+<span class="text-body-sm font-body-sm text-on-surface font-medium">20 bricks recorded as wastage</span>
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-on-surface-variant">
+<span>Reason: Breakage in transit</span>
+<span>·</span>
+<span>2h ago</span>
+</div>
+</div>
+<!-- Event 5 -->
+<div class="relative flex flex-col gap-0.5">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-outline ring-4 ring-surface-container-lowest"></span>
+<span class="text-body-sm font-body-sm text-on-surface font-medium">PO-2026-1042 approved</span>
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-on-surface-variant">
+<span>By Rohan Darji</span>
+<span>·</span>
+<span>3h ago</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- INTERACTIVE REVIEW MODAL (DRAWER/POP-UP SIMULATION) -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" id="modal-review-po">
+<div class="bg-surface-container-lowest rounded-xl max-w-lg w-full p-6 shadow-xl flex flex-col gap-5">
+<div class="flex items-center justify-between border-b pb-3 border-surface-container">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Procurement Verification</span>
+<h4 class="font-title-lg text-title-lg text-on-surface font-bold">Review PO-1049</h4>
+</div>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" onclick="toggleModal('modal-review-po')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-3 font-body-sm text-body-sm">
+<div class="grid grid-cols-2 gap-3 p-3 bg-surface-container-low rounded-lg">
+<div>
+<span class="text-on-surface-variant text-label-sm font-label-sm">Site:</span>
+<p class="font-semibold text-on-surface">Skyline Residency</p>
+</div>
+<div>
+<span class="text-on-surface-variant text-label-sm font-label-sm">Vendor:</span>
+<p class="font-semibold text-on-surface">Ultratech Supply Corp</p>
+</div>
+<div>
+<span class="text-on-surface-variant text-label-sm font-label-sm">Total Valuation:</span>
+<p class="font-semibold text-primary">₹1,45,000</p>
+</div>
+<div>
+<span class="text-on-surface-variant text-label-sm font-label-sm">Budget Remaining:</span>
+<p class="font-semibold text-on-surface">₹4,20,000 (Safe)</p>
+</div>
+</div>
+<p class="text-on-surface-variant">Material: 400 Bags Grade 53 OPC Cement. Verified against BOQ work order for 12th Floor Shear Wall pour.</p>
+</div>
+<div class="flex items-center justify-end gap-3 pt-2">
+<button class="px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" onclick="toggleModal('modal-review-po')">
+          Close
+        </button>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="alert('Order PO-1049 approved and sent to Ultratech Supply Corp.'); toggleModal('modal-review-po')">
+          Approve &amp; Dispatch Order
+        </button>
+</div>
+</div>
+</div>
+<!-- INTERACTIVE JS SCRIPT FOR TOGGLES -->
+<script>
+    function toggleModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.toggle('hidden');
+      }
+    }
+  </script>
+</div></main></div></body></html>

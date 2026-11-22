@@ -20,8 +20,8 @@
 .brand { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; color: var(--ink); font-family: var(--font-manrope), var(--font-inter), sans-serif; font-size: 19px; font-weight: 800; letter-spacing: -.045em; }
 .brand svg { width: 36px; height: 36px; flex: none; }
 .desktopNav, .headerActions { display: flex; align-items: center; gap: 30px; }
-.desktopNav a { color: #435047; font-size: 14px; font-weight: 600; transition: color .2s; }
-.desktopNav a:hover, .footer a:hover { color: var(--green-mid); }
+.desktopNav a, .signIn { color: #435047; font-size: 14px; font-weight: 600; transition: color .2s; }
+.desktopNav a:hover, .signIn:hover, .footer a:hover { color: var(--green-mid); }
 .headerActions { gap: 22px; }
 .headerCta, .primaryButton, .secondaryButton, .lightButton, .darkOutlineButton { display: inline-flex; align-items: center; justify-content: center; min-height: 45px; padding: 0 20px; border-radius: 7px; font-size: 14px; font-weight: 700; transition: background .2s, transform .2s, border-color .2s; }
 .headerCta, .primaryButton { background: var(--green); color: #fff; }

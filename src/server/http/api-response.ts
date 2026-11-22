@@ -18,7 +18,7 @@ export function createRequestId(): string {
 export function apiSuccess<T>(data: T, meta: ApiMeta, status = 200): Response {
   return Response.json(
     { success: true, data, meta },
-    { status, headers: { "X-Request-Id": meta.requestId } },
+    { status, headers: { "X-Request-Id": meta.requestId, "Cache-Control": "no-store" } },
   );
 }
 
@@ -37,6 +37,6 @@ export function apiError(error: unknown, requestId: string): Response {
       },
       meta: { requestId },
     },
-    { status: safeError.status, headers: { "X-Request-Id": requestId } },
+    { status: safeError.status, headers: { "X-Request-Id": requestId, "Cache-Control": "no-store" } },
   );
 }

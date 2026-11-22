@@ -1,1 +1,1 @@
-Integration cases will use a transaction-capable isolated MongoDB database when repository and workflow services are introduced.
+Integration cases use a transaction-capable isolated MongoDB database. The auth suite covers company registration, login, session revocation, and selected request safeguards. Future inventory suites should use the same isolation pattern.

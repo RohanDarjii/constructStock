@@ -4,13 +4,15 @@ ConstructStock is a multi-company construction material inventory and waste mana
 
 ## Current status
 
-The scaffold supplies the app shell, placeholder dashboard and authentication pages, TypeScript and Tailwind configuration, validated server environment access, a cached Mongoose connection, shared HTTP errors/responses, logging, and empty capability boundaries. Authentication, business API endpoints, and inventory workflows are planned modules; they are not yet operational.
+The app includes a landing page and the first authentication slice: company/Owner registration, login, logout, current identity, and a protected dashboard shell. Site management and inventory workflows are not yet implemented. Password reset, invitations, organization switching, and the full permission/site assignment UI are later milestones.
 
 ## Local setup
 
 1. Install Node.js 22 or newer and run `npm install`.
-2. Run `npm run dev` and open `http://localhost:3000`.
-3. When database connectivity is needed, copy `.env.example` to `.env.local` and set `MONGODB_URI` for a development MongoDB Atlas database. The placeholder pages do not connect to MongoDB.
+2. Copy `.env.example` to `.env.local`. Set `MONGODB_URI` to a development MongoDB Atlas replica set, `TOKEN_PEPPER` to a random secret of at least 32 characters, and `APP_URL` to the local app URL. Keep all secrets in environment variables; do not commit them.
+3. Run `npm run dev` and open `http://localhost:3000`. Register a company, then sign in immediately. Restart the server after changing `.env.local`. The dashboard requires an active server-side session.
+
+Registration uses a MongoDB transaction. The database must support transactions; a standalone MongoDB server is insufficient. Email verification is not part of the current sign-in flow.
 
 ## Local commands
 
@@ -18,15 +20,16 @@ The scaffold supplies the app shell, placeholder dashboard and authentication pa
 - `npm run typecheck` — check TypeScript.
 - `npm run lint` — run ESLint.
 - `npm run build` — verify the production build.
+- `npm run test:integration` — run isolated auth integration tests against a temporary MongoDB replica set; the first run may download a MongoDB test binary.
 
 Never commit real secrets. Use separate resources for local, preview, test, and production environments.
 
 ## Code boundaries
 
-- `src/app/`: Next.js pages and, as features arrive, thin `/api/v1` route handlers. The current authentication and dashboard pages are placeholders without access control.
+- `src/app/`: Next.js pages and thin `/api/v1` route handlers. The dashboard layout checks the current session on the server.
 - `src/components/`: UI shared across features.
 - `src/modules/`: capability-owned UI, schemas, domain services, repositories, and models. See its README for the planned module map.
-- `src/server/`: cross-module server infrastructure. Database and secrets stay server-only.
+- `src/server/`: cross-module server infrastructure. Database and secrets stay server-only. Cookie-authenticated mutations use a same-origin check and a session-bound CSRF token available from `GET /api/v1/auth/csrf`.
 - `src/shared/`: code safe to import in both server and browser modules.
 - `tests/`: integration, API, and browser tests as workflows are built.
 - `scripts/`: controlled migrations, index changes, and reconciliation operations.

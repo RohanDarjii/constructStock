@@ -53,7 +53,6 @@ flowchart LR
 - `site_assignments`
 - `sessions`
 - `user_invitations`
-- `email_verification_tokens`
 - `password_reset_tokens`
 - `sites`
 - `material_categories`
@@ -70,6 +69,7 @@ flowchart LR
 - `alerts`
 - `audit_logs`
 - `idempotency_keys`
+- `auth_rate_limits` (security infrastructure; expiring per-action counters)
 
 ## 5. Collection Schemas
 ### 5.1 `users`
@@ -80,7 +80,6 @@ flowchart LR
 | `name` | `string` | Yes | Display/full name. |
 | `email` | `string` | Yes | Normalized login email; globally unique. |
 | `passwordHash` | `string` | Yes | Argon2id password hash. |
-| `emailVerifiedAt` | `date | null` | No | Email verification timestamp. |
 | `status` | `enum` | Yes | ACTIVE, INACTIVE, LOCKED. |
 | `createdAt / updatedAt` | `date` | Yes | System timestamps. |
 | `deletedAt / deletedBy` | `date/ObjectId | null` | No | Soft-deletion metadata. |
@@ -92,6 +91,7 @@ flowchart LR
 | `_id` | `ObjectId` | Yes | Tenant/company identifier. |
 | `name` | `string` | Yes | Construction company name. |
 | `slug` | `string` | Yes | Globally unique human-readable slug. |
+| `currencyCode` | `string` | Yes | Organization ISO 4217 currency code. |
 | `status` | `enum` | Yes | ACTIVE, SUSPENDED, DISABLED. |
 | `createdBy` | `ObjectId` | Yes | Owner who registered company. |
 | `createdAt / updatedAt` | `date` | Yes | System timestamps. |
@@ -124,6 +124,7 @@ flowchart LR
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
 | `userId` | `ObjectId` | Yes | Authenticated user. |
+| `activeOrganizationId` | `ObjectId` | Yes | Membership-validated active tenant for this session. |
 | `sessionTokenHash` | `string` | Yes | Hash of opaque session token. |
 | `createdAt` | `date` | Yes | Creation time. |
 | `expiresAt` | `date` | Yes | Absolute expiry. |
@@ -145,16 +146,7 @@ flowchart LR
 | `acceptedAt` | `date | null` | No | Acceptance timestamp. |
 | `invitedBy` | `ObjectId` | Yes | Owner/admin who invited user. |
 
-### 5.7 `email_verification_tokens`
-
-| Field | Type | Required | Purpose |
-|---|---|---:|---|
-| `userId` | `ObjectId` | Yes | User being verified. |
-| `tokenHash` | `string` | Yes | Hashed single-use token. |
-| `expiresAt` | `date` | Yes | Token expiry. |
-| `usedAt` | `date | null` | No | Consumption timestamp. |
-
-### 5.8 `password_reset_tokens`
+### 5.7 `password_reset_tokens`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -163,7 +155,7 @@ flowchart LR
 | `expiresAt` | `date` | Yes | Token expiry. |
 | `usedAt` | `date | null` | No | Consumption timestamp. |
 
-### 5.9 `sites`
+### 5.8 `sites`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -179,7 +171,7 @@ flowchart LR
 | `createdAt / updatedAt` | `date` | Yes | System timestamps. |
 | `deletedAt / deletedBy` | `date/ObjectId | null` | No | Soft-delete metadata. |
 
-### 5.10 `material_categories`
+### 5.9 `material_categories`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -190,7 +182,7 @@ flowchart LR
 | `createdAt / updatedAt` | `date` | Yes | System timestamps. |
 | `deletedAt` | `date | null` | No | Soft-delete marker. |
 
-### 5.11 `materials`
+### 5.10 `materials`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -205,7 +197,7 @@ flowchart LR
 | `createdAt / updatedAt` | `date` | Yes | System timestamps. |
 | `deletedAt / deletedBy` | `date/ObjectId | null` | No | Soft-delete metadata. |
 
-### 5.12 `suppliers`
+### 5.11 `suppliers`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -221,7 +213,7 @@ flowchart LR
 | `createdAt / updatedAt` | `date` | Yes | System timestamps. |
 | `deletedAt / deletedBy` | `date/ObjectId | null` | No | Soft-delete metadata. |
 
-### 5.13 `purchase_orders`
+### 5.12 `purchase_orders`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -237,7 +229,7 @@ flowchart LR
 | `createdBy` | `ObjectId` | Yes | Creator. |
 | `createdAt / updatedAt` | `date` | Yes | System timestamps. |
 
-### 5.14 `goods_receipts`
+### 5.13 `goods_receipts`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -254,7 +246,7 @@ flowchart LR
 | `status` | `enum` | Yes | CONFIRMED, REVERSED. |
 | `createdAt` | `date` | Yes | Creation timestamp. |
 
-### 5.15 `inventory_batches`
+### 5.14 `inventory_batches`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -275,7 +267,7 @@ flowchart LR
 | `version` | `int` | Yes | Optimistic concurrency revision. |
 | `createdAt / updatedAt` | `date` | Yes | System timestamps. |
 
-### 5.16 `inventory_balances`
+### 5.15 `inventory_balances`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -289,7 +281,7 @@ flowchart LR
 | `version` | `int` | Yes | Optimistic concurrency revision. |
 | `updatedAt` | `date` | Yes | Last balance update. |
 
-### 5.17 `inventory_transactions`
+### 5.16 `inventory_transactions`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -306,7 +298,7 @@ flowchart LR
 | `performedBy` | `ObjectId` | Yes | User responsible. |
 | `createdAt` | `date` | Yes | Immutable event timestamp. |
 
-### 5.18 `consumptions`
+### 5.17 `consumptions`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -322,7 +314,7 @@ flowchart LR
 | `createdBy` | `ObjectId` | Yes | Creator. |
 | `createdAt` | `date` | Yes | Timestamp. |
 
-### 5.19 `wastages`
+### 5.18 `wastages`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -339,7 +331,7 @@ flowchart LR
 | `createdBy` | `ObjectId` | Yes | Creator. |
 | `createdAt` | `date` | Yes | Timestamp. |
 
-### 5.20 `transfers`
+### 5.19 `transfers`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -357,7 +349,7 @@ flowchart LR
 | `receivedBy / receivedAt` | `ObjectId/date | null` | No | Receipt metadata. |
 | `createdAt / updatedAt` | `date` | Yes | System timestamps. |
 
-### 5.21 `alerts`
+### 5.20 `alerts`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -370,7 +362,7 @@ flowchart LR
 | `createdAt` | `date` | Yes | Creation time. |
 | `resolvedAt` | `date | null` | No | Resolution time. |
 
-### 5.22 `audit_logs`
+### 5.21 `audit_logs`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -383,7 +375,7 @@ flowchart LR
 | `ipAddress` | `string | null` | No | Security context. |
 | `createdAt` | `date` | Yes | Immutable event timestamp. |
 
-### 5.23 `idempotency_keys`
+### 5.22 `idempotency_keys`
 
 | Field | Type | Required | Purpose |
 |---|---|---:|---|
@@ -396,6 +388,14 @@ flowchart LR
 | `responseBody` | `object | null` | No | Optional bounded response cache. |
 | `createdAt` | `date` | Yes | Creation time. |
 | `expiresAt` | `date` | Yes | TTL expiry. |
+
+### 5.23 `auth_rate_limits`
+
+| Field | Type | Required | Purpose |
+|---|---|---:|---|
+| `key` | `string` | Yes | Hashed action/identifier/window key. |
+| `count` | `int` | Yes | Attempts within the current window. |
+| `expiresAt` | `date` | Yes | TTL expiry after the rate-limit window. |
 
 ## 6. Embedded Structures
 ### Purchase order item
@@ -537,6 +537,8 @@ version = expectedVersion
 | site_assignments | organizationId + siteId + userId | Unique (active) | Prevent duplicate assignment. |
 | sessions | sessionTokenHash | Unique | Session lookup. |
 | sessions | expiresAt | TTL | Automatic expiry cleanup. |
+| auth_rate_limits | key | Unique | Atomic attempt counter per action/identifier/window. |
+| auth_rate_limits | expiresAt | TTL | Automatic expiry cleanup. |
 | sites | organizationId + code | Unique among active | Tenant-local business code. |
 | materials | organizationId + code | Unique among active | Tenant-local material code. |
 | suppliers | organizationId + code | Unique among active | Tenant-local supplier code. |
@@ -592,7 +594,7 @@ Archiving is blocked when doing so would make active business state invalid, e.g
 - All server-generated numbers (PO/GRN/transfer/batch codes) are generated tenant-safely and protected by unique indexes.
 
 ## 16. Data Lifecycle and Retention
-Operational business records are retained for the lifetime of the tenant unless an explicit legal/data-retention policy is introduced. Expiring security data such as sessions, verification tokens, reset tokens and idempotency keys should use TTL indexes. Audit/inventory ledgers are long-lived and should not be TTL-deleted. If a company account is closed, deletion/anonymization must be a deliberate administrative workflow rather than a normal soft-delete cascade.
+Operational business records are retained for the lifetime of the tenant unless an explicit legal/data-retention policy is introduced. Expiring security data such as sessions, reset tokens and idempotency keys should use TTL indexes. Audit/inventory ledgers are long-lived and should not be TTL-deleted. If a company account is closed, deletion/anonymization must be a deliberate administrative workflow rather than a normal soft-delete cascade.
 
 ## 17. Query Patterns
 | Use case | Primary collections / keys |
@@ -619,7 +621,7 @@ A scheduled or admin-triggered reconciliation process should be able to recomput
 
 ## 20. Security Considerations
 - Password hashes and raw session secrets never appear in logs or audit metadata.
-- Session, reset, invitation and verification tokens are stored hashed where verification by hash is sufficient.
+- Session, reset and invitation tokens are stored hashed where verification by hash is sufficient.
 - Sensitive database credentials remain server-only and are provided through deployment secrets.
 - Raw MongoDB access is limited to repository/data-access modules; route handlers do not construct arbitrary tenant queries.
 - File attachments store object keys/metadata only; access URLs should be signed/authorized at request time when private.

@@ -291,7 +291,7 @@ External/mobile request<br />
 
 | **Module**        | **Responsibility**                                                                      |
 |-------------------|-----------------------------------------------------------------------------------------|
-| auth              | Registration, login, logout, sessions, email verification, password reset, invitations. |
+| auth              | Registration, login, logout, sessions, password reset, invitations.                     |
 | organizations     | Company profile, organization status, onboarding, organization-level settings.          |
 | users-memberships | Users, memberships, roles, permissions, site assignments.                               |
 | sites             | Construction site/project lifecycle and site-level access.                              |
@@ -392,7 +392,7 @@ Most uniqueness and query indexes should lead with organizationId. Examples incl
 
 ## 7.1 Registration and Onboarding
 
-Public registration creates the first Owner for a new construction company. The registration flow creates the User, Organization, OWNER membership, verification token and initial audit event. The organization should not become fully usable until the owner email is verified.
+Public registration creates the first Owner for a new construction company. The registration flow creates the User, Organization, OWNER membership and initial audit event atomically. The Owner can sign in immediately after registration.
 
 <table>
 <colgroup>
@@ -404,9 +404,8 @@ Public registration creates the first Owner for a new construction company. The 
 -&gt; create User<br />
 -&gt; create Organization<br />
 -&gt; create OWNER Membership<br />
--&gt; send verification token<br />
--&gt; verify email<br />
 -&gt; activate organization/member<br />
+-&gt; sign in<br />
 -&gt; dashboard</th>
 </tr>
 </thead>
@@ -426,7 +425,7 @@ Employees do not self-register into an existing organization. An Owner/Admin cre
 
 - Rate-limit login and password-reset attempts.
 
-- Use single-use, expiring tokens for email verification, invitations and password resets.
+- Use single-use, expiring tokens for invitations and password resets.
 
 - Revoke or rotate sessions after password changes and security-sensitive account changes.
 
@@ -1065,7 +1064,7 @@ Do not introduce Redis in version 1. Use normal HTTP/Next.js caching carefully o
 
 ## 19.3 API / E2E Tests
 
-- Owner registration and email verification.
+- Owner registration and immediate sign-in.
 
 - Admin invitation and employee activation.
 
@@ -1133,11 +1132,11 @@ Construction sites may eventually need limited offline entry. If introduced, off
 | **Collection**           | **Representative Fields / Notes**                                                                                        |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------|
 | organizations            | \_id, name, slug, status, createdBy, settings, createdAt, updatedAt                                                      |
-| users                    | \_id, name, email, emailVerifiedAt, passwordHash, status, createdAt, updatedAt                                           |
+| users                    | \_id, name, email, passwordHash, status, createdAt, updatedAt                                                            |
 | organization_memberships | \_id, organizationId, userId, role, status, invitedBy, joinedAt                                                          |
 | site_assignments         | \_id, organizationId, siteId, userId, accessRole/status                                                                  |
 | sessions                 | \_id, userId, sessionTokenHash, expiresAt, lastUsedAt, revokedAt, ip/userAgent                                           |
-| auth_tokens              | verification/invitation/reset token hash, purpose, expiry, usedAt                                                        |
+| auth_tokens              | invitation/reset token hash, purpose, expiry, usedAt                                                                     |
 | sites                    | \_id, organizationId, code, name, location, dates, status, manager refs, deletedAt                                       |
 | materials                | \_id, organizationId, code, name, category, unit, reorder settings, status/deletedAt                                     |
 | suppliers                | \_id, organizationId, code, contact/tax/payment info, status/deletedAt                                                   |

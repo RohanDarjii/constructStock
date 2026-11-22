@@ -1,10 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { Inter, Manrope } from "next/font/google";
+import { inter, manrope } from "@/shared/styles/fonts";
 import styles from "./landing-page.module.css";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
 
 type IconName = "sites" | "ledger" | "waste" | "transfer" | "check" | "box";
 
@@ -91,13 +88,13 @@ export default function LandingPage() {
     <header className={styles.header}><div className={styles.headerInner}>
       <Brand />
       <nav aria-label="Main navigation" className={styles.desktopNav}><a href="#product">Product</a><a href="#workflow">How it works</a><a href="#sites">Across sites</a><a href="#roles">For your team</a></nav>
-      <div className={styles.headerActions}><a className={styles.headerCta} href="#workflow">See how it works</a></div>
-      <details className={styles.mobileMenu}><summary aria-label="Open menu"><span /><span /><span /></summary><nav aria-label="Mobile navigation"><a href="#product">Product</a><a href="#workflow">How it works</a><a href="#sites">Across sites</a><a href="#roles">For your team</a></nav></details>
+      <div className={styles.headerActions}><Link className={styles.signIn} href="/login">Sign in</Link><Link className={styles.headerCta} href="/register-company">Create workspace</Link></div>
+      <details className={styles.mobileMenu}><summary aria-label="Open menu"><span /><span /><span /></summary><nav aria-label="Mobile navigation"><a href="#product">Product</a><a href="#workflow">How it works</a><a href="#sites">Across sites</a><a href="#roles">For your team</a><Link href="/login">Sign in</Link><Link href="/register-company">Create workspace</Link></nav></details>
     </div></header>
 
     <main>
       <section className={styles.hero}><div className={styles.container}>
-        <div className={styles.heroCopy}><span className={styles.eyebrowPill}><span /> CONSTRUCTION MATERIAL CONTROL</span><h1>Know what you have.<br /><em>Know where it goes.</em></h1><p>Bring purchasing, receiving, stock, consumption, wastage, and site transfers into one clear workspace for your construction team.</p><div className={styles.heroActions}><a className={styles.primaryButton} href="#product">Explore the product</a><a className={styles.secondaryButton} href="#workflow">See the workflow</a></div><span className={styles.heroNote}>Built for teams managing materials across multiple sites.</span></div>
+        <div className={styles.heroCopy}><span className={styles.eyebrowPill}><span /> CONSTRUCTION MATERIAL CONTROL</span><h1>Know what you have.<br /><em>Know where it goes.</em></h1><p>Bring purchasing, receiving, stock, consumption, wastage, and site transfers into one clear workspace for your construction team.</p><div className={styles.heroActions}><Link className={styles.primaryButton} href="/register-company">Create workspace</Link><a className={styles.secondaryButton} href="#product">Explore the product</a></div><span className={styles.heroNote}>Built for teams managing materials across multiple sites.</span></div>
         <DashboardPreview />
       </div></section>
 
@@ -119,9 +116,9 @@ export default function LandingPage() {
 
       <section className={styles.section} id="roles"><div className={styles.container}><SectionHeading eyebrow="MADE FOR THE WHOLE TEAM" title="The right view for each role." text="Company roles and site assignments keep everyday work connected to the people responsible for it." /><div className={styles.roleGrid}>{roles.map((role) => <article className={styles.roleCard} key={role.title}><span className={styles.roleLine} /><h3>{role.title}</h3><p>{role.text}</p></article>)}</div></div></section>
 
-      <section className={styles.finalCta}><div className={styles.container}><span className={styles.kicker}>CONSTRUCTSTOCK</span><h2>Bring clarity to every construction site.</h2><p>One place to understand your materials, movements, and waste across the company.</p><div className={styles.finalActions}><a className={styles.lightButton} href="#workflow">See how it works</a><a className={styles.darkOutlineButton} href="#roles">For your team</a></div></div></section>
+      <section className={styles.finalCta}><div className={styles.container}><span className={styles.kicker}>CONSTRUCTSTOCK</span><h2>Bring clarity to every construction site.</h2><p>One place to understand your materials, movements, and waste across the company.</p><div className={styles.finalActions}><Link className={styles.lightButton} href="/register-company">Create workspace</Link><Link className={styles.darkOutlineButton} href="/login">Sign in</Link></div></div></section>
     </main>
 
-    <footer className={styles.footer}><div className={styles.container}><div className={styles.footerMain}><div><Brand /><p>Construction material inventory and waste management, together in one workspace.</p></div><nav aria-label="Footer navigation"><a href="#product">Product</a><a href="#workflow">How it works</a><a href="#sites">Across sites</a><a href="#roles">For your team</a></nav></div><div className={styles.footerBottom}><span>© {new Date().getFullYear()} ConstructStock</span><span>Built for clearer material decisions.</span></div></div></footer>
+    <footer className={styles.footer}><div className={styles.container}><div className={styles.footerMain}><div><Brand /><p>Construction material inventory and waste management, together in one workspace.</p></div><nav aria-label="Footer navigation"><a href="#product">Product</a><a href="#workflow">How it works</a><a href="#sites">Across sites</a><Link href="/login">Sign in</Link></nav></div><div className={styles.footerBottom}><span>© {new Date().getFullYear()} ConstructStock</span><span>Built for clearer material decisions.</span></div></div></footer>
   </div>;
 }

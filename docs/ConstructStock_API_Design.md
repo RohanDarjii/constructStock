@@ -283,9 +283,9 @@ sequenceDiagram
 | Method | Endpoint | Auth | Purpose |
 |---|---|---:|---|
 | `POST` | `/auth/register-company` | No | Register a new company and first Owner. |
-| `POST` | `/auth/verify-email` | No | Verify first-owner or invited-user email token. |
 | `POST` | `/auth/login` | No | Create authenticated session. |
 | `POST` | `/auth/logout` | Yes | Revoke current session. |
+| `GET` | `/auth/csrf` | Yes | Return a session-bound token for browser mutations. |
 | `POST` | `/auth/logout-all` | Yes | Revoke all sessions for current user. |
 | `GET` | `/auth/me` | Yes | Return current user, membership, permissions, and assigned sites. |
 | `POST` | `/auth/forgot-password` | No | Initiate password reset. |
@@ -303,7 +303,8 @@ Request:
   "companyName": "ABC Construction Pvt Ltd",
   "ownerName": "Rohan Darji",
   "email": "owner@example.com",
-  "password": "<user-password>"
+  "password": "<user-password>",
+  "currencyCode": "INR"
 }
 ```
 
@@ -316,13 +317,13 @@ Response `201`:
     "organization": {
       "id": "...",
       "name": "ABC Construction Pvt Ltd",
-      "status": "ACTIVE"
+      "status": "ACTIVE",
+      "currencyCode": "INR"
     },
     "user": {
       "id": "...",
       "name": "Rohan Darji",
-      "email": "owner@example.com",
-      "emailVerified": false
+      "email": "owner@example.com"
     },
     "membership": {
       "role": "OWNER",
@@ -341,7 +342,8 @@ Rules:
 - organization slug is generated server-side;
 - owner membership is created atomically with the organization/user;
 - password is stored only as an Argon2id hash;
-- email verification token is single-use and time-limited.
+- the organization currency is selected at registration;
+- the Owner may sign in immediately after registration.
 
 ## 8.4 Login
 
@@ -409,6 +411,8 @@ X-CSRF-Token: <token>
 The API also validates request origin/host for browser-originated unsafe methods where appropriate.
 
 Session cookies must be `HttpOnly`, `Secure` in production, and use an appropriate `SameSite` policy.
+
+`GET /api/v1/auth/csrf` returns a session-bound token for `X-CSRF-Token` on authenticated unsafe requests. The response is private and not cached.
 
 ---
 
@@ -1500,9 +1504,9 @@ Field validation error example:
 UNAUTHENTICATED
 SESSION_EXPIRED
 INVALID_CREDENTIALS
-EMAIL_NOT_VERIFIED
 ACCOUNT_INACTIVE
 ORGANIZATION_INACTIVE
+AUTH_NOT_CONFIGURED
 CSRF_VALIDATION_FAILED
 RATE_LIMIT_EXCEEDED
 ```
@@ -1607,7 +1611,6 @@ Examples:
 /auth/register-company
 /auth/forgot-password
 /auth/reset-password
-/auth/verify-email
 ```
 
 General authenticated business endpoints may use broader per-user/per-organization limits.
@@ -1958,7 +1961,6 @@ Deprecations should be documented before removal.
 
 ```text
 POST   /api/v1/auth/register-company
-POST   /api/v1/auth/verify-email
 POST   /api/v1/auth/login
 POST   /api/v1/auth/logout
 POST   /api/v1/auth/logout-all

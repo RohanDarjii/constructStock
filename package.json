@@ -8,9 +8,11 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:integration": "vitest run"
   },
   "dependencies": {
+    "argon2": "^0.45.2",
     "mongoose": "^9.12.3",
     "next": "^16.4.6",
     "react": "^19.3.1",
@@ -24,8 +26,10 @@
     "@types/react-dom": "^19.3.0",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.4.6",
+    "mongodb-memory-server": "^11.4.0",
     "postcss": "^8.5.33",
     "tailwindcss": "^4.3.5",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^5.1.1"
   }
 }

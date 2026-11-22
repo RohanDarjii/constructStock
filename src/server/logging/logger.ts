@@ -13,6 +13,11 @@ export interface LogContext {
   statusCode?: number;
   durationMs?: number;
   errorCode?: string;
+  exceptionType?: string;
+  exceptionCode?: string;
+  causeType?: string;
+  causeCode?: string;
+  stackFrames?: string[];
 }
 
 const priority: Record<LogLevel, number> = { debug: 0, info: 1, warn: 2, error: 3 };

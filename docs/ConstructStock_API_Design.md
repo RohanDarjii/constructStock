@@ -634,6 +634,7 @@ Rules:
 {
   "code": "SITE-001",
   "name": "Skyline Residency",
+  "description": "Residential construction project",
   "location": {
     "address": "...",
     "city": "Amravati",
@@ -646,6 +647,8 @@ Rules:
   "budget": "25000000.00"
 }
 ```
+
+Site codes are unique within the active organization. The optional budget uses the organization's currency and two decimal places. List results are scoped to the active organization and, for site-scoped roles, active assignments. Listing supports `status`, `limit`, and `cursor` query parameters; archived sites are returned with `status=ARCHIVED`. Mutations require the session-bound CSRF token. Archive and restore preserve the site's previous status and write an audit record.
 
 Archival is rejected while unresolved inventory/open workflows violate archive rules.
 

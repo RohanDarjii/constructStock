@@ -47,18 +47,6 @@ sessionSchema.index({ sessionTokenHash: 1 }, { unique: true });
 sessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 sessionSchema.index({ userId: 1, revokedAt: 1 });
 
-const auditSchema = new Schema({
-  organizationId: { type: Schema.Types.ObjectId, required: true, ref: "Organization" },
-  actorUserId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
-  action: { type: String, required: true },
-  entityType: { type: String, required: true },
-  entityId: { type: String, required: true },
-  metadata: { type: Schema.Types.Mixed, default: null },
-  ipAddress: { type: String, default: null },
-  createdAt: { type: Date, default: Date.now },
-}, { collection: "audit_logs" });
-auditSchema.index({ organizationId: 1, createdAt: -1 });
-
 const rateLimitSchema = new Schema({
   key: { type: String, required: true },
   count: { type: Number, required: true },
@@ -71,12 +59,10 @@ type UserDoc = InferSchemaType<typeof userSchema>;
 type OrganizationDoc = InferSchemaType<typeof organizationSchema>;
 type MembershipDoc = InferSchemaType<typeof membershipSchema>;
 type SessionDoc = InferSchemaType<typeof sessionSchema>;
-type AuditDoc = InferSchemaType<typeof auditSchema>;
 type RateLimitDoc = InferSchemaType<typeof rateLimitSchema>;
 
 export const User = (mongoose.models.User as Model<UserDoc> | undefined) ?? mongoose.model<UserDoc>("User", userSchema);
 export const Organization = (mongoose.models.Organization as Model<OrganizationDoc> | undefined) ?? mongoose.model<OrganizationDoc>("Organization", organizationSchema);
 export const Membership = (mongoose.models.Membership as Model<MembershipDoc> | undefined) ?? mongoose.model<MembershipDoc>("Membership", membershipSchema);
 export const AuthSession = (mongoose.models.AuthSession as Model<SessionDoc> | undefined) ?? mongoose.model<SessionDoc>("AuthSession", sessionSchema);
-export const AuditLog = (mongoose.models.AuditLog as Model<AuditDoc> | undefined) ?? mongoose.model<AuditDoc>("AuditLog", auditSchema);
 export const AuthRateLimit = (mongoose.models.AuthRateLimit as Model<RateLimitDoc> | undefined) ?? mongoose.model<RateLimitDoc>("AuthRateLimit", rateLimitSchema);

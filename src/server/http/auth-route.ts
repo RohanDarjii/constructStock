@@ -33,13 +33,13 @@ function errorDiagnostics(error: unknown): Pick<LogContext, "exceptionType" | "e
   };
 }
 
-export async function authRoute(route: string, action: (requestId: string) => Promise<Response>): Promise<Response> {
+async function runRoute(route: string, action: (requestId: string) => Promise<Response>, event: string): Promise<Response> {
   const requestId = createRequestId();
   try {
     return await action(requestId);
   } catch (error) {
     const code = error instanceof AppError ? error.code : "INTERNAL_ERROR";
-    log(error instanceof AppError && error.status < 500 ? "warn" : "error", "auth_request_failed", {
+    log(error instanceof AppError && error.status < 500 ? "warn" : "error", event, {
       requestId,
       route,
       errorCode: code,
@@ -47,6 +47,14 @@ export async function authRoute(route: string, action: (requestId: string) => Pr
     });
     return apiError(error, requestId);
   }
+}
+
+export function authRoute(route: string, action: (requestId: string) => Promise<Response>): Promise<Response> {
+  return runRoute(route, action, "auth_request_failed");
+}
+
+export function apiRoute(route: string, action: (requestId: string) => Promise<Response>): Promise<Response> {
+  return runRoute(route, action, "api_request_failed");
 }
 
 export async function parseBody<T extends z.ZodType>(request: Request, schema: T): Promise<z.infer<T>> {

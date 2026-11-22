@@ -162,8 +162,11 @@ flowchart LR
 | `organizationId` | `ObjectId` | Yes | Tenant reference. |
 | `code` | `string` | Yes | Tenant-unique site code. |
 | `name` | `string` | Yes | Project/site name. |
+| `description` | `string | null` | No | Optional project description. |
 | `location` | `object` | Yes | Embedded address/city/state/country. |
+| `contact` | `object | null` | No | Optional name/phone/email for the site contact. |
 | `status` | `enum` | Yes | PLANNED, ACTIVE, ON_HOLD, COMPLETED, CANCELLED, ARCHIVED. |
+| `statusBeforeArchive` | `enum | null` | No | Status restored when the site is unarchived. |
 | `startDate` | `date | null` | No | Planned/actual start. |
 | `expectedCompletionDate` | `date | null` | No | Expected completion. |
 | `budget` | `Decimal128 | null` | No | Optional project budget. |

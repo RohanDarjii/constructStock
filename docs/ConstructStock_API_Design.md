@@ -937,13 +937,15 @@ Request:
 {
   "siteId": "...",
   "materialId": "...",
-  "batchId": "...",
   "direction": "IN",
   "quantity": "5",
+  "unitCost": "250.00",
   "reasonCode": "PHYSICAL_COUNT_CORRECTION",
   "remarks": "Physical count found five additional bags"
 }
 ```
+
+Incoming adjustments require a two-decimal `unitCost` in the organization's currency and create a new costed batch. Do not provide `batchId` for `IN` adjustments. For `OUT` adjustments, omit `unitCost`; the removed quantity uses the existing batch cost. An optional `batchId` targets one existing batch for a specific correction; otherwise stock is removed from available batches in FIFO order. `OPENING_STOCK` is valid only for `IN` adjustments.
 
 Rules:
 

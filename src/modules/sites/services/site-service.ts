@@ -6,6 +6,7 @@ import { requirePermission, requireSiteAccess, hasOrganizationWideSiteAccess } f
 import { connectToDatabase } from "@/server/db/connect";
 import { AppError } from "@/shared/errors/app-error";
 import { isDuplicateKey } from "@/modules/auth/services/security";
+import { hasSiteStock } from "@/modules/inventory/services/site-archive-guard";
 import type { CreateSiteInput, ListSitesQuery, UpdateSiteInput } from "../schemas/site";
 import type { SiteView, SiteStatus } from "../types";
 import { createSiteDocument, ensureSiteReady, findSiteDocument, listSiteDocuments, saveSiteDocument, type SiteDocument } from "../repositories/site-repository";
@@ -155,6 +156,9 @@ async function changeArchive(identity: CurrentIdentity, siteId: string, restore:
         existing.deletedBy = null;
       } else {
         if (existing.deletedAt) throw new AppError("SITE_ARCHIVED", "This site is already archived.", 409);
+        if (await hasSiteStock(organizationId, existing._id, session)) {
+          throw new AppError("SITE_HAS_ACTIVE_STOCK", "Remove the site's stock before archiving it.", 409);
+        }
         existing.statusBeforeArchive = existing.status;
         existing.status = "ARCHIVED";
         existing.deletedAt = new Date();

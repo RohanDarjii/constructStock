@@ -61,6 +61,7 @@ export async function listSites(identity: CurrentIdentity, query: ListSitesQuery
     organizationId: toObjectId(identity.context.organizationId),
     assignedSiteIds,
     status: query.status,
+    q: query.q,
     cursor: query.cursor ? toObjectId(query.cursor) : undefined,
     limit: query.limit,
   });

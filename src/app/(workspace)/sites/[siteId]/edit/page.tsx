@@ -15,5 +15,5 @@ export default async function EditSitePage({ params }: { params: Promise<{ siteI
     throw error;
   }
   if (site.status === "ARCHIVED") redirect(`/sites/${site.id}`);
-  return <div className="mx-auto max-w-4xl"><Link className="text-sm text-emerald-800 underline" href={`/sites/${site.id}`}>← Back to site</Link><h1 className="mt-4 text-3xl font-semibold">Edit {site.name}</h1><p className="mt-2 mb-7 text-slate-600">Update site details. Changes will be recorded in the audit trail.</p><SiteForm site={site} currencyCode={identity.organization.currencyCode} /></div>;
+  return <div className="mx-auto max-w-6xl space-y-6"><div className="text-xs text-[#58605c]"><Link className="hover:text-[#144227]" href="/sites">Sites</Link> / <Link className="hover:text-[#144227]" href={`/sites/${site.id}`}>{site.code}</Link> / Edit</div><header><p className="cs-eyebrow">Site registry specification</p><h1 className="mt-2 text-3xl font-extrabold">Edit {site.name}</h1><p className="cs-muted mt-1 text-sm">Update the project scope, schedule, location, and primary contact.</p></header><SiteForm site={site} currencyCode={identity.organization.currencyCode} /></div>;
 }

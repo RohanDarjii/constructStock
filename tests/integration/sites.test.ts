@@ -49,6 +49,9 @@ describe("tenant-scoped site management", () => {
     expect(ownSites.sites.map((site) => site.id)).toContain(firstSite.id);
     expect(ownSites.sites.map((site) => site.id)).not.toContain(secondSite.id);
     const another = await createSite(first.identity, createSiteSchema.parse({ ...baseSite, code: "SITE-002", name: "South Yard" }));
+    expect((await listSites(first.identity, { limit: 25, q: "North" })).sites.map((site) => site.id)).toEqual([firstSite.id]);
+    expect((await listSites(first.identity, { limit: 25, q: "N.rth" })).sites).toEqual([]);
+    expect((await listSites(first.identity, { limit: 25, q: "Berlin" })).sites).toHaveLength(2);
     const firstPage = await listSites(first.identity, { limit: 1 });
     expect(firstPage.pagination.hasMore).toBe(true);
     const secondPage = await listSites(first.identity, { limit: 1, cursor: firstPage.pagination.nextCursor! });
@@ -67,6 +70,7 @@ describe("tenant-scoped site management", () => {
     const signedIn = await login({ email: staff.email, password: "strong-password-456" }, null, null);
     expect(signedIn.identity.siteAssignments).toEqual([assignedSite.id]);
     expect((await listSites(signedIn.identity, { limit: 25 })).sites.map((site) => site.id)).toEqual([assignedSite.id]);
+    expect((await listSites(signedIn.identity, { limit: 25, q: "Berlin" })).sites.map((site) => site.id)).toEqual([assignedSite.id]);
     expect((await getSite(signedIn.identity, assignedSite.id)).id).toBe(assignedSite.id);
     await expect(getSite(signedIn.identity, otherSite.id)).rejects.toMatchObject({ code: "SITE_NOT_FOUND" });
     await expect(createSite(signedIn.identity, createSiteSchema.parse({ ...baseSite, code: "SITE-003" }))).rejects.toMatchObject({ code: "FORBIDDEN" });

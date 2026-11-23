@@ -26,6 +26,7 @@ export async function listSiteDocuments(input: {
   organizationId: mongoose.Types.ObjectId;
   assignedSiteIds: mongoose.Types.ObjectId[] | null;
   status?: SiteStatus;
+  q?: string;
   cursor?: mongoose.Types.ObjectId;
   limit: number;
 }) {
@@ -34,12 +35,15 @@ export async function listSiteDocuments(input: {
     _id?: { $in?: mongoose.Types.ObjectId[]; $lt?: mongoose.Types.ObjectId };
     status?: SiteStatus;
     deletedAt?: null | { $ne: null };
+    $or?: Array<Record<string, unknown>>;
   } = { organizationId: input.organizationId };
   if (input.assignedSiteIds) filter._id = { $in: input.assignedSiteIds };
   if (input.cursor) filter._id = input.assignedSiteIds
     ? { $in: input.assignedSiteIds, $lt: input.cursor }
     : { $lt: input.cursor };
   if (input.status) filter.status = input.status;
+  const escaped = input.q?.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  if (escaped) filter.$or = [{ code: { $regex: escaped, $options: "i" } }, { name: { $regex: escaped, $options: "i" } }, { "location.city": { $regex: escaped, $options: "i" } }];
   filter.deletedAt = input.status === "ARCHIVED" ? { $ne: null } : null;
   return Site.find(filter).sort({ _id: -1 }).limit(input.limit + 1);
 }

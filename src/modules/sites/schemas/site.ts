@@ -46,6 +46,7 @@ export const updateSiteSchema = editableSiteFields.partial().strict().refine((va
 
 export const listSitesQuerySchema = z.object({
   status: z.enum(siteStatuses).optional(),
+  q: z.string().trim().max(80).optional(),
   cursor: z.string().regex(/^[a-fA-F0-9]{24}$/).optional(),
   limit: z.coerce.number().int().min(1).max(100).default(25),
 }).strict();

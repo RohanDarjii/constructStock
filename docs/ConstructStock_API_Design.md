@@ -648,7 +648,7 @@ Rules:
 }
 ```
 
-Site codes are unique within the active organization. The optional budget uses the organization's currency and two decimal places. List results are scoped to the active organization and, for site-scoped roles, active assignments. Listing supports `status`, `limit`, and `cursor` query parameters; archived sites are returned with `status=ARCHIVED`. Mutations require the session-bound CSRF token. Archive and restore preserve the site's previous status and write an audit record.
+Site codes are unique within the active organization. The optional budget uses the organization's currency and two decimal places. List results are scoped to the active organization and, for site-scoped roles, active assignments. Listing supports `status`, `q`, `limit`, and `cursor` query parameters; `q` matches site code, name, or city, and archived sites are returned with `status=ARCHIVED`. Mutations require the session-bound CSRF token. Archive and restore preserve the site's previous status and write an audit record.
 
 Archival is rejected while unresolved inventory/open workflows violate archive rules.
 
@@ -706,7 +706,10 @@ Create request:
 | `GET` | `/suppliers/:supplierId` | authenticated member | Supplier detail. |
 | `PATCH` | `/suppliers/:supplierId` | `supplier.manage` | Update supplier. |
 | `POST` | `/suppliers/:supplierId/archive` | `supplier.manage` | Archive supplier. |
+| `POST` | `/suppliers/:supplierId/restore` | `supplier.manage` | Restore archived supplier. |
 | `GET` | `/suppliers/:supplierId/purchase-history` | `reports.view` | Purchase history summary. |
+
+Supplier archive is blocked while an open purchase order references the supplier. Purchase history is derived from purchase orders and will be available with the purchasing module.
 
 ---
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { WorkspaceIcon } from "@/components/workspace/workspace-icon";
 import type { MaterialView } from "../types";
 
 export function MaterialActions({ material }: { material: MaterialView }) {
@@ -11,6 +12,7 @@ export function MaterialActions({ material }: { material: MaterialView }) {
   const archived = material.status === "ARCHIVED";
 
   async function changeArchive() {
+    if (!archived && !window.confirm(`Archive ${material.name}? Existing inventory history will remain available.`)) return;
     setPending(true);
     setError("");
     try {
@@ -28,5 +30,5 @@ export function MaterialActions({ material }: { material: MaterialView }) {
     } finally { setPending(false); }
   }
 
-  return <div className="text-right"><button className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium disabled:opacity-50" disabled={pending} onClick={changeArchive} type="button">{pending ? "Saving…" : archived ? "Restore material" : "Archive material"}</button>{error && <p aria-live="polite" className="mt-2 text-sm text-red-700">{error}</p>}</div>;
+  return <div className="text-right"><button className="cs-secondary disabled:opacity-50" disabled={pending} onClick={changeArchive} type="button"><WorkspaceIcon className="h-4 w-4" name={archived ? "check" : "archive"} />{pending ? "Saving…" : archived ? "Restore material" : "Archive material"}</button>{error && <p aria-live="polite" className="mt-2 text-sm text-red-700">{error}</p>}</div>;
 }

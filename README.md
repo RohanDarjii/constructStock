@@ -4,7 +4,7 @@ ConstructStock is a multi-company construction material inventory and waste mana
 
 ## Current status
 
-The app includes a landing page, company/Owner registration, login, logout, current identity, and a protected dashboard. Site management supports creation, listing, detail, editing, archive, and restore. The material catalogue supports categories and materials with unit-aware quantity validation, search, and archival. Both modules use tenant scoping, role checks, and audit records. Inventory workflows are not yet implemented. Password reset, invitations, organization switching, and the site assignment management UI are later milestones.
+The app includes a landing page, company/Owner registration, login, logout, current identity, and a protected dashboard. Site management supports creation, listing, detail, editing, archive, and restore. The material catalogue supports categories and materials with unit-aware quantity validation, search, and archival. Supplier management supports contact and commercial profiles, search, archive, and restore. These modules use tenant scoping, role checks, and audit records. Purchase history, inventory workflows, password reset, invitations, organization switching, and the site assignment management UI are later milestones.
 
 ## Local setup
 
@@ -20,7 +20,7 @@ Registration uses a MongoDB transaction. The database must support transactions;
 - `npm run typecheck` — check TypeScript.
 - `npm run lint` — run ESLint.
 - `npm run build` — verify the production build.
-- `npm run test:integration` — run isolated auth, site, and material integration tests against a temporary MongoDB replica set; the first run may download a MongoDB test binary.
+- `npm run test:integration` — run isolated auth, site, material, and supplier integration tests against a temporary MongoDB replica set; the first run may download a MongoDB test binary.
 
 Never commit real secrets. Use separate resources for local, preview, test, and production environments.
 

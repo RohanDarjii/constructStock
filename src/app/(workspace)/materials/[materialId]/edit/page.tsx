@@ -17,5 +17,5 @@ export default async function EditMaterialPage({ params }: { params: Promise<{ m
   }
   if (material.status === "ARCHIVED") redirect(`/materials/${material.id}`);
   const categories = await listCategories(identity, { includeArchived: "false" });
-  return <div className="mx-auto max-w-4xl"><Link className="text-sm text-emerald-800 underline" href={`/materials/${material.id}`}>← Back to material</Link><h1 className="mt-4 text-3xl font-semibold">Edit {material.name}</h1><p className="mt-2 mb-7 text-slate-600">Update catalogue details and stock thresholds.</p><MaterialForm categories={categories} material={material} /></div>;
+  return <div className="mx-auto max-w-6xl space-y-6"><div className="text-xs text-[#58605c]"><Link href="/materials">Materials</Link> / <Link href={`/materials/${material.id}`}>{material.code}</Link> / Edit</div><header><p className="cs-eyebrow">Catalogue specification</p><h1 className="mt-2 text-3xl font-extrabold">Edit material — {material.code}</h1><p className="cs-muted mt-1 text-sm">Update classification, description, and reorder parameters.</p></header><MaterialForm categories={categories} material={material} /></div>;
 }

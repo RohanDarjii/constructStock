@@ -218,6 +218,7 @@ flowchart LR
 | `gstNumber` | `string | null` | No | Tax identifier where applicable. |
 | `paymentTerms` | `string | null` | No | Commercial terms. |
 | `status` | `enum` | Yes | ACTIVE, ARCHIVED. |
+| `createdBy` | `ObjectId` | Yes | Creator. |
 | `createdAt / updatedAt` | `date` | Yes | System timestamps. |
 | `deletedAt / deletedBy` | `date/ObjectId | null` | No | Soft-delete metadata. |
 

@@ -5,7 +5,7 @@ import styles from "@/components/auth/auth-layout.module.css";
 const steps = [
   { title: "Create a company", text: "Set up the first Owner and choose an organization currency." },
   { title: "Sign in", text: "Access your company workspace as soon as it is created." },
-  { title: "Manage materials", text: "Add sites and teams as those workspace features arrive." },
+  { title: "Manage operations", text: "Invite your team, assign sites, and organize materials." },
 ];
 
 export default function AuthLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -17,6 +17,7 @@ const organizationSchema = new Schema({
   currencyCode: { type: String, required: true },
   status: { type: String, enum: ["ACTIVE", "SUSPENDED", "DISABLED"], default: "ACTIVE" },
   createdBy: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+  accessVersion: { type: Number, default: 0 },
   deletedAt: { type: Date, default: null },
   deletedBy: { type: Schema.Types.ObjectId, default: null, ref: "User" },
 }, { timestamps: true, collection: "organizations" });

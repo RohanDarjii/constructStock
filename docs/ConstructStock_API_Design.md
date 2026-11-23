@@ -663,6 +663,8 @@ Archival is rejected while unresolved inventory/open workflows violate archive r
 | `PATCH` | `/material-categories/:categoryId` | `material.manage` | Update category. |
 | `POST` | `/material-categories/:categoryId/archive` | `material.manage` | Archive category. |
 
+The category list may include archived records with `includeArchived=true`. Category names are unique within an organization. A category with any referenced materials cannot be archived; move those materials to another category first.
+
 ---
 
 # 17. Material API
@@ -675,6 +677,10 @@ Archival is rejected while unresolved inventory/open workflows violate archive r
 | `PATCH` | `/materials/:materialId` | `material.manage` | Update allowed master fields. |
 | `POST` | `/materials/:materialId/archive` | `material.manage` | Archive material if no active stock/workflows prevent it. |
 | `POST` | `/materials/:materialId/restore` | `material.manage` | Restore material. |
+
+Material listing supports `status`, `categoryId`, `q`, `limit`, and `cursor`. Search matches code or name. Material codes are unique within an organization. Quantity strings use whole numbers for `BAG` and `PIECE`; other units allow up to three decimal places. The default reorder quantity, when set, must be positive. Material units cannot change after the first inventory transaction.
+
+Archiving a material returns `409 MATERIAL_HAS_ACTIVE_STOCK` while any site balance or batch holds on-hand or reserved quantity. An open purchase order or transfer also blocks archival with `409 MATERIAL_HAS_OPEN_WORKFLOW`. These checks and the archive state change run in one transaction. Future inventory and purchasing workflows that establish a new material reference must serialize on the material document in their own transactions to prevent a concurrent archive.
 
 Create request:
 

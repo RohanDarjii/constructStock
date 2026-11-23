@@ -180,10 +180,12 @@ flowchart LR
 |---|---|---:|---|
 | `organizationId` | `ObjectId` | Yes | Tenant reference. |
 | `name` | `string` | Yes | Category name. |
+| `nameKey` | `string` | Yes | Tenant-unique normalized category name. |
 | `description` | `string | null` | No | Optional description. |
 | `status` | `enum` | Yes | ACTIVE, ARCHIVED. |
 | `createdAt / updatedAt` | `date` | Yes | System timestamps. |
 | `deletedAt` | `date | null` | No | Soft-delete marker. |
+| `catalogVersion` | `number` | Yes | Coordinates category archival with material creation/restoration. |
 
 ### 5.10 `materials`
 
@@ -192,11 +194,14 @@ flowchart LR
 | `organizationId` | `ObjectId` | Yes | Tenant reference. |
 | `code` | `string` | Yes | Tenant-unique material code. |
 | `name` | `string` | Yes | Material name. |
+| `description` | `string | null` | No | Optional description. |
 | `categoryId` | `ObjectId` | Yes | Category reference. |
 | `unit` | `enum` | Yes | BAG, KG, TON, PIECE, LITRE, SQFT, CUBIC_METER, METER. |
 | `minimumStockLevel` | `Decimal128` | Yes | Default low-stock threshold. |
 | `defaultReorderQuantity` | `Decimal128 | null` | No | Suggested standard reorder amount. |
 | `status` | `enum` | Yes | ACTIVE, ARCHIVED. |
+| `unitLockedAt` | `date | null` | No | Set in the first inventory transaction to prevent later unit changes. |
+| `createdBy` | `ObjectId` | Yes | Creator. |
 | `createdAt / updatedAt` | `date` | Yes | System timestamps. |
 | `deletedAt / deletedBy` | `date/ObjectId | null` | No | Soft-delete metadata. |
 

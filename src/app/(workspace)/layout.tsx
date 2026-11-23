@@ -11,7 +11,7 @@ export default async function WorkspaceLayout({ children }: Readonly<{ children:
     <>
       <header className="flex items-center justify-between gap-4 border-b border-slate-200 bg-white px-6 py-4">
         <div><Link className="font-semibold text-emerald-900" href="/">ConstructStock</Link><p className="text-xs text-slate-500">{identity.organization.name} · {identity.membership.role}</p></div>
-        <nav aria-label="Workspace navigation" className="flex gap-4 text-sm font-medium"><Link className="text-slate-700 hover:text-emerald-900" href="/dashboard">Dashboard</Link><Link className="text-slate-700 hover:text-emerald-900" href="/sites">Sites</Link></nav>
+        <nav aria-label="Workspace navigation" className="flex gap-4 text-sm font-medium"><Link className="text-slate-700 hover:text-emerald-900" href="/dashboard">Dashboard</Link><Link className="text-slate-700 hover:text-emerald-900" href="/sites">Sites</Link><Link className="text-slate-700 hover:text-emerald-900" href="/materials">Materials</Link></nav>
         <LogoutButton />
       </header>
       <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>

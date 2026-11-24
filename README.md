@@ -4,7 +4,7 @@ ConstructStock is a multi-company construction material inventory and waste mana
 
 ## Current status
 
-The app includes a landing page, company/Owner registration, login, server-side sessions, and a protected dashboard. Sites, materials, suppliers, and team members have tenant-scoped management flows. Inventory provides site balances, costed batches, movement history, and audited stock adjustments. Purchase Orders support draft creation/editing, server-calculated commercial totals, submission, approval/rejection, ordering, cancellation, site access, and audit history at `/purchase-orders`. Goods receiving at `/goods-receipts` records partial or final deliveries against ordered POs, creates costed inventory batches and ledger entries, and supports audited reversal of untouched receipt stock. Consumption, wastage, transfers, password reset, and organization switching are later milestones.
+The app includes a landing page, company/Owner registration, login, server-side sessions, and a protected dashboard. Sites, materials, suppliers, and team members have tenant-scoped management flows. Inventory provides site balances, costed batches, movement history, and audited stock adjustments. Purchase Orders support draft creation/editing, server-calculated commercial totals, submission, approval/rejection, ordering, cancellation, site access, and audit history at `/purchase-orders`. Goods receiving at `/goods-receipts` records partial or final deliveries against ordered POs, creates costed inventory batches and ledger entries, and supports audited reversal of untouched receipt stock. Material consumption at `/consumptions` issues available stock by FIFO, records recipients and activities, and supports governed reversal. Wastage, transfers, password reset, and organization switching are later milestones.
 
 ## Local setup
 
@@ -24,7 +24,7 @@ An Owner can record opening stock or a physical-count correction under `/invento
 - `npm run typecheck` — check TypeScript.
 - `npm run lint` — run ESLint.
 - `npm run build` — verify the production build.
-- `npm run test:integration` — run isolated auth, team, site, material, supplier, inventory, and purchase order, and goods receiving integration tests against a temporary MongoDB replica set; the first run may download a MongoDB test binary.
+- `npm run test:integration` — run isolated auth, team, site, material, supplier, inventory, purchase order, goods receiving, and consumption integration tests against a temporary MongoDB replica set; the first run may download a MongoDB test binary.
 
 Never commit real secrets. Use separate resources for local, preview, test, and production environments.
 
@@ -38,4 +38,4 @@ Never commit real secrets. Use separate resources for local, preview, test, and 
 - `tests/`: integration, API, and browser tests as workflows are built.
 - `scripts/`: controlled migrations, index changes, and reconciliation operations.
 
-Server-rendered pages and API handlers must use the same authenticated service layer. Domain services own business rules; repositories own tenant-scoped data access. Inventory records are changed only inside audited, idempotent transactions. Goods receiving coordinates PO, receipt, batch, balance, and ledger updates in one MongoDB transaction.
+Server-rendered pages and API handlers must use the same authenticated service layer. Domain services own business rules; repositories own tenant-scoped data access. Inventory records are changed only inside audited, idempotent transactions. Goods receiving coordinates PO, receipt, batch, balance, and ledger updates in one MongoDB transaction. Consumption coordinates the issue, FIFO batch depletion, balance, ledger, audit, and idempotency record in one MongoDB transaction.

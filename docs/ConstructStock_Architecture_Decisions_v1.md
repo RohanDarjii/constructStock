@@ -37,7 +37,7 @@ These decisions were approved after the PRD, System Design Architecture, Databas
 - Each organization has one currency. Store its ISO 4217 currency code on the organization.
 - Money supports two decimal places. `BAG` and `PIECE` quantities are whole numbers; measurement units support up to three decimal places. Tax rates support up to four decimal places. Monetary totals are rounded to two decimal places.
 - A material's unit is immutable after its first inventory transaction.
-- The precise rounding mode and rules for changing an organization's currency after financial activity should be documented with the purchasing implementation. Until then, a currency change after the first purchase order is treated as unsupported.
+- Purchase order prices are tax-exclusive. For each line, round `quantity × unitPrice` to two decimals using decimal.js `ROUND_HALF_UP`, then round that line's `subtotal × taxRate / 100` to two decimals using the same mode. Sum the rounded line subtotals and tax amounts for the PO totals. The organization currency is snapshotted on each PO; changing it after the first PO remains unsupported.
 
 ## 6. Critical mutations and external effects
 

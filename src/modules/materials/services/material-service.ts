@@ -111,6 +111,9 @@ export async function updateMaterial(identity: CurrentIdentity, materialId: stri
       if (material.status === "ARCHIVED") throw new AppError("MATERIAL_ARCHIVED", "Restore this material before editing it.", 409);
       const unit = (input.unit ?? material.unit) as MaterialUnit;
       if (input.unit && input.unit !== material.unit && material.unitLockedAt) throw new AppError("MATERIAL_UNIT_LOCKED", "The unit cannot change after the first inventory transaction.", 409);
+      if (input.unit && input.unit !== material.unit && await hasOpenPurchaseOrderForMaterial(organizationId, material._id, session)) {
+        throw new AppError("MATERIAL_HAS_OPEN_WORKFLOW", "The unit cannot change while an open purchase order references this material.", 409);
+      }
       const minimum = input.minimumStockLevel ?? material.minimumStockLevel.toString();
       const reorder = input.defaultReorderQuantity === undefined ? material.defaultReorderQuantity?.toString() ?? null : input.defaultReorderQuantity;
       checkQuantity(minimum, unit, false, "minimumStockLevel");

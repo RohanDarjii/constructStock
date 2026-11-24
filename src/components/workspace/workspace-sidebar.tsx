@@ -11,10 +11,11 @@ const available: { href: string; label: string; icon: WorkspaceIconName }[] = [
   { href: "/materials", label: "Materials", icon: "materials" },
   { href: "/suppliers", label: "Suppliers", icon: "suppliers" },
   { href: "/inventory", label: "Inventory", icon: "inventory" },
+  { href: "/purchase-orders", label: "Purchase Orders", icon: "orders" },
   { href: "/team", label: "Team", icon: "users" },
 ];
 const upcoming: { label: string; icon: WorkspaceIconName }[] = [
-  { label: "Purchase Orders", icon: "orders" }, { label: "Receiving", icon: "receiving" },
+  { label: "Receiving", icon: "receiving" },
   { label: "Consumption", icon: "consumption" },
   { label: "Wastage", icon: "wastage" }, { label: "Transfers", icon: "transfers" },
   { label: "Reports", icon: "reports" }, { label: "Settings", icon: "settings" },

@@ -4,7 +4,7 @@ ConstructStock is a multi-company construction material inventory and waste mana
 
 ## Current status
 
-The app includes a landing page, company/Owner registration, login, logout, current identity, and a protected dashboard. Site management supports creation, listing, detail, editing, archive, and restore. The material catalogue supports categories and materials with unit-aware quantity validation, search, and archival. Supplier management supports contact and commercial profiles, search, archive, and restore. Team management supports single-use invitations, role changes, site assignments, and member deactivation. Inventory now provides tenant-scoped balances, costed batches, movement history, and audited opening-stock and physical-count adjustments at `/inventory`. Adjustments use FIFO for stock removal, MongoDB transactions, and idempotency keys. Purchase receiving, consumption, wastage, transfers, password reset, and organization switching are later milestones.
+The app includes a landing page, company/Owner registration, login, server-side sessions, and a protected dashboard. Sites, materials, suppliers, and team members have tenant-scoped management flows. Inventory provides site balances, costed batches, movement history, and audited stock adjustments. Purchase Orders now support draft creation/editing, server-calculated commercial totals, submission, approval/rejection, ordering, cancellation, site access, and audit history at `/purchase-orders`. Goods receiving, consumption, wastage, transfers, password reset, and organization switching are later milestones.
 
 ## Local setup
 
@@ -16,7 +16,7 @@ Registration uses a MongoDB transaction. The database must support transactions;
 
 Owners and Admins can manage staff at `/team`. Invitation links are shown once when created or reissued; copy and share them securely. Email delivery is not configured yet. Inviting an email that already has a ConstructStock account requires the future multi-organization switcher.
 
-An Owner can record opening stock or a physical-count correction under `/inventory/adjustments/new`. Incoming adjustments require a unit cost in the organization's currency. Stock is never allowed below zero, and reserved stock cannot be removed. Monetary inventory values use two decimal places; the rounding mode is provisionally half-up until the purchasing policy is finalized.
+An Owner can record opening stock or a physical-count correction under `/inventory/adjustments/new`. Incoming adjustments require a unit cost in the organization's currency. Stock is never allowed below zero, and reserved stock cannot be removed. Purchase orders do not change inventory; goods receipts will do that in the next milestone. PO prices are tax-exclusive, with line subtotals and tax rounded half-up to two decimals before totals are summed.
 
 ## Local commands
 
@@ -24,7 +24,7 @@ An Owner can record opening stock or a physical-count correction under `/invento
 - `npm run typecheck` — check TypeScript.
 - `npm run lint` — run ESLint.
 - `npm run build` — verify the production build.
-- `npm run test:integration` — run isolated auth, team, site, material, supplier, and inventory integration tests against a temporary MongoDB replica set; the first run may download a MongoDB test binary.
+- `npm run test:integration` — run isolated auth, team, site, material, supplier, inventory, and purchase order integration tests against a temporary MongoDB replica set; the first run may download a MongoDB test binary.
 
 Never commit real secrets. Use separate resources for local, preview, test, and production environments.
 

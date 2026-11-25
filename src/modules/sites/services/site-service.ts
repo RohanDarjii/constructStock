@@ -158,7 +158,7 @@ async function changeArchive(identity: CurrentIdentity, siteId: string, restore:
       } else {
         if (existing.deletedAt) throw new AppError("SITE_ARCHIVED", "This site is already archived.", 409);
         if (await hasSiteStock(organizationId, existing._id, session)) {
-          throw new AppError("SITE_HAS_ACTIVE_STOCK", "Remove the site's stock before archiving it.", 409);
+          throw new AppError("SITE_HAS_ACTIVE_STOCK", "Finish open transfers and remove stock before archiving this site.", 409);
         }
         if (await hasOpenPurchaseOrderForSite(organizationId, existing._id, session)) {
           throw new AppError("SITE_HAS_OPEN_ORDERS", "This site has an open purchase order.", 409);

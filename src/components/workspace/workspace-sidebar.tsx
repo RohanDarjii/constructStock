@@ -15,10 +15,10 @@ const available: { href: string; label: string; icon: WorkspaceIconName }[] = [
   { href: "/goods-receipts", label: "Receiving", icon: "receiving" },
   { href: "/consumptions", label: "Consumption", icon: "consumption" },
   { href: "/wastages", label: "Wastage", icon: "wastage" },
+  { href: "/transfers", label: "Transfers", icon: "transfers" },
   { href: "/team", label: "Team", icon: "users" },
 ];
 const upcoming: { label: string; icon: WorkspaceIconName }[] = [
-  { label: "Transfers", icon: "transfers" },
   { label: "Reports", icon: "reports" }, { label: "Settings", icon: "settings" },
 ];
 

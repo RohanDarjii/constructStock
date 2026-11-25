@@ -20,5 +20,11 @@ export async function hasSiteStock(
     ...scope,
     $or: [{ remainingQuantity: { $gt: zero } }, { reservedQuantity: { $gt: zero } }],
   }, { projection: { _id: 1 }, session });
-  return Boolean(batch);
+  if (batch) return true;
+  // An empty site may still be the source or destination of an open transfer.
+  const transfer = await db.collection("transfers").findOne({
+    organizationId, status: { $in: ["REQUESTED", "APPROVED", "DISPATCHED"] },
+    $or: [{ sourceSiteId: siteId }, { destinationSiteId: siteId }],
+  }, { projection: { _id: 1 }, session });
+  return Boolean(transfer);
 }

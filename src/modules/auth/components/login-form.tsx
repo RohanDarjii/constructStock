@@ -38,6 +38,7 @@ export function LoginForm() {
     <form className="mt-7 space-y-4" onSubmit={submit}>
       <label className="block text-sm font-medium">Email<input autoComplete="email" className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2.5" name="email" required type="email" /></label>
       <label className="block text-sm font-medium">Password<input autoComplete="current-password" className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2.5" name="password" required type="password" /></label>
+      <div className="text-right text-sm"><Link className="font-semibold text-emerald-800 underline" href="/forgot-password">Forgot password?</Link></div>
       {message && <p aria-live="polite" className="rounded-md bg-red-50 p-3 text-sm text-red-700">{message}</p>}
       <button className="w-full rounded-md bg-emerald-900 px-4 py-3 font-semibold text-white hover:bg-emerald-800 disabled:opacity-50" aria-busy={pending} data-loading={pending} disabled={pending} type="submit">{pending ? "Signing in…" : "Sign in"}</button>
     </form>

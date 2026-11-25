@@ -87,7 +87,7 @@ export async function login(input: LoginInput, ipAddress: string | null, userAge
   const sessionId = new mongoose.Types.ObjectId();
   await AuthSession.init();
   await mongoose.connection.transaction(async (session) => {
-    await AuthSession.create([{ _id: sessionId, userId: user._id, activeOrganizationId: organization._id, sessionTokenHash: hashToken(sessionToken), expiresAt: new Date(Date.now() + SESSION_DAYS * day), ipAddress, userAgent }], { session });
+    await AuthSession.create([{ _id: sessionId, userId: user._id, activeOrganizationId: organization._id, sessionTokenHash: hashToken(sessionToken), credentialVersion: user.credentialVersion ?? 0, expiresAt: new Date(Date.now() + SESSION_DAYS * day), ipAddress, userAgent }], { session });
     await recordAudit({ organizationId: organization._id, actorUserId: user._id, action: "auth.login", entityType: "session", entityId: sessionId.toString(), ipAddress }, session);
   });
   const assignedSiteIds = await listActiveSiteIds(organization._id, user._id);
@@ -121,6 +121,7 @@ export async function identityFromSessionToken(token: string | undefined): Promi
     Membership.findOne({ userId: session.userId, organizationId: session.activeOrganizationId, status: "ACTIVE" }),
   ]);
   if (!user || !organization || !membership) return null;
+  if ((session.credentialVersion ?? 0) !== (user.credentialVersion ?? 0)) return null;
   if (session.lastUsedAt.getTime() + 15 * 60 * 1000 < Date.now()) {
     await AuthSession.updateOne({ _id: session._id, revokedAt: null }, { $set: { lastUsedAt: new Date() } });
   }

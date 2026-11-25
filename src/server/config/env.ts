@@ -19,6 +19,11 @@ const authEnvSchema = z.object({
 
 const blobEnvSchema = z.object({ BLOB_READ_WRITE_TOKEN: z.string().min(1) });
 
+const emailEnvSchema = z.object({
+  RESEND_API_KEY: z.string().min(1),
+  EMAIL_FROM: z.string().min(5),
+});
+
 export function getMongoEnv() {
   return mongoEnvSchema.parse(process.env);
 }
@@ -44,5 +49,11 @@ export function getAuthEnv() {
 export function getBlobEnv() {
   const result = blobEnvSchema.safeParse(process.env);
   if (!result.success) throw new AppError("STORAGE_NOT_CONFIGURED", "Private photo storage is not configured. Set BLOB_READ_WRITE_TOKEN and restart the server.", 503);
+  return result.data;
+}
+
+export function getEmailEnv() {
+  const result = emailEnvSchema.safeParse(process.env);
+  if (!result.success) throw new AppError("EMAIL_NOT_CONFIGURED", "Password recovery is temporarily unavailable.", 503);
   return result.data;
 }

@@ -17,6 +17,8 @@ const authEnvSchema = z.object({
   ALLOWED_ORIGINS: z.string().optional(),
 });
 
+const blobEnvSchema = z.object({ BLOB_READ_WRITE_TOKEN: z.string().min(1) });
+
 export function getMongoEnv() {
   return mongoEnvSchema.parse(process.env);
 }
@@ -36,5 +38,11 @@ export function getAuthEnv() {
       503,
     );
   }
+  return result.data;
+}
+
+export function getBlobEnv() {
+  const result = blobEnvSchema.safeParse(process.env);
+  if (!result.success) throw new AppError("STORAGE_NOT_CONFIGURED", "Private photo storage is not configured. Set BLOB_READ_WRITE_TOKEN and restart the server.", 503);
   return result.data;
 }

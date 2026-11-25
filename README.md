@@ -4,13 +4,15 @@ ConstructStock is a multi-company construction material inventory and waste mana
 
 ## Current status
 
-The app includes a landing page, company/Owner registration, login, server-side sessions, and a protected dashboard. Sites, materials, suppliers, and team members have tenant-scoped management flows. Inventory provides site balances, costed batches, movement history, and audited stock adjustments. Purchase Orders support draft creation/editing, server-calculated commercial totals, submission, approval/rejection, ordering, cancellation, site access, and audit history at `/purchase-orders`. Goods receiving at `/goods-receipts` records partial or final deliveries against ordered POs, creates costed inventory batches and ledger entries, and supports audited reversal of untouched receipt stock. Material consumption at `/consumptions` issues available stock by FIFO, records recipients and activities, and supports governed reversal. Wastage, transfers, password reset, and organization switching are later milestones.
+The app includes a landing page, company/Owner registration, login, server-side sessions, and a protected dashboard. Sites, materials, suppliers, and team members have tenant-scoped management flows. Inventory provides site balances, costed batches, movement history, and audited stock adjustments. Purchase Orders support draft creation/editing, server-calculated commercial totals, submission, approval/rejection, ordering, cancellation, site access, and audit history at `/purchase-orders`. Goods receiving at `/goods-receipts` records partial or final deliveries against ordered POs, creates costed inventory batches and ledger entries, and supports audited reversal of untouched receipt stock. Material consumption at `/consumptions` issues available stock by FIFO, records recipients and activities, and supports governed reversal. Material wastage at `/wastages` records available on-hand stock losses with FIFO allocation, optional private photos, reporting by reason and site, and governed reversal. Transfers, password reset, and organization switching are later milestones.
 
 ## Local setup
 
 1. Install Node.js 22 or newer and run `npm install`.
 2. Copy `.env.example` to `.env.local`. Set `MONGODB_URI` to a development MongoDB Atlas replica set, `TOKEN_PEPPER` to a random secret of at least 32 characters, and `APP_URL` to the local app URL. Keep all secrets in environment variables; do not commit them.
 3. Run `npm run dev` and open `http://localhost:3000`. Register a company, then sign in immediately. Restart the server after changing `.env.local`. The dashboard requires an active server-side session.
+
+Optional wastage photos need a **private** Vercel Blob store connected to this project and its `BLOB_READ_WRITE_TOKEN` in `.env.local`. Photo upload and read routes check the active organization and site assignment; photos are limited to JPEG, PNG, or WebP up to 10 MB. Recording wastage without a photo works without Blob configuration. In production, set a random `CRON_SECRET` (at least 32 characters) so the daily Vercel cron can remove unlinked uploads older than 48 hours. Linked evidence is retained with the wastage record.
 
 Registration uses a MongoDB transaction. The database must support transactions; a standalone MongoDB server is insufficient. Email verification is not part of the current sign-in flow.
 
@@ -24,7 +26,7 @@ An Owner can record opening stock or a physical-count correction under `/invento
 - `npm run typecheck` — check TypeScript.
 - `npm run lint` — run ESLint.
 - `npm run build` — verify the production build.
-- `npm run test:integration` — run isolated auth, team, site, material, supplier, inventory, purchase order, goods receiving, and consumption integration tests against a temporary MongoDB replica set; the first run may download a MongoDB test binary.
+- `npm run test:integration` — run isolated auth, team, site, material, supplier, inventory, purchase order, goods receiving, consumption, and wastage integration tests against a temporary MongoDB replica set; the first run may download a MongoDB test binary.
 
 Never commit real secrets. Use separate resources for local, preview, test, and production environments.
 
@@ -38,4 +40,4 @@ Never commit real secrets. Use separate resources for local, preview, test, and 
 - `tests/`: integration, API, and browser tests as workflows are built.
 - `scripts/`: controlled migrations, index changes, and reconciliation operations.
 
-Server-rendered pages and API handlers must use the same authenticated service layer. Domain services own business rules; repositories own tenant-scoped data access. Inventory records are changed only inside audited, idempotent transactions. Goods receiving coordinates PO, receipt, batch, balance, and ledger updates in one MongoDB transaction. Consumption coordinates the issue, FIFO batch depletion, balance, ledger, audit, and idempotency record in one MongoDB transaction.
+Server-rendered pages and API handlers must use the same authenticated service layer. Domain services own business rules; repositories own tenant-scoped data access. Inventory records are changed only inside audited, idempotent transactions. Goods receiving coordinates PO, receipt, batch, balance, and ledger updates in one MongoDB transaction. Consumption and wastage coordinate the business document, FIFO batch depletion, balance, ledger, audit, and idempotency record in one MongoDB transaction. Wastage photo metadata is committed before Blob upload and linked to the record inside the stock transaction.

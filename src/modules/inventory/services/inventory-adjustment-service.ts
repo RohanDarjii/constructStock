@@ -2,6 +2,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 import Decimal from "decimal.js";
 import mongoose from "mongoose";
+import { ensureStockAlertsReady, reconcileStockAlert } from "@/modules/alerts/services/stock-alert-service";
 import { ensureAuditReady, recordAudit } from "@/modules/audit/services/record-audit";
 import type { CurrentIdentity } from "@/modules/auth/services/auth-service";
 import { isDuplicateKey } from "@/modules/auth/services/security";
@@ -125,7 +126,7 @@ export async function createAdjustment(identity: CurrentIdentity, input: Adjustm
   requirePermission(identity, "inventory.adjust");
   if (!/^[A-Za-z0-9][A-Za-z0-9_-]{7,127}$/.test(key)) throw new AppError("IDEMPOTENCY_KEY_REQUIRED", "Provide a valid Idempotency-Key header.", 400);
   await connectToDatabase();
-  await Promise.all([InventoryBatch.init(), InventoryBalance.init(), InventoryTransaction.init(), InventoryAdjustment.init(), IdempotencyKey.init(), ensureAuditReady()]);
+  await Promise.all([InventoryBatch.init(), InventoryBalance.init(), InventoryTransaction.init(), InventoryAdjustment.init(), IdempotencyKey.init(), ensureAuditReady(), ensureStockAlertsReady()]);
   const organizationId = id(identity.context.organizationId);
   const siteId = id(input.siteId);
   const materialId = id(input.materialId);
@@ -164,6 +165,7 @@ export async function createAdjustment(identity: CurrentIdentity, input: Adjustm
           deltaValue = result.valueRemoved.negated();
         }
         await updateBalance(scope, input.direction === "IN" ? quantity : quantity.negated(), deltaValue, session);
+        await reconcileStockAlert(scope, session, "INVENTORY_ADJUSTMENT");
         const [adjustment] = await InventoryAdjustment.create([{ _id: adjustmentId, ...scope, direction: input.direction, quantity: stored(quantity), reasonCode: input.reasonCode, remarks: input.remarks, unitCost: cost ? stored(cost) : null, batchAllocations: allocations, createdBy: performedBy }], { session });
         await InventoryTransaction.create(allocations.map((allocation) => ({ ...scope, batchId: allocation.batchId, type: input.direction === "IN" ? "ADJUSTMENT_IN" : "ADJUSTMENT_OUT", quantity: input.direction === "IN" ? allocation.quantity : stored(new Decimal(allocation.quantity.toString()).negated()), unitCost: allocation.unitCostSnapshot, referenceType: "ADJUSTMENT", referenceId: adjustmentId, performedBy })), { session, ordered: true });
         await recordAudit({ organizationId, actorUserId: performedBy, action: "inventory.adjusted", entityType: "adjustment", entityId: adjustmentId.toString() }, session);

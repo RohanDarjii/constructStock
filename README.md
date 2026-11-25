@@ -4,7 +4,7 @@ ConstructStock is a multi-company construction material inventory and waste mana
 
 ## Current status
 
-The app includes a landing page, company/Owner registration, login, server-side sessions, and a protected dashboard. Sites, materials, suppliers, and team members have tenant-scoped management flows. Inventory provides site balances, costed batches, movement history, and audited stock adjustments. Purchase Orders support draft creation/editing, server-calculated commercial totals, submission, approval/rejection, ordering, cancellation, site access, and audit history at `/purchase-orders`. Goods receiving at `/goods-receipts` records partial or final deliveries against ordered POs, creates costed inventory batches and ledger entries, and supports audited reversal of untouched receipt stock. Material consumption at `/consumptions` issues available stock by FIFO, records recipients and activities, and supports governed reversal. Material wastage at `/wastages` records available on-hand stock losses with FIFO allocation, optional private photos, reporting by reason and site, and governed reversal. Inter-site transfers at `/transfers` support request, approval with FIFO reservation, dispatch into in-transit stock, and destination receipt with linked batches. Password reset and organization switching are later milestones.
+The app includes a landing page, company/Owner registration, login, server-side sessions, and a protected dashboard. Sites, materials, suppliers, and team members have tenant-scoped management flows. Inventory provides site balances, costed batches, movement history, and audited stock adjustments. Purchase Orders support draft creation/editing, server-calculated commercial totals, submission, approval/rejection, ordering, cancellation, site access, and audit history at `/purchase-orders`. Goods receiving at `/goods-receipts` records partial or final deliveries against ordered POs, creates costed inventory batches and ledger entries, and supports audited reversal of untouched receipt stock. Material consumption at `/consumptions` issues available stock by FIFO, records recipients and activities, and supports governed reversal. Material wastage at `/wastages` records available on-hand stock losses with FIFO allocation, optional private photos, reporting by reason and site, and governed reversal. Inter-site transfers at `/transfers` support request, approval with FIFO reservation, dispatch into in-transit stock, and destination receipt with linked batches. Inventory alerts at `/alerts` track low and depleted available stock, with acknowledgment, automatic recovery, a notification bell, and dashboard previews. Password reset and organization switching are later milestones.
 
 ## Local setup
 
@@ -20,13 +20,15 @@ Owners and Admins can manage staff at `/team`. Invitation links are shown once w
 
 An Owner can record opening stock or a physical-count correction under `/inventory/adjustments/new`. Incoming adjustments require a unit cost in the organization's currency. Stock is never allowed below zero, and reserved stock cannot be removed. Purchase orders do not change inventory; confirming a goods receipt does. PO prices are tax-exclusive, with line subtotals and tax rounded half-up to two decimals before totals are summed.
 
+Stock alerts are generated during inventory mutations when available quantity (on hand minus reserved) reaches or falls below the material minimum. They escalate when available stock reaches zero and resolve automatically when it rises above the minimum. Acknowledgment records the reviewer and optional note without changing stock. Alert pages and APIs show only sites within the signed-in member's access scope. The first alert read for an organization reconciles balances that predate this feature.
+
 ## Local commands
 
 - `npm run dev` — start the app shell at `http://localhost:3000`.
 - `npm run typecheck` — check TypeScript.
 - `npm run lint` — run ESLint.
 - `npm run build` — verify the production build.
-- `npm run test:integration` — run isolated auth, team, site, material, supplier, inventory, purchase order, goods receiving, consumption, wastage, and transfer integration tests against a temporary MongoDB replica set; the first run may download a MongoDB test binary.
+- `npm run test:integration` — run isolated auth, team, site, material, supplier, inventory, purchase order, goods receiving, consumption, wastage, transfer, and alert integration tests against a temporary MongoDB replica set; the first run may download a MongoDB test binary.
 
 Never commit real secrets. Use separate resources for local, preview, test, and production environments.
 

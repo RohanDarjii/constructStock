@@ -2,6 +2,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 import Decimal from "decimal.js";
 import mongoose from "mongoose";
+import { ensureStockAlertsReady, reconcileStockAlert } from "@/modules/alerts/services/stock-alert-service";
 import { ensureAuditReady, recordAudit } from "@/modules/audit/services/record-audit";
 import type { CurrentIdentity } from "@/modules/auth/services/auth-service";
 import { isDuplicateKey } from "@/modules/auth/services/security";
@@ -44,7 +45,7 @@ function checkMoney(value: Decimal): void {
 }
 
 async function ready(): Promise<void> {
-  await Promise.all([GoodsReceipt.init(), PurchaseOrder.init(), InventoryBatch.init(), InventoryBalance.init(), InventoryTransaction.init(), IdempotencyKey.init(), ensureAuditReady()]);
+  await Promise.all([GoodsReceipt.init(), PurchaseOrder.init(), InventoryBatch.init(), InventoryBalance.init(), InventoryTransaction.init(), IdempotencyKey.init(), ensureAuditReady(), ensureStockAlertsReady()]);
 }
 
 async function previousResult(organizationId: mongoose.Types.ObjectId, key: string, operation: string, requestHash: string): Promise<ReceiptMutationResult | null> {
@@ -272,6 +273,7 @@ export async function createGoodsReceipt(identity: CurrentIdentity, input: Creat
             const result = await InventoryBalance.updateOne({ _id: balance._id, ...scope, version: balance.version }, { $set: { onHandQuantity: stored(new D(balance.onHandQuantity.toString()).plus(group.quantity)), availableQuantity: stored(new D(balance.availableQuantity.toString()).plus(group.quantity)), inventoryValue: stored(nextValue) }, $inc: { version: 1 } }, { session });
             if (result.matchedCount !== 1) throw new AppError("INVENTORY_VERSION_CONFLICT", "Inventory changed. Reload and try again.", 409);
           }
+          await reconcileStockAlert(scope, session, "GOODS_RECEIPT");
         }
         for (const [lineId, quantity] of totals) {
           const line = lineMap.get(lineId)!;
@@ -348,6 +350,7 @@ export async function reverseGoodsReceipt(identity: CurrentIdentity, receiptId: 
           if (onHand.lt(0) || available.lt(0) || value.lt(0)) throw new AppError("RECEIPT_STOCK_CHANGED", "Available stock is insufficient to reverse this receipt.", 409);
           const updated = await InventoryBalance.updateOne({ _id: balance._id, ...scope, version: balance.version }, { $set: { onHandQuantity: stored(onHand), availableQuantity: stored(available), inventoryValue: stored(value) }, $inc: { version: 1 } }, { session });
           if (updated.matchedCount !== 1) throw new AppError("INVENTORY_VERSION_CONFLICT", "The site balance changed. Reload and try again.", 409);
+          await reconcileStockAlert(scope, session, "GOODS_RECEIPT_REVERSAL");
         }
         order.status = order.items.every((line) => new D(line.quantityReceived.toString()).isZero()) ? "ORDERED" : "PARTIALLY_RECEIVED";
         await order.save({ session });

@@ -11,6 +11,7 @@ const available: { href: string; label: string; icon: WorkspaceIconName }[] = [
   { href: "/materials", label: "Materials", icon: "materials" },
   { href: "/suppliers", label: "Suppliers", icon: "suppliers" },
   { href: "/inventory", label: "Inventory", icon: "inventory" },
+  { href: "/alerts", label: "Alerts", icon: "bell" },
   { href: "/purchase-orders", label: "Purchase Orders", icon: "orders" },
   { href: "/goods-receipts", label: "Receiving", icon: "receiving" },
   { href: "/consumptions", label: "Consumption", icon: "consumption" },
@@ -22,7 +23,7 @@ const upcoming: { label: string; icon: WorkspaceIconName }[] = [
   { label: "Reports", icon: "reports" }, { label: "Settings", icon: "settings" },
 ];
 
-export function WorkspaceSidebar({ userName, role }: { userName: string; role: string }) {
+export function WorkspaceSidebar({ userName, role, unreadAlerts, canViewAlerts }: { userName: string; role: string; unreadAlerts: number; canViewAlerts: boolean }) {
   const pathname = usePathname();
   const initials = userName.split(/\s+/).slice(0, 2).map((part) => part[0]?.toUpperCase()).join("");
   return <aside className="workspace-sidebar">
@@ -30,7 +31,7 @@ export function WorkspaceSidebar({ userName, role }: { userName: string; role: s
     <nav aria-label="Workspace navigation" className="workspace-nav">
       {available.slice(0, 3).map((item) => { const active = pathname === item.href || pathname.startsWith(`${item.href}/`); return <Link aria-current={active ? "page" : undefined} className={`workspace-nav-item ${active ? "workspace-nav-active" : ""}`} href={item.href} key={item.href}><WorkspaceIcon name={item.icon} className="h-[18px] w-[18px]" />{item.label}</Link>; })}
       {upcoming.slice(0, 6).map((item) => <span aria-disabled="true" className="workspace-nav-item workspace-nav-future" key={item.label}><WorkspaceIcon name={item.icon} className="h-[18px] w-[18px]" />{item.label}</span>)}
-      {available.slice(3).filter((item) => item.href !== "/team" || role === "OWNER" || role === "ADMIN").map((item) => { const active = pathname === item.href || pathname.startsWith(`${item.href}/`); return <Link aria-current={active ? "page" : undefined} className={`workspace-nav-item ${active ? "workspace-nav-active" : ""}`} href={item.href} key={item.href}><WorkspaceIcon name={item.icon} className="h-[18px] w-[18px]" />{item.label}</Link>; })}
+      {available.slice(3).filter((item) => (item.href !== "/team" || role === "OWNER" || role === "ADMIN") && (item.href !== "/alerts" || canViewAlerts)).map((item) => { const active = pathname === item.href || pathname.startsWith(`${item.href}/`); return <Link aria-current={active ? "page" : undefined} className={`workspace-nav-item ${active ? "workspace-nav-active" : ""}`} href={item.href} key={item.href}><WorkspaceIcon name={item.icon} className="h-[18px] w-[18px]" />{item.label}{item.href === "/alerts" && unreadAlerts > 0 && <span className="ml-auto rounded-full bg-[#ba1a1a] px-1.5 text-[10px] font-extrabold text-white">{unreadAlerts > 99 ? "99+" : unreadAlerts}</span>}</Link>; })}
       {upcoming.slice(6).map((item) => <span aria-disabled="true" className="workspace-nav-item workspace-nav-future" key={item.label}><WorkspaceIcon name={item.icon} className="h-[18px] w-[18px]" />{item.label}</span>)}
     </nav>
     <div className="workspace-profile"><div className="workspace-avatar">{initials}</div><div className="min-w-0 flex-1"><strong className="block truncate text-xs">{userName}</strong><small className="block text-[11px] capitalize text-[#58605c]">{role.toLowerCase().replaceAll("_", " ")}</small></div><LogoutButton /></div>

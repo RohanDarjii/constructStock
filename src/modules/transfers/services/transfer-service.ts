@@ -2,6 +2,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 import Decimal from "decimal.js";
 import mongoose from "mongoose";
+import { ensureStockAlertsReady, reconcileStockAlert } from "@/modules/alerts/services/stock-alert-service";
 import { ensureAuditReady, recordAudit } from "@/modules/audit/services/record-audit";
 import { User } from "@/modules/auth/models/identity";
 import type { CurrentIdentity } from "@/modules/auth/services/auth-service";
@@ -39,7 +40,7 @@ type TransferDocument = InstanceType<typeof Transfer>;
 type Scope = { organizationId: mongoose.Types.ObjectId; siteId: mongoose.Types.ObjectId; materialId: mongoose.Types.ObjectId };
 
 async function ready() {
-  await Promise.all([Transfer.init(), InventoryBalance.init(), InventoryBatch.init(), InventoryTransaction.init(), IdempotencyKey.init(), ensureAuditReady()]);
+  await Promise.all([Transfer.init(), InventoryBalance.init(), InventoryBatch.init(), InventoryTransaction.init(), IdempotencyKey.init(), ensureAuditReady(), ensureStockAlertsReady()]);
 }
 
 function canSee(identity: CurrentIdentity, record: TransferDocument) {
@@ -208,6 +209,7 @@ async function updateBalance(scope: Scope, balance: InstanceType<typeof Inventor
   }
   const result = await InventoryBalance.updateOne({ _id: balance._id, ...scope, version: balance.version }, { $set: { onHandQuantity: decimal(next.onHand), reservedQuantity: decimal(next.reserved), availableQuantity: decimal(next.available), inventoryValue: decimal(next.value) }, $inc: { version: 1 } }, { session });
   if (result.matchedCount !== 1) throw new AppError("INVENTORY_VERSION_CONFLICT", "Site stock changed. Reload and try again.", 409);
+  if (!next.available.eq(amount(balance.availableQuantity))) await reconcileStockAlert(scope, session, "INTER_SITE_TRANSFER");
 }
 async function lockedTransfer(identity: CurrentIdentity, transferId: string, expected: TransferStatus, session: mongoose.ClientSession) {
   const organizationId = oid(identity.context.organizationId);

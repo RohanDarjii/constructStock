@@ -2,6 +2,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 import Decimal from "decimal.js";
 import mongoose from "mongoose";
+import { ensureStockAlertsReady, reconcileStockAlert } from "@/modules/alerts/services/stock-alert-service";
 import { ensureAuditReady, recordAudit } from "@/modules/audit/services/record-audit";
 import { User } from "@/modules/auth/models/identity";
 import type { CurrentIdentity } from "@/modules/auth/services/auth-service";
@@ -43,7 +44,7 @@ function checkMoney(value: Decimal) {
 }
 
 async function ready() {
-  await Promise.all([Consumption.init(), InventoryBalance.init(), InventoryBatch.init(), InventoryTransaction.init(), IdempotencyKey.init(), ensureAuditReady()]);
+  await Promise.all([Consumption.init(), InventoryBalance.init(), InventoryBatch.init(), InventoryTransaction.init(), IdempotencyKey.init(), ensureAuditReady(), ensureStockAlertsReady()]);
 }
 
 async function previousResult(organizationId: mongoose.Types.ObjectId, key: string, operation: string, hash: string): Promise<ConsumptionMutationResult | null> {
@@ -203,6 +204,7 @@ export async function createConsumption(identity: CurrentIdentity, input: Create
         if (nextOnHand.lt(0) || nextAvailable.lt(0) || nextValue.lt(0)) throw new AppError("INVENTORY_VALUE_CONFLICT", "Inventory balance cannot become negative.", 409);
         const balanceUpdate = await InventoryBalance.updateOne({ _id: balance._id, ...scope, version: balance.version, availableQuantity: { $gte: stored(quantity) } }, { $set: { onHandQuantity: stored(nextOnHand), availableQuantity: stored(nextAvailable), inventoryValue: stored(nextValue) }, $inc: { version: 1 } }, { session });
         if (balanceUpdate.matchedCount !== 1) throw new AppError("INVENTORY_VERSION_CONFLICT", "Site stock changed. Reload and try again.", 409);
+        await reconcileStockAlert(scope, session, "MATERIAL_CONSUMPTION");
         const consumptionId = new mongoose.Types.ObjectId();
         const issueNumber = `ISS-${new Date().getUTCFullYear()}-${consumptionId.toString().slice(-12).toUpperCase()}`;
         const allocations = result.allocations.map((allocation) => ({ ...allocation, transactionId: new mongoose.Types.ObjectId() }));
@@ -269,6 +271,7 @@ export async function reverseConsumption(identity: CurrentIdentity, consumptionI
         checkMoney(nextValue);
         const updatedBalance = await InventoryBalance.updateOne({ _id: balance._id, ...scope, version: balance.version }, { $set: { onHandQuantity: stored(nextOnHand), availableQuantity: stored(nextAvailable), inventoryValue: stored(nextValue) }, $inc: { version: 1 } }, { session });
         if (updatedBalance.matchedCount !== 1) throw new AppError("INVENTORY_VERSION_CONFLICT", "Site stock changed. Reload and try again.", 409);
+        await reconcileStockAlert(scope, session, "CONSUMPTION_REVERSAL");
         record.status = "REVERSED"; record.reversedAt = new Date(); record.reversedBy = actorUserId; record.reversalReason = reason; record.reversalValue = stored(restored);
         await record.save({ session });
         await recordAudit({ organizationId, actorUserId, action: "consumption.reversed", entityType: "consumption", entityId: record._id.toString() }, session);

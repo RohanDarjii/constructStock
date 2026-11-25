@@ -1,5 +1,6 @@
 import "server-only";
 import mongoose from "mongoose";
+import { ensureStockAlertsReady, reconcileMaterialStockAlerts } from "@/modules/alerts/services/stock-alert-service";
 import { ensureAuditReady, recordAudit } from "@/modules/audit/services/record-audit";
 import type { CurrentIdentity } from "@/modules/auth/services/auth-service";
 import { isDuplicateKey } from "@/modules/auth/services/security";
@@ -101,7 +102,7 @@ export async function createMaterial(identity: CurrentIdentity, input: CreateMat
 export async function updateMaterial(identity: CurrentIdentity, materialId: string, input: UpdateMaterialInput): Promise<MaterialView> {
   requirePermission(identity, "material.manage");
   await connectToDatabase();
-  await ensureAuditReady();
+  await Promise.all([ensureAuditReady(), ensureStockAlertsReady()]);
   const organizationId = objectId(identity.context.organizationId);
   const actorUserId = objectId(identity.context.userId);
   try {
@@ -132,6 +133,7 @@ export async function updateMaterial(identity: CurrentIdentity, materialId: stri
       material.minimumStockLevel = decimal(minimum);
       material.defaultReorderQuantity = reorder === null ? null : decimal(reorder);
       await material.save({ session });
+      await reconcileMaterialStockAlerts(organizationId, material._id, session, "MATERIAL_UPDATED");
       await recordAudit({ organizationId, actorUserId, action: "material.updated", entityType: "material", entityId: materialId }, session);
       return { material, category };
     });
@@ -142,7 +144,7 @@ export async function updateMaterial(identity: CurrentIdentity, materialId: stri
 async function changeArchive(identity: CurrentIdentity, materialId: string, restore: boolean): Promise<MaterialView> {
   requirePermission(identity, "material.manage");
   await connectToDatabase();
-  await ensureAuditReady();
+  await Promise.all([ensureAuditReady(), ensureStockAlertsReady()]);
   const organizationId = objectId(identity.context.organizationId);
   const actorUserId = objectId(identity.context.userId);
   try {
@@ -173,6 +175,7 @@ async function changeArchive(identity: CurrentIdentity, materialId: string, rest
         material.deletedBy = actorUserId;
       }
       await material.save({ session });
+      await reconcileMaterialStockAlerts(organizationId, material._id, session, restore ? "MATERIAL_RESTORED" : "MATERIAL_ARCHIVED");
       await recordAudit({ organizationId, actorUserId, action: restore ? "material.restored" : "material.archived", entityType: "material", entityId: materialId }, session);
       return { material, category };
     });

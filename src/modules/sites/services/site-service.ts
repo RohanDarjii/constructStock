@@ -1,5 +1,6 @@
 import "server-only";
 import mongoose from "mongoose";
+import { ensureStockAlertsReady, reconcileSiteStockAlerts } from "@/modules/alerts/services/stock-alert-service";
 import { ensureAuditReady, recordAudit } from "@/modules/audit/services/record-audit";
 import type { CurrentIdentity } from "@/modules/auth/services/auth-service";
 import { requirePermission, requireSiteAccess, hasOrganizationWideSiteAccess } from "@/server/auth/authorize";
@@ -142,7 +143,7 @@ export async function updateSite(identity: CurrentIdentity, siteId: string, inpu
 async function changeArchive(identity: CurrentIdentity, siteId: string, restore: boolean): Promise<SiteView> {
   requirePermission(identity, "site.manage");
   await connectToDatabase();
-  await ensureAuditReady();
+  await Promise.all([ensureAuditReady(), ensureStockAlertsReady()]);
   const organizationId = toObjectId(identity.context.organizationId);
   const actorUserId = toObjectId(identity.context.userId);
   try {
@@ -169,6 +170,7 @@ async function changeArchive(identity: CurrentIdentity, siteId: string, restore:
         existing.deletedBy = actorUserId;
       }
       await saveSiteDocument(existing, session);
+      await reconcileSiteStockAlerts(organizationId, existing._id, session, restore ? "SITE_RESTORED" : "SITE_ARCHIVED");
       await recordAudit({ organizationId, actorUserId, action: restore ? "site.restored" : "site.archived", entityType: "site", entityId: siteId }, session);
       return existing;
     });

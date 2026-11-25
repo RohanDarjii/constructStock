@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { WorkspaceIcon } from "@/components/workspace/workspace-icon";
+import { AlertBadge, alertDate } from "@/modules/alerts/components/alert-presentation";
+import { listAlertsSchema } from "@/modules/alerts/schemas/alert";
+import { listAlerts } from "@/modules/alerts/services/stock-alert-service";
+import { requireIdentity } from "@/server/auth/authorize";
 
-export default function DashboardPage() {
-  return (
-    <>
-      <h1 className="text-3xl font-semibold">Dashboard</h1>
-      <p className="mt-3 text-slate-600">Set up your sites and materials, then track balances, batches, and stock movements in Inventory.</p>
-      <div className="mt-6 flex gap-3"><Link className="inline-block rounded-md bg-emerald-900 px-4 py-2.5 text-sm font-semibold text-white" href="/inventory">View inventory</Link><Link className="inline-block rounded-md border border-slate-300 px-4 py-2.5 text-sm font-semibold" href="/sites">Manage sites</Link></div>
-    </>
-  );
+export default async function DashboardPage() {
+  const identity = await requireIdentity();
+  const alerts = identity.membership.permissions.includes("inventory.view") ? await listAlerts(identity, listAlertsSchema.parse({ limit: 4 })) : null;
+  return <div className="space-y-6"><header className="flex flex-wrap items-end justify-between gap-4"><div><p className="cs-eyebrow">Workspace overview</p><h1 className="mt-2 text-3xl font-extrabold">Dashboard</h1><p className="cs-muted mt-1 text-sm">Monitor stock exceptions across the job sites you can access.</p></div><Link className="cs-primary" href="/inventory">View inventory →</Link></header>{alerts && <section className="space-y-4"><div className="flex flex-wrap items-center justify-between gap-3"><div><p className="cs-eyebrow">Operational priority</p><h2 className="mt-1 text-xl font-extrabold">Urgent inventory alerts</h2></div><Link className="text-xs font-bold text-[#144227] hover:underline" href="/alerts">View alert register →</Link></div><div className="grid gap-4 xl:grid-cols-[250px_1fr]"><div className="rounded-lg bg-[#144227] p-5 text-white"><WorkspaceIcon className="h-6 w-6" name="bell" /><p className="mt-8 text-4xl font-extrabold">{alerts.summary.active}</p><p className="mt-1 text-xs font-semibold">Active exceptions</p><p className="mt-4 border-t border-white/25 pt-3 text-[11px]">{alerts.summary.outOfStock} critical · {alerts.summary.lowStock} low stock · {alerts.summary.unread} unacknowledged</p></div><div className="grid gap-3 sm:grid-cols-2">{alerts.alerts.length ? alerts.alerts.map((alert) => <Link className={`cs-panel block border-l-4 p-4 hover:bg-[#fbf8fc] ${alert.type === "OUT_OF_STOCK" ? "border-l-[#ba1a1a]" : "border-l-[#5c2b33]"}`} href={`/alerts/${alert.id}`} key={alert.id}><div className="flex flex-wrap items-center justify-between gap-2"><AlertBadge alert={alert} /><span className="cs-muted text-[10px]">{alertDate(alert.triggeredAt)}</span></div><h3 className="mt-4 text-sm font-extrabold">{alert.material.name}</h3><p className="cs-muted mt-1 text-xs">{alert.site.name} · {alert.available} {alert.material.unit} available</p><p className="mt-3 text-xs font-bold text-[#144227]">Inspect alert →</p></Link>) : <div className="cs-panel col-span-full flex min-h-44 flex-col items-center justify-center p-6 text-center"><WorkspaceIcon className="h-8 w-8 text-[#144227]" name="shield" /><h3 className="mt-3 text-sm font-extrabold">No active stock alerts</h3><p className="cs-muted mt-1 text-xs">Available balances are above the configured minimums.</p></div>}</div></div></section>}<section className="cs-panel p-5"><h2 className="text-lg font-extrabold">Keep work moving</h2><p className="cs-muted mt-1 text-sm">Set up sites and materials, then track batches and stock movements in Inventory.</p><div className="mt-4 flex flex-wrap gap-2"><Link className="cs-secondary" href="/sites">Manage sites</Link><Link className="cs-secondary" href="/materials">View materials</Link><Link className="cs-secondary" href="/purchase-orders">Purchase orders</Link></div></section></div>;
 }

@@ -66,4 +66,25 @@ body {
 .cs-form-section { border-left: 3px solid #144227; }
 .cs-site-cover { background: linear-gradient(180deg, #3b684a22 0%, #144227b0 65%, #0b2a1ccc 100%), linear-gradient(135deg, #729384 0%, #486d68 46%, #243f44 100%); }
 .cs-site-cover::before { position: absolute; inset: 20% 0 0; background: linear-gradient(90deg, transparent 0 4%, #d7dfda44 4% 15%, transparent 15% 20%, #d7dfda55 20% 32%, transparent 32% 40%, #d7dfda44 40% 52%, transparent 52% 60%, #d7dfda55 60% 78%, transparent 78% 85%, #d7dfda44 85% 96%, transparent 96%), repeating-linear-gradient(0deg, transparent 0 17px, #ffffff22 18px 19px); clip-path: polygon(0 45%, 12% 45%, 12% 15%, 28% 15%, 28% 36%, 45% 36%, 45% 0, 70% 0, 70% 28%, 88% 28%, 88% 50%, 100% 50%, 100% 100%, 0 100%); content: ""; opacity: .6; }
+.cs-loading-ring { display: inline-grid; position: relative; width: 64px; height: 64px; flex: none; place-items: center; vertical-align: middle; }
+.cs-loading-ring > span { position: absolute; border-radius: 50%; }
+.cs-loading-ring-track { inset: 0; border: 4px solid #14422733; }
+.cs-loading-ring-primary { inset: 0; border: 4px solid transparent; border-top-color: #144227; border-right-color: #2d5a3d; animation: cs-ring-spin 1s linear infinite; }
+.cs-loading-ring-accent { inset: 12px; border: 2px solid transparent; border-bottom-color: #774149; border-left-color: #a1d2ad; animation: cs-ring-spin 1.5s linear infinite reverse; }
+.cs-loading-ring-center { width: 10px; height: 10px; background: #144227; animation: cs-ring-pulse 1.5s ease-in-out infinite; }
+.cs-loading-ring-small { width: 20px; height: 20px; }
+.cs-loading-ring-small .cs-loading-ring-track, .cs-loading-ring-small .cs-loading-ring-primary { border-width: 2px; }
+.cs-loading-ring-small .cs-loading-ring-accent { inset: 5px; border-width: 1px; }
+.cs-loading-ring-small .cs-loading-ring-center { width: 3px; height: 3px; }
+.cs-loading-skeleton { background: linear-gradient(90deg, #f0edf1 0%, #eae7eb 48%, #f0edf1 100%); background-size: 200% 100%; animation: cs-skeleton-shimmer 1.5s ease-in-out infinite; }
+.cs-loading-progress { height: 6px; overflow: hidden; border-radius: 999px; background: #eae7eb; }
+.cs-loading-progress > span { display: block; width: 38%; height: 100%; border-radius: inherit; background: #144227; animation: cs-progress-slide 1.7s ease-in-out infinite; }
+button[data-loading="true"] { cursor: wait; }
+button[data-loading="true"]::before { display: inline-block; width: 14px; height: 14px; margin-right: 7px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; vertical-align: -2px; animation: cs-ring-spin .75s linear infinite; content: ""; }
+button[data-loading="true"] svg { display: none; }
+@keyframes cs-ring-spin { to { transform: rotate(360deg); } }
+@keyframes cs-ring-pulse { 50% { opacity: .35; transform: scale(.65); } }
+@keyframes cs-skeleton-shimmer { to { background-position-x: -200%; } }
+@keyframes cs-progress-slide { from { transform: translateX(-110%); } to { transform: translateX(290%); } }
+@media (prefers-reduced-motion: reduce) { .cs-loading-ring-primary, .cs-loading-ring-accent, .cs-loading-ring-center, .cs-loading-skeleton, .cs-loading-progress > span, button[data-loading="true"]::before { animation: none; } .cs-loading-progress > span { width: 100%; opacity: .5; } }
 @media (max-width: 900px) { .workspace-shell { display: flex; flex-direction: column; } .workspace-sidebar { order: 2; position: static; width: 100%; height: auto; box-shadow: none; } .workspace-brand, .workspace-profile { display: none; } .workspace-nav { flex-direction: row; overflow-x: auto; gap: 3px; padding: 8px 12px; border-bottom: 1px solid #eae7eb; } .workspace-nav-item { flex: none; white-space: nowrap; } .workspace-nav-future { display: none; } .workspace-content { display: contents; margin-left: 0; } .workspace-topbar { order: 1; min-height: 55px; padding: 8px 16px; } .workspace-main { order: 3; width: 100%; padding: 20px 16px 40px; } .workspace-mobile-brand, .workspace-mobile-logout { display: block; } .workspace-topbar-context .workspace-topbar-chip { display: none; } }

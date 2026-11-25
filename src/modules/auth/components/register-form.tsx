@@ -50,7 +50,7 @@ export function RegisterForm() {
       <label className="block text-sm font-medium">Password<input autoComplete="new-password" className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2.5" minLength={12} name="password" required type="password" /></label>
       <p className="text-xs text-slate-500">Use at least 12 characters.</p>
       {message && <p aria-live="polite" className="rounded-md bg-red-50 p-3 text-sm text-red-700">{message}</p>}
-      <button className="w-full rounded-md bg-emerald-900 px-4 py-3 font-semibold text-white hover:bg-emerald-800 disabled:opacity-50" disabled={pending} type="submit">{pending ? "Creating workspace…" : "Create workspace"}</button>
+      <button className="w-full rounded-md bg-emerald-900 px-4 py-3 font-semibold text-white hover:bg-emerald-800 disabled:opacity-50" aria-busy={pending} data-loading={pending} disabled={pending} type="submit">{pending ? "Creating workspace…" : "Create workspace"}</button>
     </form>
     <p className="mt-5 text-center text-sm text-slate-600">Already have an account? <Link className="font-semibold text-emerald-800 underline" href="/login">Sign in</Link></p>
   </>;

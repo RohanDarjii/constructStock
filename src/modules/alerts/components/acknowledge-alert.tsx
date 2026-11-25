@@ -25,7 +25,7 @@ export function AcknowledgeAlert({ alertId, detailed = false }: { alertId: strin
   }
   return <form className={detailed ? "space-y-3" : "inline-flex flex-col gap-1"} onSubmit={submit}>
     {detailed && <label className="cs-field">Operational note (optional)<textarea className="cs-input" maxLength={500} onChange={(event) => setNote(event.target.value)} placeholder="e.g. Replenishment requested from supplier" rows={2} value={note} /></label>}
-    <button className={`${detailed ? "cs-primary" : "rounded-md border border-[#eae7eb] bg-[#f6f2f7] px-3 py-1.5 text-xs font-bold text-[#144227] hover:bg-[#eae7eb]"} disabled:opacity-50`} disabled={pending} type="submit">{pending ? "Acknowledging…" : detailed ? "Confirm acknowledgment" : "✓ Acknowledge"}</button>
+    <button aria-busy={pending} className={`${detailed ? "cs-primary" : "rounded-md border border-[#eae7eb] bg-[#f6f2f7] px-3 py-1.5 text-xs font-bold text-[#144227] hover:bg-[#eae7eb]"} disabled:opacity-50`} data-loading={pending} disabled={pending} type="submit">{pending ? "Acknowledging…" : detailed ? "Confirm acknowledgment" : "✓ Acknowledge"}</button>
     {error && <span aria-live="polite" className="text-xs text-[#ba1a1a]">{error}</span>}
   </form>;
 }

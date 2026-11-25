@@ -30,5 +30,5 @@ export function SupplierActions({ supplier }: { supplier: SupplierView }) {
     } finally { setPending(false); }
   }
 
-  return <div className="text-right"><button className="cs-secondary disabled:opacity-50" disabled={pending} onClick={changeArchive} type="button"><WorkspaceIcon className="h-4 w-4" name={archived ? "check" : "archive"} />{pending ? "Saving…" : archived ? "Restore supplier" : "Archive supplier"}</button>{error && <p aria-live="polite" className="mt-2 max-w-xs text-sm text-red-700">{error}</p>}</div>;
+  return <div className="text-right"><button aria-busy={pending} className="cs-secondary disabled:opacity-50" data-loading={pending} disabled={pending} onClick={changeArchive} type="button"><WorkspaceIcon className="h-4 w-4" name={archived ? "check" : "archive"} />{pending ? "Saving…" : archived ? "Restore supplier" : "Archive supplier"}</button>{error && <p aria-live="polite" className="mt-2 max-w-xs text-sm text-red-700">{error}</p>}</div>;
 }

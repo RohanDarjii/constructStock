@@ -12,6 +12,7 @@
     "test:integration": "vitest run"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.9.0",
     "argon2": "^0.45.2",
     "decimal.js": "^10.6.0",

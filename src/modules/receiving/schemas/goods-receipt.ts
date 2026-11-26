@@ -12,6 +12,7 @@ export const createGoodsReceiptSchema = z.object({
   invoiceNumber: optionalText(100),
   deliveryChallanNumber: optionalText(100),
   notes: optionalText(2000),
+  attachmentIds: z.array(objectId).max(4).default([]),
   items: z.array(z.object({
     purchaseOrderItemId: objectId,
     materialId: objectId,

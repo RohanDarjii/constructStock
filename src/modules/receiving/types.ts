@@ -13,6 +13,7 @@ export type GoodsReceiptView = {
   supplier: { id: string; code: string; name: string };
   receivedAt: string; createdAt: string; receivedBy: { id: string; name: string };
   invoiceNumber: string | null; deliveryChallanNumber: string | null; notes: string | null;
+  attachments: Array<{ id: string; purpose: string; fileName: string; mimeType: string; size: number }>;
   reversedAt: string | null; reversedBy: string | null; reversalReason: string | null;
   netTotal: string;
   items: Array<{

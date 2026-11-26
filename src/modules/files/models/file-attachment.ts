@@ -4,8 +4,9 @@ import mongoose, { type InferSchemaType, type Model, Schema } from "mongoose";
 const fileAttachmentSchema = new Schema({
   organizationId: { type: Schema.Types.ObjectId, required: true, ref: "Organization" },
   siteId: { type: Schema.Types.ObjectId, required: true, ref: "Site" },
-  linkedEntityType: { type: String, enum: ["WASTAGE"], required: true },
+  linkedEntityType: { type: String, enum: ["WASTAGE", "GOODS_RECEIPT"], required: true },
   linkedEntityId: { type: Schema.Types.ObjectId, default: null },
+  purpose: { type: String, enum: ["WASTAGE_PHOTO", "INVOICE", "DELIVERY_CHALLAN"], required: true, default: "WASTAGE_PHOTO" },
   fileKey: { type: String, required: true },
   blobUrl: { type: String, default: null },
   fileName: { type: String, required: true },

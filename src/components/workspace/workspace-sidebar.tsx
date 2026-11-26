@@ -18,9 +18,9 @@ const available: { href: string; label: string; icon: WorkspaceIconName }[] = [
   { href: "/wastages", label: "Wastage", icon: "wastage" },
   { href: "/transfers", label: "Transfers", icon: "transfers" },
   { href: "/team", label: "Team", icon: "users" },
-];
-const upcoming: { label: string; icon: WorkspaceIconName }[] = [
-  { label: "Reports", icon: "reports" }, { label: "Settings", icon: "settings" },
+  { href: "/reports", label: "Reports", icon: "reports" },
+  { href: "/audit-logs", label: "Audit history", icon: "shield" },
+  { href: "/settings", label: "Settings", icon: "settings" },
 ];
 
 export function WorkspaceSidebar({ userName, role, unreadAlerts, canViewAlerts }: { userName: string; role: string; unreadAlerts: number; canViewAlerts: boolean }) {
@@ -30,9 +30,7 @@ export function WorkspaceSidebar({ userName, role, unreadAlerts, canViewAlerts }
     <Link className="workspace-brand" href="/dashboard"><span className="workspace-brand-mark"><WorkspaceIcon name="sites" className="h-5 w-5" /></span><span><strong>ConstructStock</strong><small>Inventory &amp; Waste</small></span></Link>
     <nav aria-label="Workspace navigation" className="workspace-nav">
       {available.slice(0, 3).map((item) => { const active = pathname === item.href || pathname.startsWith(`${item.href}/`); return <Link aria-current={active ? "page" : undefined} className={`workspace-nav-item ${active ? "workspace-nav-active" : ""}`} href={item.href} key={item.href}><WorkspaceIcon name={item.icon} className="h-[18px] w-[18px]" />{item.label}</Link>; })}
-      {upcoming.slice(0, 6).map((item) => <span aria-disabled="true" className="workspace-nav-item workspace-nav-future" key={item.label}><WorkspaceIcon name={item.icon} className="h-[18px] w-[18px]" />{item.label}</span>)}
-      {available.slice(3).filter((item) => (item.href !== "/team" || role === "OWNER" || role === "ADMIN") && (item.href !== "/alerts" || canViewAlerts)).map((item) => { const active = pathname === item.href || pathname.startsWith(`${item.href}/`); return <Link aria-current={active ? "page" : undefined} className={`workspace-nav-item ${active ? "workspace-nav-active" : ""}`} href={item.href} key={item.href}><WorkspaceIcon name={item.icon} className="h-[18px] w-[18px]" />{item.label}{item.href === "/alerts" && unreadAlerts > 0 && <span className="ml-auto rounded-full bg-[#ba1a1a] px-1.5 text-[10px] font-extrabold text-white">{unreadAlerts > 99 ? "99+" : unreadAlerts}</span>}</Link>; })}
-      {upcoming.slice(6).map((item) => <span aria-disabled="true" className="workspace-nav-item workspace-nav-future" key={item.label}><WorkspaceIcon name={item.icon} className="h-[18px] w-[18px]" />{item.label}</span>)}
+      {available.slice(3).filter((item) => (item.href !== "/team" && item.href !== "/audit-logs" || role === "OWNER" || role === "ADMIN") && (item.href !== "/settings" || role === "OWNER") && (item.href !== "/reports" || role !== "STOREKEEPER") && (item.href !== "/alerts" || canViewAlerts)).map((item) => { const active = pathname === item.href || pathname.startsWith(`${item.href}/`); return <Link aria-current={active ? "page" : undefined} className={`workspace-nav-item ${active ? "workspace-nav-active" : ""}`} href={item.href} key={item.href}><WorkspaceIcon name={item.icon} className="h-[18px] w-[18px]" />{item.label}{item.href === "/alerts" && unreadAlerts > 0 && <span className="ml-auto rounded-full bg-[#ba1a1a] px-1.5 text-[10px] font-extrabold text-white">{unreadAlerts > 99 ? "99+" : unreadAlerts}</span>}</Link>; })}
     </nav>
     <div className="workspace-profile"><div className="workspace-avatar">{initials}</div><div className="min-w-0 flex-1"><strong className="block truncate text-xs">{userName}</strong><small className="block text-[11px] capitalize text-[#58605c]">{role.toLowerCase().replaceAll("_", " ")}</small></div><LogoutButton /></div>
   </aside>;

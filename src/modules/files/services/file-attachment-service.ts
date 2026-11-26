@@ -9,23 +9,28 @@ import { connectToDatabase } from "@/server/db/connect";
 import { AppError } from "@/shared/errors/app-error";
 import { FileAttachment } from "../models/file-attachment";
 import type { CreateAttachmentInput } from "../schemas/file-attachment";
-import { maxWastagePhotoBytes } from "../schemas/file-attachment";
+import { maxReceiptDocumentBytes, maxWastagePhotoBytes } from "../schemas/file-attachment";
 
 const objectId = (value: string) => {
-  if (!/^[a-fA-F0-9]{24}$/.test(value)) throw new AppError("FILE_NOT_FOUND", "Photo not found.", 404);
+  if (!/^[a-fA-F0-9]{24}$/.test(value)) throw new AppError("FILE_NOT_FOUND", "File not found.", 404);
   return new mongoose.Types.ObjectId(value);
 };
-const extension = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" } as const;
+const extension = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "application/pdf": "pdf" } as const;
+
+function permissionFor(purpose: string) { return purpose === "WASTAGE_PHOTO" ? "wastage.create" : "inventory.receive"; }
+function limitFor(purpose: string) { return purpose === "WASTAGE_PHOTO" ? maxWastagePhotoBytes : maxReceiptDocumentBytes; }
 
 function imageSignatureIsValid(mimeType: string, bytes: Uint8Array) {
   if (mimeType === "image/jpeg") return bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
   if (mimeType === "image/png") return bytes.length >= 8 && bytes.slice(0, 8).every((value, index) => value === [137, 80, 78, 71, 13, 10, 26, 10][index]);
   if (mimeType === "image/webp") return bytes.length >= 12 && String.fromCharCode(...bytes.slice(0, 4)) === "RIFF" && String.fromCharCode(...bytes.slice(8, 12)) === "WEBP";
+  if (mimeType === "application/pdf") return bytes.length >= 5 && String.fromCharCode(...bytes.slice(0, 5)) === "%PDF-";
   return false;
 }
 
 export async function createPendingAttachment(identity: CurrentIdentity, input: CreateAttachmentInput) {
-  requirePermission(identity, "wastage.create");
+  const purpose = input.purpose ?? "WASTAGE_PHOTO";
+  requirePermission(identity, permissionFor(purpose));
   requireSiteAccess(identity, input.siteId);
   getBlobEnv();
   await connectToDatabase();
@@ -34,37 +39,40 @@ export async function createPendingAttachment(identity: CurrentIdentity, input: 
   const siteId = objectId(input.siteId);
   if (!await Site.exists({ _id: siteId, organizationId, status: "ACTIVE", deletedAt: null })) throw new AppError("SITE_NOT_FOUND", "Choose an active site.", 404);
   const attachmentId = new mongoose.Types.ObjectId();
-  const fileKey = `organizations/${organizationId}/wastage/${attachmentId}.${extension[input.mimeType]}`;
-  await FileAttachment.create({ _id: attachmentId, organizationId, siteId, linkedEntityType: "WASTAGE", fileKey, fileName: input.fileName, mimeType: input.mimeType, size: input.size, uploadedBy: objectId(identity.context.userId), uploadState: "PENDING" });
+  const linkedEntityType = purpose === "WASTAGE_PHOTO" ? "WASTAGE" : "GOODS_RECEIPT";
+  const fileKey = `organizations/${organizationId}/${linkedEntityType.toLowerCase()}/${attachmentId}.${extension[input.mimeType]}`;
+  await FileAttachment.create({ _id: attachmentId, organizationId, siteId, linkedEntityType, purpose, fileKey, fileName: input.fileName, mimeType: input.mimeType, size: input.size, uploadedBy: objectId(identity.context.userId), uploadState: "PENDING" });
   return { id: attachmentId.toString(), fileKey, uploadState: "PENDING" as const };
 }
 
 export async function authorizeUploadToken(identity: CurrentIdentity, attachmentId: string, pathname: string) {
-  requirePermission(identity, "wastage.create");
   getBlobEnv();
   await connectToDatabase();
-  const attachment = await FileAttachment.findOneAndUpdate({ _id: objectId(attachmentId), organizationId: objectId(identity.context.organizationId), uploadedBy: objectId(identity.context.userId), uploadState: "PENDING", linkedEntityId: null }, { $set: { updatedAt: new Date() } });
-  if (!attachment || attachment.fileKey !== pathname) throw new AppError("FILE_NOT_FOUND", "Pending photo not found.", 404);
+  const scope = { _id: objectId(attachmentId), organizationId: objectId(identity.context.organizationId), uploadedBy: objectId(identity.context.userId), uploadState: "PENDING" as const, linkedEntityId: null };
+  const attachment = await FileAttachment.findOne(scope);
+  if (!attachment || attachment.fileKey !== pathname) throw new AppError("FILE_NOT_FOUND", "Pending file not found.", 404);
+  requirePermission(identity, permissionFor(attachment.purpose ?? "WASTAGE_PHOTO"));
   requireSiteAccess(identity, attachment.siteId.toString());
-  return { allowedContentTypes: [attachment.mimeType], maximumSizeInBytes: Math.min(attachment.size, maxWastagePhotoBytes), addRandomSuffix: false, allowOverwrite: false };
+  await FileAttachment.updateOne(scope, { $set: { updatedAt: new Date() } });
+  return { allowedContentTypes: [attachment.mimeType], maximumSizeInBytes: Math.min(attachment.size, limitFor(attachment.purpose ?? "WASTAGE_PHOTO")), addRandomSuffix: false, allowOverwrite: false };
 }
 
 export async function finalizeAttachment(identity: CurrentIdentity, attachmentId: string) {
-  requirePermission(identity, "wastage.create");
   getBlobEnv();
   await connectToDatabase();
   const scope = { _id: objectId(attachmentId), organizationId: objectId(identity.context.organizationId), uploadedBy: objectId(identity.context.userId) };
   const attachment = await FileAttachment.findOne(scope);
-  if (!attachment || attachment.linkedEntityId) throw new AppError("FILE_NOT_FOUND", "Pending photo not found.", 404);
+  if (!attachment || attachment.linkedEntityId) throw new AppError("FILE_NOT_FOUND", "Pending file not found.", 404);
+  requirePermission(identity, permissionFor(attachment.purpose ?? "WASTAGE_PHOTO"));
   requireSiteAccess(identity, attachment.siteId.toString());
   if (attachment.uploadState === "READY") return { id: attachment._id.toString(), uploadState: "READY" as const };
   let blob: Awaited<ReturnType<typeof get>>;
   try { blob = await get(attachment.fileKey, { access: "private", useCache: false }); }
-  catch { throw new AppError("UPLOAD_NOT_COMPLETE", "Photo is not available yet. Retry finalizing the upload.", 409); }
-  if (!blob || blob.statusCode !== 200) throw new AppError("UPLOAD_NOT_COMPLETE", "Photo is not available yet. Retry finalizing the upload.", 409);
-  if (blob.blob.size !== attachment.size || blob.blob.size > maxWastagePhotoBytes || blob.blob.contentType !== attachment.mimeType) {
+  catch { throw new AppError("UPLOAD_NOT_COMPLETE", "File is not available yet. Retry finalizing the upload.", 409); }
+  if (!blob || blob.statusCode !== 200) throw new AppError("UPLOAD_NOT_COMPLETE", "File is not available yet. Retry finalizing the upload.", 409);
+  if (blob.blob.size !== attachment.size || blob.blob.size > limitFor(attachment.purpose ?? "WASTAGE_PHOTO") || blob.blob.contentType !== attachment.mimeType) {
     await blob.stream.cancel();
-    throw new AppError("INVALID_PHOTO", "Uploaded photo does not match the selected file.", 422);
+    throw new AppError("INVALID_FILE", "Uploaded file does not match the selected file.", 422);
   }
   const reader = blob.stream.getReader();
   let prefix = new Uint8Array(0);
@@ -77,7 +85,7 @@ export async function finalizeAttachment(identity: CurrentIdentity, attachmentId
     }
     await reader.cancel();
   } finally { reader.releaseLock(); }
-  if (!imageSignatureIsValid(attachment.mimeType, prefix)) throw new AppError("INVALID_PHOTO", "Uploaded file is not a supported image.", 422);
+  if (!imageSignatureIsValid(attachment.mimeType, prefix)) throw new AppError("INVALID_FILE", "Uploaded file type is not supported.", 422);
   const updated = await FileAttachment.updateOne({ ...scope, uploadState: "PENDING", linkedEntityId: null }, { $set: { uploadState: "READY", blobUrl: blob.blob.url, uploadedAt: new Date() } });
   if (updated.matchedCount !== 1) throw new AppError("FILE_NOT_FOUND", "Pending photo is no longer available.", 404);
   return { id: attachment._id.toString(), uploadState: "READY" as const };
@@ -87,22 +95,61 @@ export async function getAttachment(identity: CurrentIdentity, attachmentId: str
   requirePermission(identity, "inventory.view");
   await connectToDatabase();
   const attachment = await FileAttachment.findOne({ _id: objectId(attachmentId), organizationId: objectId(identity.context.organizationId), uploadState: "READY" });
-  if (!attachment || !attachment.linkedEntityId) throw new AppError("FILE_NOT_FOUND", "Photo not found.", 404);
+  if (!attachment || !attachment.linkedEntityId) throw new AppError("FILE_NOT_FOUND", "File not found.", 404);
   requireSiteAccess(identity, attachment.siteId.toString());
   return attachment;
+}
+
+export async function getAttachmentMetadata(identity: CurrentIdentity, attachmentId: string) {
+  const file = await getAttachment(identity, attachmentId);
+  return { id: file._id.toString(), linkedEntityType: file.linkedEntityType, linkedEntityId: file.linkedEntityId!.toString(), purpose: file.purpose ?? "WASTAGE_PHOTO", fileName: file.fileName, mimeType: file.mimeType, size: file.size, uploadedAt: file.uploadedAt?.toISOString() ?? null, contentPath: `/api/v1/files/${file._id}/content` };
+}
+
+export async function deleteUnlinkedAttachment(identity: CurrentIdentity, attachmentId: string) {
+  await connectToDatabase();
+  const scope = { _id: objectId(attachmentId), organizationId: objectId(identity.context.organizationId), uploadedBy: objectId(identity.context.userId), linkedEntityId: null, uploadState: { $in: ["PENDING", "READY"] as const } };
+  const attachment = await FileAttachment.findOne(scope);
+  if (!attachment) throw new AppError("FILE_NOT_FOUND", "Unlinked file not found.", 404);
+  requirePermission(identity, permissionFor(attachment.purpose ?? "WASTAGE_PHOTO"));
+  requireSiteAccess(identity, attachment.siteId.toString());
+  getBlobEnv();
+  const claimed = await FileAttachment.findOneAndUpdate(scope, { $set: { uploadState: "DELETING" } });
+  if (!claimed) throw new AppError("FILE_NOT_FOUND", "Unlinked file not found.", 404);
+  try {
+    await del(claimed.fileKey);
+    await FileAttachment.deleteOne({ _id: claimed._id, organizationId: claimed.organizationId, linkedEntityId: null, uploadState: "DELETING" });
+  } catch {
+    throw new AppError("FILE_DELETE_PENDING", "File cleanup is pending. Please retry later.", 503);
+  }
 }
 
 export async function readPrivateAttachment(identity: CurrentIdentity, attachmentId: string) {
   const attachment = await getAttachment(identity, attachmentId);
   getBlobEnv();
   const blob = await get(attachment.fileKey, { access: "private" });
-  if (!blob || blob.statusCode !== 200) throw new AppError("FILE_NOT_FOUND", "Photo not found in storage.", 404);
+  if (!blob || blob.statusCode !== 200) throw new AppError("FILE_NOT_FOUND", "File not found in storage.", 404);
   return { stream: blob.stream, mimeType: attachment.mimeType, fileName: attachment.fileName };
 }
 
 export async function linkAttachmentToWastage(organizationId: mongoose.Types.ObjectId, siteId: mongoose.Types.ObjectId, actorUserId: mongoose.Types.ObjectId, attachmentId: string, wastageId: mongoose.Types.ObjectId, session: mongoose.ClientSession) {
-  const result = await FileAttachment.updateOne({ _id: objectId(attachmentId), organizationId, siteId, uploadedBy: actorUserId, linkedEntityType: "WASTAGE", linkedEntityId: null, uploadState: "READY" }, { $set: { linkedEntityId: wastageId } }, { session });
+  const result = await FileAttachment.updateOne({ _id: objectId(attachmentId), organizationId, siteId, uploadedBy: actorUserId, linkedEntityType: "WASTAGE", linkedEntityId: null, uploadState: "READY", $or: [{ purpose: "WASTAGE_PHOTO" }, { purpose: { $exists: false } }] }, { $set: { linkedEntityId: wastageId } }, { session });
   if (result.matchedCount !== 1) throw new AppError("FILE_NOT_READY", "The supporting photo is unavailable or already attached.", 409);
+}
+
+export async function linkAttachmentToReceipt(organizationId: mongoose.Types.ObjectId, siteId: mongoose.Types.ObjectId, actorUserId: mongoose.Types.ObjectId, attachmentId: string, receiptId: mongoose.Types.ObjectId, session: mongoose.ClientSession) {
+  const result = await FileAttachment.updateOne({ _id: objectId(attachmentId), organizationId, siteId, uploadedBy: actorUserId, linkedEntityType: "GOODS_RECEIPT", purpose: { $in: ["INVOICE", "DELIVERY_CHALLAN"] }, linkedEntityId: null, uploadState: "READY" }, { $set: { linkedEntityId: receiptId } }, { session });
+  if (result.matchedCount !== 1) throw new AppError("FILE_NOT_READY", "The supplier document is unavailable or already attached.", 409);
+}
+
+export async function listReceiptAttachments(identity: CurrentIdentity, receiptId: string) {
+  requirePermission(identity, "inventory.view");
+  await connectToDatabase();
+  const organizationId = objectId(identity.context.organizationId);
+  const receipt = await mongoose.connection.collection("goods_receipts").findOne({ _id: objectId(receiptId), organizationId }, { projection: { siteId: 1 } });
+  if (!receipt) throw new AppError("GOODS_RECEIPT_NOT_FOUND", "Goods receipt not found.", 404);
+  requireSiteAccess(identity, String(receipt.siteId));
+  const files = await FileAttachment.find({ organizationId, linkedEntityType: "GOODS_RECEIPT", linkedEntityId: objectId(receiptId), uploadState: "READY" }).select("purpose fileName mimeType size uploadedAt").sort({ _id: 1 });
+  return files.map((file) => ({ id: file._id.toString(), purpose: file.purpose, fileName: file.fileName, mimeType: file.mimeType, size: file.size, uploadedAt: file.uploadedAt?.toISOString() ?? null }));
 }
 
 /** A scheduled, idempotent cleanup; never selects evidence linked to a record. */

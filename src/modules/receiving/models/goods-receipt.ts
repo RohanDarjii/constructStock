@@ -22,6 +22,7 @@ const receiptSchema = new Schema({
   invoiceNumber: { type: String, default: null },
   deliveryChallanNumber: { type: String, default: null },
   notes: { type: String, default: null },
+  attachmentIds: { type: [{ type: Schema.Types.ObjectId, ref: "FileAttachment" }], default: [] },
   items: { type: [itemSchema], required: true },
   netTotal: { type: Schema.Types.Decimal128, required: true },
   receivedBy: { type: Schema.Types.ObjectId, required: true, ref: "User" },

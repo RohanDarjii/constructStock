@@ -7,6 +7,8 @@ import { ensureAuditReady, recordAudit } from "@/modules/audit/services/record-a
 import type { CurrentIdentity } from "@/modules/auth/services/auth-service";
 import { isDuplicateKey } from "@/modules/auth/services/security";
 import { User } from "@/modules/auth/models/identity";
+import { FileAttachment } from "@/modules/files/models/file-attachment";
+import { linkAttachmentToReceipt } from "@/modules/files/services/file-attachment-service";
 import { IdempotencyKey } from "@/modules/inventory/models/idempotency-key";
 import { InventoryBalance } from "@/modules/inventory/models/inventory-balance";
 import { InventoryBatch } from "@/modules/inventory/models/inventory-batch";
@@ -45,7 +47,7 @@ function checkMoney(value: Decimal): void {
 }
 
 async function ready(): Promise<void> {
-  await Promise.all([GoodsReceipt.init(), PurchaseOrder.init(), InventoryBatch.init(), InventoryBalance.init(), InventoryTransaction.init(), IdempotencyKey.init(), ensureAuditReady(), ensureStockAlertsReady()]);
+  await Promise.all([GoodsReceipt.init(), FileAttachment.init(), PurchaseOrder.init(), InventoryBatch.init(), InventoryBalance.init(), InventoryTransaction.init(), IdempotencyKey.init(), ensureAuditReady(), ensureStockAlertsReady()]);
 }
 
 async function previousResult(organizationId: mongoose.Types.ObjectId, key: string, operation: string, requestHash: string): Promise<ReceiptMutationResult | null> {
@@ -67,13 +69,14 @@ async function receiptViews(organizationId: mongoose.Types.ObjectId, receipts: R
   const materialIds = [...new Set(receipts.flatMap((receipt) => receipt.items.map((item) => item.materialId.toString())))].map(id);
   const batchIds = [...new Set(receipts.flatMap((receipt) => receipt.items.map((item) => item.batchId.toString())))].map(id);
   const userIds = [...new Set(receipts.map((receipt) => receipt.receivedBy.toString()))].map(id);
-  const [orders, sites, suppliers, materials, batches, users] = await Promise.all([
+  const [orders, sites, suppliers, materials, batches, users, attachments] = await Promise.all([
     PurchaseOrder.find({ organizationId, _id: { $in: poIds } }).select("poNumber status"),
     Site.find({ organizationId, _id: { $in: siteIds } }).select("code name"),
     Supplier.find({ organizationId, _id: { $in: supplierIds } }).select("code name"),
     Material.find({ organizationId, _id: { $in: materialIds } }).select("code name unit"),
     InventoryBatch.find({ organizationId, _id: { $in: batchIds } }).select("batchCode"),
     User.find({ _id: { $in: userIds } }).select("name"),
+    FileAttachment.find({ organizationId, linkedEntityType: "GOODS_RECEIPT", linkedEntityId: { $in: receipts.map((receipt) => receipt._id) }, uploadState: "READY" }).select("linkedEntityId purpose fileName mimeType size"),
   ]);
   const byId = <T extends { _id: mongoose.Types.ObjectId }>(documents: T[]) => new Map(documents.map((document) => [document._id.toString(), document]));
   const poMap = byId(orders), siteMap = byId(sites), supplierMap = byId(suppliers), materialMap = byId(materials), batchMap = byId(batches), userMap = byId(users);
@@ -91,6 +94,7 @@ async function receiptViews(organizationId: mongoose.Types.ObjectId, receipts: R
       receivedAt: receipt.receivedAt.toISOString(), createdAt: receipt.createdAt.toISOString(),
       receivedBy: { id: receipt.receivedBy.toString(), name: receiver?.name ?? "Former member" },
       invoiceNumber: receipt.invoiceNumber ?? null, deliveryChallanNumber: receipt.deliveryChallanNumber ?? null, notes: receipt.notes ?? null,
+      attachments: attachments.filter((attachment) => attachment.linkedEntityId?.equals(receipt._id)).map((attachment) => ({ id: attachment._id.toString(), purpose: attachment.purpose, fileName: attachment.fileName, mimeType: attachment.mimeType, size: attachment.size })),
       reversedAt: receipt.reversedAt?.toISOString() ?? null, reversedBy: receipt.reversedBy?.toString() ?? null, reversalReason: receipt.reversalReason ?? null,
       netTotal: displayMoney(receipt.netTotal),
       items: receipt.items.map((item) => {
@@ -236,6 +240,7 @@ export async function createGoodsReceipt(identity: CurrentIdentity, input: Creat
           materialMap.set(materialId, material);
         }
         const receiptId = new mongoose.Types.ObjectId();
+        for (const attachmentId of input.attachmentIds ?? []) await linkAttachmentToReceipt(organizationId, order.siteId, actorUserId, attachmentId, receiptId, session);
         const receiptNumber = `GRN-${new Date().getUTCFullYear()}-${receiptId.toString().slice(-12).toUpperCase()}`;
         const receiptItems: Array<{ purchaseOrderItemId: mongoose.Types.ObjectId; materialId: mongoose.Types.ObjectId; batchId: mongoose.Types.ObjectId; transactionId: mongoose.Types.ObjectId; quantityReceived: mongoose.Types.Decimal128; supplierBatchNumber: string | null; unitCost: mongoose.Types.Decimal128; netAmount: mongoose.Types.Decimal128 }> = [];
         const grouped = new Map<string, { materialId: mongoose.Types.ObjectId; quantity: Decimal; value: Decimal }>();
@@ -257,7 +262,7 @@ export async function createGoodsReceipt(identity: CurrentIdentity, input: Creat
           group.quantity = group.quantity.plus(quantity); group.value = group.value.plus(value);
           grouped.set(material._id.toString(), group);
         }
-        await GoodsReceipt.create([{ _id: receiptId, organizationId, receiptNumber, purchaseOrderId, siteId: order.siteId, supplierId: order.supplierId, receivedAt: new Date(input.receivedAt), invoiceNumber: input.invoiceNumber ?? null, deliveryChallanNumber: input.deliveryChallanNumber ?? null, notes: input.notes ?? null, items: receiptItems, netTotal: stored(netTotal), receivedBy: actorUserId, status: "CONFIRMED" }], { session });
+        await GoodsReceipt.create([{ _id: receiptId, organizationId, receiptNumber, purchaseOrderId, siteId: order.siteId, supplierId: order.supplierId, receivedAt: new Date(input.receivedAt), invoiceNumber: input.invoiceNumber ?? null, deliveryChallanNumber: input.deliveryChallanNumber ?? null, notes: input.notes ?? null, attachmentIds: (input.attachmentIds ?? []).map(id), items: receiptItems, netTotal: stored(netTotal), receivedBy: actorUserId, status: "CONFIRMED" }], { session });
         for (const item of receiptItems) {
           await InventoryBatch.create([{ _id: item.batchId, organizationId, siteId: order.siteId, materialId: item.materialId, batchCode: `GRN-${item.batchId.toString().slice(-12).toUpperCase()}`, supplierId: order.supplierId, goodsReceiptId: receiptId, receivedAt: new Date(input.receivedAt), initialQuantity: item.quantityReceived, remainingQuantity: item.quantityReceived, reservedQuantity: stored(zero), unitCost: item.unitCost, status: "ACTIVE", version: 0 }], { session });
           await InventoryTransaction.create([{ _id: item.transactionId, organizationId, siteId: order.siteId, materialId: item.materialId, batchId: item.batchId, type: "RECEIPT", quantity: item.quantityReceived, unitCost: item.unitCost, referenceType: "GOODS_RECEIPT", referenceId: receiptId, performedBy: actorUserId }], { session });

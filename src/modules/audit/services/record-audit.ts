@@ -12,6 +12,7 @@ export async function recordAudit(input: {
   action: string;
   entityType: string;
   entityId: string;
+  metadata?: Record<string, string | number | boolean | null>;
   ipAddress?: string | null;
 }, session: mongoose.ClientSession): Promise<void> {
   await AuditLog.create([input], { session });

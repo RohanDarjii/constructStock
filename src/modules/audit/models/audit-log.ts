@@ -12,6 +12,8 @@ const auditSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 }, { collection: "audit_logs" });
 auditSchema.index({ organizationId: 1, createdAt: -1 });
+auditSchema.index({ organizationId: 1, actorUserId: 1, createdAt: -1 });
+auditSchema.index({ organizationId: 1, entityType: 1, entityId: 1, createdAt: -1 });
 
 type AuditDoc = InferSchemaType<typeof auditSchema>;
 export const AuditLog = (mongoose.models.AuditLog as Model<AuditDoc> | undefined) ?? mongoose.model<AuditDoc>("AuditLog", auditSchema);
